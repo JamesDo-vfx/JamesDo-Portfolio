@@ -3,77 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Tên Của Bạn</title>
+    <title>JamesDo | VFX Artist Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="glow-container">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+
     <header>
         <nav>
-            <div class="logo">PORTFOLIO</div>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#works">Works</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <div class="logo">JAMES<span>DO</span></div>
+            <ul class="nav-links">
+                <li><a href="#work">PROJECTS</a></li>
+                <li><a href="#about" class="nav-contact-btn">ABOUT ME</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <p class="hashtags">#3D_Artist #VFX_Pipeline #Technical_Artist</p>
-            <h1>Digital Artist & <br>Tool Developer</h1>
-            <p class="subtitle">Sáng tạo những câu chuyện qua phong cách siêu thực và tối ưu hóa quy trình kỹ thuật.</p>
-        </div>
-    </section>
 
-    <section id="about">
-        <div class="container">
-            <h2>Về tôi</h2>
+
+
+    <main>
+        <section class="hero">
+            <div class="video-container">
+                <video autoplay muted loop playsinline class="hero-video">
+                    <source src="CayDenThan_HoNgocHa_video1.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+
+            <div class="hero-inner">
+                <div class="badge-container">
+                    <span class="badge">✨ 3D & VFX Specialist</span>
+                </div>
+                <h1 class="main-title">JAMES DO</h1>
+                <p class="gradient-text">CG Artist | Environment & FX | Houdini / Pipeline</p>
+                <p class="hero-sub">I believe strong VFX should not be noticed — it should be felt.</p>
+                <div class="hero-btns">
+                    <a href="#assets" class="btn btn-pink">My Tools ➔</a>
+                    <a href="#work" class="btn btn-cyan">Artworks ➔</a>
+                </div>
+            </div>
+        </section>
+        
+
+
+
+        <section id="work" class="showcase">
+            <p class="section-tag">SELECTED PROJECTS</p>
+            <div class="project-grid">
+                <a href="LINK_VIDEO_SAN_PHAM_1" target="_blank" class="p-card">
+                    <div class="p-img-container">
+                        <video autoplay muted loop playsinline class="card-video">
+                            <source src="KhongRaGi_video1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="p-body">
+                        <h3>Music Video – “Khong Ra Gi” (Erik)</h3>
+                        <p>Role: Lead CG Large-scale environment</p>
+                        <div class="p-meta"><span>ZBrush</span> <span>Surrealism</span></div>
+                    </div>
+                </a>
+
+                <a href="LINK_VIDEO_SAN_PHAM_2" target="_blank" class="p-card">
+                    <div class="p-img-container">
+                        <video autoplay muted loop playsinline class="card-video">
+                            <source src="KhongRaGi_video2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="p-body">
+                        <h3>Fantasy World Environment</h3>
+                        <p>Xây dựng thế giới giả tưởng lấy cảm hứng từ Avatar.</p>
+                        <div class="p-meta"><span>Unreal Engine</span> <span>Environments</span></div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        
+
+
+
+        <section id="about" class="about">
             <div class="about-grid">
-                <div class="about-text">
-                    <p>Tôi là một nghệ sĩ kỹ thuật số đam mê việc kết hợp giữa nghệ thuật thị giác và sức mạnh của mã nguồn. Với tư duy giải quyết vấn đề từ gốc rễ, tôi không chỉ tạo ra hình ảnh mà còn xây dựng các công cụ để quy trình làm việc trở nên nhanh chóng và hiệu quả hơn.</p>
-                    <div class="skills">
-                        <span>Houdini</span>
-                        <span>Redshift</span>
-                        <span>Unreal Engine</span>
-                        <span>Python</span>
-                        <span>AI Integration</span>
+                <div class="sidebar">
+                    <div class="profile-frame">
+                        <img src="Jamesdo_portrait.jpg" alt="James Do Portrait">
+                    </div>
+                    <div class="contact-details">
+                        <p>📍 Ho Chi Minh, Vietnam</p>
+                        <p>📧 truonghieu933@gmail.com</p>
+                        <p>📞 0902705469</p>
+                        <p>🌐 <a href="https://www.facebook.com/jamesdo.vfx/" target="_blank" style="color: var(--cyan); text-decoration: none;">Facebook</a></p>
+                        <p>📸 <a href="https://www.instagram.com/james.do_vfx/" target="_blank" style="color: var(--cyan); text-decoration: none;">Instagram</a></p>
+                    </div>
+                </div>
+
+                <div class="about-main">
+                    <div class="bio-intro">
+                        <p class="highlight-bio">I'm Truong Do Trung Hieu [JamesDo]</p>
+                        <p>CG Artist with experience in cinematic environments and large-scale VFX production.
+                            Strong background in procedural workflows using Houdini, 
+                            with production experience across music videos and commercial projects.
+                            Experienced in leading small CG teams, supervising shot development, 
+                            and delivering final renders under tight deadlines. 
+                            Comfortable working within structured studio pipelines and collaborating across departments (lookdev,layout,lighting).</p>
+                    </div>
+
+                    <div class="timeline">
+                        <h3 class="timeline-title">PROFESSIONAL EXPERIENCE</h3>
+                        <div class="t-item">
+                            <div class="t-head">
+                                <span class="t-comp">ZodiacII Media</span>
+                                <span class="t-date">2023 - Present</span>
+                            </div>
+                            <p class="t-role">Lead CG Artist</p>
+                            <p class="t-desc">Lead CG team for music videos and commercial productions
+                                                Lead environment creation and large-scale FX shots
+                                                Managed scene assembly and lighting
+                                                .Delivered 80+ VFX shots per project in fast-paced production cycles</p>
+
+                            <p class="t-role">3D Enviroment Artist</p>
+                            <p class="t-desc">Coordinated with directors and compositors to ensure visual consistency
+                                                .Delivered 40+ VFX shots per project in fast-paced production cycles</p>
+</p>
+                        </div>
+
+                        <div class="t-item">
+                            <div class="t-head">
+                                <span class="t-comp">Freelancer 3D Modeller</span>
+                                <span class="t-date">2021 - 2023</span>
+                            </div>
+                            <p class="t-role">3D Artist</p>
+                            <p class="t-desc">Developed 3D assets and environments for independent projects
+                                                Created optimized geometry and lighting setups for final delivery
+                                                Worked remotely with multidisciplinary teams</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline">
+                        <h3 class="timeline-title">EDUCATION</h3>
+                        <div class="t-item">
+                            <div class="t-head">
+                                <span class="t-comp">MAAC Academy</span>
+                                <span class="t-date">Advanced Diploma</span>
+                            </div>
+                            <p class="t-role">Visual Effects (ADVFX)</p>
+                            <p class="t-desc">Specialized training in contemporary film production pipelines and advanced visual effects techniques.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="works">
-        <div class="container">
-            <h2>Dự án nổi bật</h2>
-            <div class="portfolio-grid">
-                <div class="project-card">
-                    <div class="project-img" style="background-image: url('link-anh-1.jpg')"></div>
-                    <h3>Fantasy World (Avatar Inspired)</h3>
-                    <p>3D Environment & Ecosystem Design</p>
+        <section id="skills" class="showcase" style="border-top: 1px solid var(--border);">
+            <p class="section-tag">TECHNICAL SKILLS</p>
+            <div class="skills-container">
+                
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Unreal Engine</span>
+                        <span class="skill-percentage">10%</span>
+                    </div>
+                    <div class="progress-line" data-skill="unreal">
+                        <span style="width: 10%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan);"></span>
+                    </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-img" style="background-image: url('link-anh-2.jpg')"></div>
-                    <h3>VFX Pipeline Tool</h3>
-                    <p>Python & Firebase Render Tracker</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <footer id="contact">
-        <div class="container">
-            <p>Hãy cùng tạo nên những câu chuyện ý nghĩa.</p>
-            <div class="social-links">
-                <a href="#">LinkedIn</a>
-                <a href="#">Facebook</a>
-                <a href="#">Email</a>
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Houdini</span>
+                        <span class="skill-percentage">75%</span>
+                    </div>
+                    <div class="progress-line" data-skill="houdini">
+                        <span style="width: 75%; background: var(--pink); box-shadow: 0 0 15px var(--pink);"></span>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">Python (VFX Tools)</span>
+                        <span class="skill-percentage">85%</span>
+                    </div>
+                    <div class="progress-line" data-skill="python">
+                        <span style="width: 85%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan);"></span>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info">
+                        <span class="skill-name">ZBrush</span>
+                        <span class="skill-percentage">80%</span>
+                    </div>
+                    <div class="progress-line" data-skill="zbrush">
+                        <span style="width: 80%; background: var(--pink); box-shadow: 0 0 15px var(--pink);"></span>
+                    </div>
+                </div>
+
             </div>
-            <p class="copyright">Designed by You. All rights reserved.</p>
-        </div>
+        </section>
+
+
+
+        <section id="assets" class="showcase" style="border-top: 1px solid var(--border);">
+            <p class="section-tag">Custom Tools & Automation</p>
+            <div class="project-grid">
+                
+                <a href="LINK_WEB_CUA_BAN_1" target="_blank" class="p-card">
+                    <div class="p-img">
+                        <img src="hinh1.png" alt="VFX Render Tracker" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="p-body">
+                        <h3>VFX Render Tracking Tool</h3>
+                        <p>Hệ thống tự động hóa theo dõi tiến độ render qua Discord và Firebase.</p>
+                        <div class="p-meta"><span>Python</span> <span>Firebase</span> <span>Discord API</span></div>
+                    </div>
+                </a>
+
+                <a href="LINK_WEB_CUA_BAN_2" target="_blank" class="p-card">
+                    <div class="p-img">
+                        <img src="hinh2.png" alt="Workflow Optimization" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="p-body">
+                        <h3>Workflow Optimization</h3>
+                        <p>Bộ công cụ tùy chỉnh giúp tăng tốc độ xử lý file trong Unreal Engine.</p>
+                        <div class="p-meta"><span>Unreal Engine</span> <span>Blueprint</span></div>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+    <footer>
+        <p>© 2026 James Do. All rights reserved.</p>
     </footer>
 </body>
 </html>
