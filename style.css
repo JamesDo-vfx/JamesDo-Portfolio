@@ -17,6 +17,7 @@ body {
     color: var(--text); 
     font-family: 'Inter', sans-serif; 
     overflow-x: hidden; 
+    width: 100%;
     line-height: 1.7; /* Giúp các đoạn văn bản thoáng hơn */
 }
 
@@ -31,12 +32,12 @@ nav {
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
-    padding: 20px 6%; 
+    padding: 20px 5%; 
     background: rgba(5,5,5,0.8); 
     backdrop-filter: blur(20px); 
     border-bottom: 1px solid var(--border); 
     position: sticky; 
-    top: 0; 
+    width: 100%; 
     z-index: 1000; 
 }
 .logo {
