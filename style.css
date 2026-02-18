@@ -231,3 +231,50 @@ footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--border
 }
 
 /* Tùy chỉnh màu sắc riêng cho từng loại nếu muốn (Đã tích hợp trong style của thẻ span ở HTML) */
+
+
+/* Tối ưu hóa cho điện thoại */
+@media (max-width: 768px) {
+    /* 1. Giảm kích thước chữ tiêu đề để không bị tràn màn hình */
+    .main-title {
+        font-size: 3.5rem; /* Nhỏ hơn so với máy tính */
+        letter-spacing: -2px;
+    }
+    
+    .headline {
+        font-size: 1.8rem;
+    }
+
+    /* 2. Chuyển các cột từ hàng ngang thành hàng dọc */
+    .about-grid, .project-grid {
+        grid-template-columns: 1fr !important; /* Luôn hiện 1 cột trên điện thoại */
+        gap: 30px;
+    }
+
+    /* 3. Điều chỉnh phần Hero để video và nội dung cân đối hơn */
+    .hero {
+        height: auto;
+        padding: 120px 20px 60px;
+    }
+
+    .hero-btns {
+        display: flex;
+        flex-direction: column; /* Xếp chồng các nút bấm lên nhau */
+        gap: 15px;
+    }
+
+    .btn {
+        margin: 0;
+        width: 100%; /* Nút bấm rộng hết màn hình cho dễ bấm */
+    }
+
+    /* 4. Ẩn bớt menu hoặc điều chỉnh nav nếu quá chật */
+    nav {
+        padding: 15px 5%;
+    }
+
+    .nav-links a {
+        margin-left: 15px;
+        font-size: 0.7rem;
+    }
+}
