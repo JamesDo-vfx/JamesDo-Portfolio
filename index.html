@@ -7,62 +7,89 @@
     <link rel="icon" type="image/svg+xml" href="content/about/favicon.svg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230A0A0A'/><text y='72' x='18' font-size='62' font-family='Archivo, sans-serif' font-weight='900' fill='white'>J</text><text y='72' x='48' font-size='62' font-family='Archivo, sans-serif' font-weight='900' fill='none' stroke='%23666' stroke-width='1.5'>D</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
+<!-- Header -->
+
 <body>
     <div class="glow-container">
         <div class="glow glow-1"></div>
         <div class="glow glow-2"></div>
     </div>
-
-    <header>
-        <nav>
-            <div class="logo">JAMES<span>DO</span></div>
-            <ul class="nav-links">
-                <li><a href="#work">PROJECTS</a></li>
-                <li><a href="#about" class="nav-contact-btn">ABOUT ME</a></li>
-            </ul>
-        </nav>
-    </header>
-
-
-
-
-    <main>
-        <section class="hero">
-            <div class="video-container">
-                <video autoplay muted loop playsinline class="hero-video">
-                    <source src="content/about/backdrop.webm" type="video/mp4">
-                </video>
-                <div class="video-overlay"></div>
-            </div>
-
-            <div class="hero-inner">
-                <div class="badge-container">
-                    <span class="badge">✨ 3D & VFX Specialist</span>
-                </div>
-                <h1 class="main-title">JAMES DO</h1>
-                <p class="gradient-text">CG Artist | Environment & FX | Houdini / Pipeline</p>
-                <p class="hero-sub">I believe strong VFX should not be noticed — it should be felt.</p>
-                <div class="hero-btns">
-                    <a href="#assets" class="btn btn-pink">My Tools ➔</a>
-                    <a href="#work" class="btn btn-cyan">PROJECTS ➔</a>
-                </div>
-            </div>
-        </section>
+<header>
+    <nav class="navbar">
+        <div class="logo">JAMES<span>DO</span></div>
         
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="menu-text">MENU</span>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <ul class="nav-dropdown">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="index.html#work">PROJECTS</a></li>
+            <li><a href="index.html#about">ABOUT ME</a></li>
+            <li class="has-submenu">
+                <a href="#" class="submenu-toggle">TOOLS <span class="arrow">▾</span></a>
+                <ul class="submenu">
+                    <li><a href="houdini-tools.html">HOUDINI TOOLS</a></li>
+                    <li><a href="blender-tools.html">BLENDER TOOLS</a></li>
+                    <li><a href="others-tools.html">OTHERS TOOLS</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
 
 
 
+<section class="hero-new">
+    <div class="video-background">
+        <video autoplay muted loop playsinline class="video-content">
+            <source src="content/about/backdrop2.webm" type="video/webm">
+        </video>
+        <div class="video-overlay"></div> </div>
+
+    <div class="hero-wrapper">
+        <div class="hero-text-gate">
+            <h1 class="main-title">
+                <span>VFX ARTIST</span>
+                <span class="outline">JAMESDO</span>
+            </h1>
+            <p class="hero-desc">
+                Based in Vietnam — Specializing in high-end visual effects 
+                and technical solutions for production.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- SELECTED PROJECTS -->
         <section id="work" class="showcase">
-            <p class="section-tag">SELECTED PROJECTS</p>
+            <div class="showcase-shell">
+                <h2 class="showcase-title">Featured Work</h2>
+            </div>
             <div class="project-grid">
-
                 <a href="https://www.youtube.com/watch?v=rRUzJJ9IV4s&list=RDrRUzJJ9IV4s&start_radio=1" target="_blank" class="p-card">
                     <div class="p-img-container">
                         <video autoplay muted loop playsinline class="card-video">
                             <source src="content/showcase/KhongRaGi_video2.webm" type="video/mp4">
                         </video>
+                    </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
                     </div>
                     <div class="p-body">
                         <h3>Music Video – KHÔNG RA GÌ | Trúc Nhân </h3>
@@ -78,6 +105,14 @@
                             <source src="content/showcase/Vietjet_Full.webm" type="video/mp4">
                         </video>
                     </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
+                    </div>
                     <div class="p-body">
                         <h3>TVC - Vietjet </h3>
                         <p>Role: Conducted in-depth Airbus A330neo cockpit research and executed procedural modeling, look development, lighting, 
@@ -91,6 +126,14 @@
                         <video autoplay muted loop playsinline class="card-video">
                             <source src="content/showcase/BE_video1.webm" type="video/mp4">
                         </video>
+                    </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
                     </div>
                     <div class="p-body">
                         <h3>TVC - SIÊU ỨNG DỤNG BE </h3>
@@ -106,6 +149,14 @@
                             <source src="content/showcase/BeTrap_video4.webm" type="video/mp4">
                         </video>
                     </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
+                    </div>
                     <div class="p-body">
                         <h3>Music Video - BÊ TRAP | TRANG PHÁP </h3>
                         <p>Role:Handled matchmove and look development for live-action plates, 
@@ -119,6 +170,14 @@
                         <video autoplay muted loop playsinline class="card-video">
                             <source src="content/showcase/CanhCHimPhuongHoang_BreakDown_Full.webm" type="video/mp4">
                         </video>
+                    </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
                     </div>
                     <div class="p-body">
                         <h3>Music Video - CÁNH CHIM PHƯỢNG HOÀNG | TÙNG DƯƠNG x DOUBLE2T x TÚ DƯA </h3>
@@ -134,6 +193,14 @@
                             <source src="content/showcase/CayDenThan_HoNgocHa_Full.webm" type="video/mp4">
                         </video>
                     </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
+                    </div>
                     <div class="p-body">
                         <h3>Music Video - CÂY ĐÈN THẦN | HỒ NGỌC HÀ </h3>
                         <p>Role:Seamlessly integrated camera movements between full CG and live-action footage
@@ -147,6 +214,14 @@
                         <video autoplay muted loop playsinline class="card-video">
                             <source src="content/showcase/EggGuy_VideoFull.webm" type="video/mp4">
                         </video>
+                    </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
                     </div>
                     <div class="p-body">
                         <h3>TVC - EggGuy </h3>
@@ -162,6 +237,14 @@
                             <source src="content/showcase/HoaXuanCa_video4.webm" type="video/mp4">
                         </video>
                     </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
+                    </div>
                     <div class="p-body">
                         <h3>TVC - HoaXuanCa </h3>
                         <p>Role:Integrated AI workflows and developed a custom flower-bloom simulation system
@@ -175,6 +258,14 @@
                         <video autoplay muted loop playsinline class="card-video">
                             <source src="content/showcase/KIXX_video1.webm" type="video/mp4">
                         </video>
+                    </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
                     </div>
                     <div class="p-body">
                         <h3>Music Video - Lối Riêng | RHYDER x Kixx </h3>
@@ -190,18 +281,34 @@
                             <source src="content/showcase/Over_KhoiVu_Full.webm" type="video/mp4">
                         </video>
                     </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
+                    </div>
                     <div class="p-body">
                         <h3>Music Video - OVER | KHOI VU (ft. khoivy) </h3>
                         <p>Role:Designed and implemented a professional, high-complexity camera control system 
                             to support precise, flexible, and repeatable shot execution.</p>
-                        <div class="p-meta"> <span>Houdini</span> <span>MatchMove</span> <span>Lookdev & Lighting</span> </div>
-                    </div>
+                        <div class="p-meta"> <span>Houdini</span> <span>MatchMove</span> <span>Lookdev & Lighting</span> </div>                    </div>
+                </a>
 
                 <a href="https://www.youtube.com/watch?v=HX3UcwUYMjM&list=RDHX3UcwUYMjM&start_radio=1" target="_blank" class="p-card">
                     <div class="p-img-container">
                         <video autoplay muted loop playsinline class="card-video">
                             <source src="content/showcase/MadeInVietNam_Full.webm" type="video/mp4">
                         </video>
+                    </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
                     </div>
                     <div class="p-body">
                         <h3>Music Video - Made In Vietnam | DTAP x NSND Thanh Hoa x Truc Nhan x Phuong My Chi </h3>
@@ -217,6 +324,14 @@
                             <source src="content/showcase/ThaiChieuTai_video2.webm" type="video/mp4">
                         </video>
                     </div>
+                    <div class="p-hover-marquee" aria-hidden="true">
+                        <div class="p-hover-track">
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                            <span>VIEW PROJECT ↗</span>
+                        </div>
+                    </div>
                     <div class="p-body">
                         <h3>Film - Thai Chiêu Tài </h3>
                         <p>Role:Performed precise facial matchmove to enable eye socket replacement for the film, 
@@ -230,7 +345,7 @@
         
 
 
-
+<!-- ABOUT ME -->
         <section id="about" class="about">
             <div class="about-grid">
                 <div class="sidebar">
@@ -303,8 +418,112 @@
             </div>
         </section>
 
+
+
+
+
+
+
+<!-- SOFTWARE & TOOLS STACK -->
+<section class="software-stack software-marquee-section" style="border-top: 1px solid var(--border);">
+    <div class="software-marquee-shell software-marquee-shell--bleed">
+        <div class="software-marquee-fade software-marquee-fade-left"></div>
+        <div class="software-marquee-fade software-marquee-fade-right"></div>
+
+        <div class="software-marquee-track software-marquee-track--xl">
+            <div class="software-marquee-group" aria-hidden="false">
+                <div class="service-item service-motion is-featured">
+                    <span class="service-label">Motion Graphics</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons">
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/452141/adobe-after-effects.svg" alt="After Effects"></span>
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/353488/blender.svg" alt="Blender"></span>
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/373968/photoshop.svg" alt="Photoshop"></span>
+                    </div>
+                </div>
+
+                <div class="service-item service-vfx">
+                    <span class="service-label">VFX</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons service-icons-wide">
+                        <span class="service-icon-card"><img src="content/about/icon/location.svg" alt="Clapperboard"></span>
+                    </div>
+                </div>
+
+                <div class="service-item service-filming">
+                    <span class="service-label">Onset Supervisor</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons">
+                        <span class="service-icon-card"><img src="content/about/icon/location.svg" alt="Clapperboard"></span> 
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/499116/video-camera.svg" alt="Camera"></span> 
+                    </div>
+                </div>
+
+                <div class="service-item service-filming">
+                    <span class="service-label">Artificial Intelligence</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons">
+                        <span class="service-icon-card"><img src="content/about/icon/comfyui.jpg" alt="AI Neural"></span> 
+                        <span class="service-icon-card"><img src="content/about/icon/chatgpt.png" alt="NVIDIA"></span>
+                        <span class="service-icon-card"><img src="content/about/icon/google-gemini.svg" alt="NVIDIA"></span>
+                    </div>
+                </div>
+                
+                <div class="service-item service-scriptwriting">
+                    <span class="service-label">FX Simulation</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons">
+                        <span class="service-icon-card"><img src="content/about/icon/houdini.svg" alt="Houdini"></span>
+                        <span class="service-icon-card"><img src="content/about/icon/AxiomAT.png" alt="Simulation/Fire"></span> 
+                    </div>
+                </div>
+
+                <div class="service-item service-grading">
+                    <span class="service-label">Matchmove</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons">
+                        <span class="service-icon-card"><img src="content/about/icon/sdv2015.png" alt="3D Equalizer"></span>
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/353488/blender.svg" alt="Tracking/Matchmove"></span> 
+                    </div>
+                </div>
+
+                <div class="service-item service-motion">
+                    <span class="service-label">3D Lighting</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons">
+                        <span class="service-icon-card"><img src="content/about/icon/Redshift_icon.svg" alt="Houdini"></span>
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/353488/blender.svg" alt="Tracking/Matchmove"></span> 
+                    </div>
+                </div>
+
+                <div class="service-item service-vfx">
+                    <span class="service-label">Procedural Modeling</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons service-icons-wide">
+                        <span class="service-icon-card"><img src="content/about/icon/houdini.svg" alt="Houdini"></span>
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/353488/blender.svg" alt="Tracking/Matchmove"></span> 
+                    </div>
+                </div>
+
+                <div class="service-item service-filming">
+                    <span class="service-label">Hard Surface Modeling</span>
+                    <span class="service-dot"></span>
+                    <div class="service-icons">
+                        <span class="service-icon-card"><img src="https://www.svgrepo.com/show/353488/blender.svg" alt="Blender"></span>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- TOOLS STACK -->
         <section id="skills" class="showcase" style="border-top: 1px solid var(--border);">
-            <p class="section-tag">TECHNICAL SKILLS</p>
+            <p class="showcase-title">TECHNICAL SKILLS</p>
             <div class="skills-container">
 
                 <div class="skill-item">
@@ -383,108 +602,99 @@
 
 
 
-        <section class="software-stack" style="border-top: 1px solid var(--border);">
-            <p class="section-tag">SOFTWARE & TOOLS STACK</p>
-            <div class="stack-container">
-                
-                <div class="stack-item" style="--icon-color: #ff850a;">
-                    <div class="stack-icon">
-                        <img src="content/about/icon/houdini.svg" alt="Houdini" class="software-img">
-                    </div>
-                    <p>Houdini</p>
+
+
+
+<!-- Custom Tools & Automation -->
+<section id="customtools" class="section">
+    <div class="container"> <h2 class="showcase-title">Custom Tools & Automation</h2>
+        
+        <div class="tool-grid-2col">
+            <a href="houdini-tools.html" class="tool-card houdini-card">
+                <div class="tool-bg-icon">
+                    <img src="content/about/icon/houdini.svg" alt="Houdini">
                 </div>
-
-                <div class="stack-item" style="--icon-color: #707070;">
-                    <div class="stack-icon">
-                        <img src="https://www.3dequalizer.com/sys_daten/graphics/logos/sdv2015.png" alt="3DEqualizer" class="software-img">
-                    </div>
-                    <p>3D Equalizer</p>
+                <div class="tool-content">
+                    <h3>Houdini Hub</h3>
+                    <p>Digital Assets, VEX Snippets & Procedural Workflows.</p>
                 </div>
+            </a>
 
-                <div class="stack-item" style="--icon-color: #f88f26;">
-                    <div class="stack-icon">
-                        <img src="https://www.svgrepo.com/show/353488/blender.svg" alt="Blender" class="software-img">
-                    </div>
-                    <p>Blender</p>
+            <a href="blender-tools.html" class="tool-card blender-card">
+                <div class="tool-bg-icon">
+                    <img src="https://www.svgrepo.com/show/353488/blender.svg" alt="Blender">
                 </div>
-
-                <div class="stack-item" style="--icon-color: #31A8FF;">
-                    <div class="stack-icon">
-                        <img src="https://www.svgrepo.com/show/373968/photoshop.svg" alt="Photoshop" class="software-img">
-                    </div>
-                    <p>Photoshop</p>
+                <div class="tool-content">
+                    <h3>Blender Add-ons</h3>
+                    <p>Geometry Nodes & Python Scripts for fast iteration.</p>
                 </div>
+            </a>
 
-                <div class="stack-item" style="--icon-color: #5222ff;">
-                    <div class="stack-icon">
-                        <img src="https://www.svgrepo.com/show/452141/adobe-after-effects.svg" alt="After Effects" class="software-img">
-                    </div>
-                    <p>After Effects</p>
+            <a href="others-tools.html" class="tool-card automation-card">
+                <div class="tool-bg-icon">
+                    <img src="https://www.svgrepo.com/show/452091/python.svg" alt="Automation">
                 </div>
-
-                <div class="stack-item" style="--icon-color: #4CAF50;">
-                    <div class="stack-icon">
-                        <img src="https://static.wikia.nocookie.net/logo-timeline/images/a/a9/ST_Square_Green-1.webp/revision/latest?cb=20230222215403" alt="SpeedTree" class="software-img">
-                    </div>
-                    <p>SpeedTree</p>
+                <div class="tool-content">
+                    <h3>Others & Automation</h3>
+                    <p>Pipeline tools, Python scripts and more.</p>
                 </div>
+            </a>
+        </div>
+    </div>
+</section>
 
-                <div class="stack-item" style="--icon-color: #e32b2b;">
-                    <div class="stack-icon">
-                        <img src="content/about/icon/substance-painter.svg" alt="Substance" class="software-img">
-                    </div>
-                    <p>Substance</p>
-                </div>
-
-                <div class="stack-item" style="--icon-color: #ffffff;">
-                    <div class="stack-icon">
-                        <img src="https://www.svgrepo.com/show/443515/brand-unreal-engine.svg" alt="Unreal Engine" class="software-img">
-                    </div>
-                    <p>Unreal Engine</p>
-                </div>
-
-                <div class="stack-item" style="--icon-color: #52ceff;">
-                    <div class="stack-icon">
-                        <img src="https://www.svgrepo.com/show/331553/python-package-index.svg" alt="Python" class="software-img">
-                    </div>
-                    <p>Python</p>
-                </div>
-                
-            </div>
-        </section>
-
-
-        <section id="assets" class="showcase" style="border-top: 1px solid var(--border);">
-            <p class="section-tag">Custom Tools & Automation</p>
-            <div class="project-grid">
-                
-                <a href="-Machine-Tracker-2f78d4c6950480dd9a72ed7c19632ff6?source=copy_link" target="_blank" class="p-card">
-                    <div class="p-img">
-                        <img src="content/customtools/Thumb_Tool1.png" alt="VFX Render Tracker" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                    <div class="p-body">
-                        <h3>VFX Render Tracking Tool</h3>
-                        <p>Hệ thống tự động hóa theo dõi tiến độ render trên nhiều máy qua Discord và Firebase.</p>
-                        <div class="p-meta"><span>Python</span> <span>Firebase</span> <span>Discord API</span></div>
-                    </div>
-                </a>
-
-                <a href="LINK_WEB_CUA_BAN_2" target="_blank" class="p-card">
-                    <div class="p-img">
-                        <img src="hinh2.png" alt="Workflow Optimization" style="width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                    <div class="p-body">
-                        <h3>Workflow Optimization</h3>
-                        <p>Bộ công cụ tùy chỉnh giúp tăng tốc độ xử lý file trong Unreal Engine.</p>
-                        <div class="p-meta"><span>Unreal Engine</span> <span>Blueprint</span></div>
-                    </div>
-                </a>
-
-            </div>
-        </section>
 
     <footer>
         <p>© 2026 James Do. All rights reserved.</p>
     </footer>
+
+
+
+
+<script>
+// Hiệu ứng anim MENU
+const menuToggle = document.getElementById('mobile-menu');
+const navDropdown = document.querySelector('.nav-dropdown');
+
+menuToggle.addEventListener('click', () => {
+    navDropdown.classList.toggle('active');
+    
+    // Hiệu ứng xoay nhẹ hamburger (tùy chọn)
+    const spans = menuToggle.querySelectorAll('.hamburger span');
+    spans[0].style.transform = navDropdown.classList.contains('active') ? 'rotate(45deg) translate(5px, 5px)' : 'none';
+    spans[1].style.transform = navDropdown.classList.contains('active') ? 'rotate(-45deg) translate(5px, -5px)' : 'none';
+});
+
+// Đóng menu khi bấm ra ngoài
+document.addEventListener('click', (e) => {
+    if (!menuToggle.contains(e.target) && !navDropdown.contains(e.target)) {
+        navDropdown.classList.remove('active');
+        const spans = menuToggle.querySelectorAll('.hamburger span');
+        spans[0].style.transform = 'none';
+        spans[1].style.transform = 'none';
+    }
+});
+
+    // Lấy nút Tools để bắt sự kiện click
+const submenuToggle = document.querySelector('.submenu-toggle');
+const hasSubmenu = document.querySelector('.has-submenu');
+
+submenuToggle.addEventListener('click', (e) => {
+    e.preventDefault(); // Ngăn trang web nhảy lên đầu khi bấm vào dấu #
+    hasSubmenu.classList.toggle('open'); // Đóng hoặc mở menu con
+});
+
+// Chỉnh sửa một chút ở phần đóng menu khi bấm ra ngoài 
+// để đảm bảo menu con cũng được reset
+document.addEventListener('click', (e) => {
+    if (!menuToggle.contains(e.target) && !navDropdown.contains(e.target)) {
+        navDropdown.classList.remove('active');
+        hasSubmenu.classList.remove('open'); // Đóng luôn cả menu con
+        // ... giữ nguyên phần code xoay hamburger của bạn ...
+    }
+});
+</script>
 </body>
 </html>
+
+

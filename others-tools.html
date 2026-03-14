@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JamesDo | VFX Artist Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="content/about/favicon.svg">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230A0A0A'/><text y='72' x='18' font-size='62' font-family='Archivo, sans-serif' font-weight='900' fill='white'>J</text><text y='72' x='48' font-size='62' font-family='Archivo, sans-serif' font-weight='900' fill='none' stroke='%23666' stroke-width='1.5'>D</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="glow-container">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+
+<!-- HEADER -->
+<header>
+    <nav class="navbar">
+        <div class="logo">JAMES<span>DO</span></div>
+        
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="menu-text">MENU</span>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+
+        <ul class="nav-dropdown">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="index.html#work">PROJECTS</a></li>
+            <li><a href="index.html#about">ABOUT ME</a></li>
+            <li class="has-submenu">
+                <a href="#" class="submenu-toggle">TOOLS <span class="arrow">▾</span></a>
+                <ul class="submenu">
+                    <li><a href="houdini-tools.html">HOUDINI TOOLS</a></li>
+                    <li><a href="blender-tools.html">BLENDER TOOLS</a></li>
+                    <li><a href="others-tools.html">OTHERS TOOLS</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<!-- HOME -->
+<header class="tool-hero-minimal video-hero">
+    <div class="video-bg-container">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="content/about/backdrop.webm" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
+    <div class="container hero-content">
+        <span class="category-tag">Tools & Assets</span>
+        <h1 class="main-title">Pipeline Workflow</h1>
+        <p class="main-description">A collection of custom HDAs, VEX snippets, and technical resources developed for professional VFX pipelines.</p>
+    </div>
+</header>
+
+
+<!-- Tools -->
+<main class="container">
+    <div class="tool-square-grid">
+        
+        <a href="https://www.google.com" class="square-card" target="_blank" rel="noopener noreferrer">            <div class="card-image-bg">
+                <img src="content/customtools/demo.jpg" alt="Houdini Tool">
+            </div>
+            <div class="card-content-overlay">
+                <span class="card-tag">HDA / Tool</span>
+                <h2 class="card-title">Procedural Building</h2>
+                <p class="card-desc">Hệ thống tạo kiến trúc tự động tối ưu hóa cho Pipeline.</p>
+                <div class="card-footer">Explore ➔</div>
+            </div>
+        </a>
+
+        <a href="https://www.google.com" class="square-card" target="_blank" rel="noopener noreferrer">            <div class="card-image-bg">
+                <img src="content/customtools/demo.jpg" alt="VEX Guide">
+            </div>
+            <div class="card-content-overlay">
+                <span class="card-tag">VEX / Knowledge</span>
+                <h2 class="card-title">VEX Cheat Sheet</h2>
+                <p class="card-desc">Tổng hợp các thuật toán VEX nâng cao cho Production.</p>
+                <div class="card-footer">Explore ➔</div>
+            </div>
+        </a>
+
+        <a href="https://www.google.com" class="square-card" target="_blank" rel="noopener noreferrer">            <div class="card-image-bg">
+                <img src="content/customtools/demo.jpg" alt="Python Script">
+            </div>
+            <div class="card-content-overlay">
+                <span class="card-tag">Python / Automation</span>
+                <h2 class="card-title">Pipeline Scripts</h2>
+                <p class="card-desc">Bộ công cụ Python giúp quản lý file và render tự động.</p>
+                <div class="card-footer">Explore ➔</div>
+            </div>
+        </a>
+
+    </div>
+</main>
+
+
+
+    <footer>
+        <p>© 2026 James Do. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
+
+
+
+
+
+
+<script>
+    // Hiệu ứng anim MENU
+    const menuToggle = document.getElementById('mobile-menu');
+    const navDropdown = document.querySelector('.nav-dropdown');
+
+    menuToggle.addEventListener('click', () => {
+        navDropdown.classList.toggle('active');
+        
+        // Hiệu ứng xoay nhẹ hamburger (tùy chọn)
+        const spans = menuToggle.querySelectorAll('.hamburger span');
+        spans[0].style.transform = navDropdown.classList.contains('active') ? 'rotate(45deg) translate(5px, 5px)' : 'none';
+        spans[1].style.transform = navDropdown.classList.contains('active') ? 'rotate(-45deg) translate(5px, -5px)' : 'none';
+    });
+
+    // Đóng menu khi bấm ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !navDropdown.contains(e.target)) {
+            navDropdown.classList.remove('active');
+            const spans = menuToggle.querySelectorAll('.hamburger span');
+            spans[0].style.transform = 'none';
+            spans[1].style.transform = 'none';
+        }
+    });
+
+        // Lấy nút Tools để bắt sự kiện click
+    const submenuToggle = document.querySelector('.submenu-toggle');
+    const hasSubmenu = document.querySelector('.has-submenu');
+
+    submenuToggle.addEventListener('click', (e) => {
+        e.preventDefault(); // Ngăn trang web nhảy lên đầu khi bấm vào dấu #
+        hasSubmenu.classList.toggle('open'); // Đóng hoặc mở menu con
+    });
+
+    // Chỉnh sửa một chút ở phần đóng menu khi bấm ra ngoài 
+    // để đảm bảo menu con cũng được reset
+    document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !navDropdown.contains(e.target)) {
+            navDropdown.classList.remove('active');
+            hasSubmenu.classList.remove('open'); // Đóng luôn cả menu con
+            // ... giữ nguyên phần code xoay hamburger của bạn ...
+        }
+    });
+</script>
