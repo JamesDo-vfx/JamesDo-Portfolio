@@ -28,7 +28,7 @@
 
 @font-face {
     font-family: 'MyCustomFont';
-    src: url('wmK6JmJHF5sFSbyY0sczZJESPE.woff2') format('woff2');
+    src: url('../fonts/wmK6JmJHF5sFSbyY0sczZJESPE.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -42,7 +42,7 @@
 /* 1. Khai báo Font (Đảm bảo đường dẫn đúng) */
 @font-face {
     font-family: 'PortfolioFont';
-    src: url('wmK6JmJHF5sFSbyY0sczZJESPE.woff2') format('woff2');
+    src: url('../fonts/wmK6JmJHF5sFSbyY0sczZJESPE.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
