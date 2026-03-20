@@ -26,27 +26,6 @@
     --shadow-deep: 0 35px 120px rgba(0, 0, 0, 0.52);
 }
 
-@font-face {
-    font-family: 'MyCustomFont';
-    src: url('../fonts/wmK6JmJHF5sFSbyY0sczZJESPE.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-:root {
-    --primary-font: 'MyCustomFont', sans-serif;
-    --dark-bg: #050505;
-}
-
-/* 1. Khai báo Font (Đảm bảo đường dẫn đúng) */
-@font-face {
-    font-family: 'PortfolioFont';
-    src: url('../fonts/wmK6JmJHF5sFSbyY0sczZJESPE.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
 
 :root {
     --content-max-width: 1600px;
