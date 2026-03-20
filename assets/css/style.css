@@ -127,6 +127,7 @@ body {
 .gradient-text {
     background: linear-gradient(90deg, var(--pink), var(--cyan));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -660,7 +661,7 @@ nav {
 
 /* Style cho tiêu đề lớn */
 .main-title {
-    font-family: var(--primary-font);
+    font-family: 'Archivo', sans-serif;
     font-size: clamp(4rem, 10vw, 8rem);
     line-height: 0.85;
     font-weight: 900;
@@ -757,7 +758,7 @@ nav {
 
 /* Tinh chỉnh lại tiêu đề chính để không bị tràn màn hình */
 .main-title {
-    font-family: 'PortfolioFont', sans-serif !important;
+    font-family: 'Archivo', sans-serif !important;
     /* Sử dụng clamp với giá trị nhỏ nhất an toàn hơn cho mobile (3rem) */
     font-size: clamp(3.2rem, 12vw, 8.5rem);
     line-height: 0.85;
@@ -1776,6 +1777,7 @@ footer,
             rgba(120, 120, 120, 0.34) 58%,
             rgb(99 99 99 / 95%) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke: 0 !important;
     text-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
@@ -2838,6 +2840,7 @@ footer {
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     /* Giới hạn 2 dòng để đều card */
     -webkit-box-orient: vertical;
     overflow: hidden;
