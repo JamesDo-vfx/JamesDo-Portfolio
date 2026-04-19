@@ -431,7 +431,7 @@ body.is-menu-open {
     position: relative;
     overflow: hidden;
     min-height: min(96vh, 1080px);
-    border-radius: var(--radius-lg);
+    border-radius: calc(var(--radius-lg) / 2);
     border: 1px solid rgba(18, 18, 18, 0.08);
     box-shadow: var(--shadow-card);
     background: #161616;
@@ -833,17 +833,19 @@ body.is-menu-open {
 .plugin-setup-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.25rem;
-    max-width: 40rem;
+    gap: 1.35rem;
+    max-width: 42rem;
     align-items: stretch;
+    margin-inline: auto;
 }
 
 .plugin-setup-card {
     position: relative;
     display: grid;
-    grid-template-rows: auto auto auto auto 1fr;
-    gap: 1rem;
-    padding: 1.25rem 1rem 1.15rem;
+    grid-template-rows: auto auto minmax(4.4rem, auto) auto 1fr;
+    gap: 1.05rem;
+    min-height: 100%;
+    padding: 1.35rem 1.1rem 1.2rem;
     border-radius: 1.25rem;
     border: 1px solid rgba(18, 18, 18, 0.12);
     background: rgba(255, 255, 255, 0.78);
@@ -889,18 +891,22 @@ body.is-menu-open {
 
 .plugin-setup-price {
     display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 0.45rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    min-height: 6rem;
 }
 
 .plugin-setup-price strong {
     margin: 0;
+    display: block;
     font-family: "Archivo", sans-serif;
     font-size: clamp(2rem, 3.8vw, 2.75rem);
     font-weight: 900;
     line-height: 0.92;
     letter-spacing: -0.08em;
+    min-height: 4.9rem;
+    max-width: 9ch;
 }
 
 .plugin-setup-price span {
@@ -914,7 +920,7 @@ body.is-menu-open {
     margin: 0;
     color: var(--color-text-soft);
     font-size: 0.98rem;
-    line-height: 1.2;
+    line-height: 1.28;
 }
 
 .plugin-setup-cta {
@@ -988,8 +994,11 @@ body.is-menu-open {
 
 .plugin-setup-note {
     max-width: 38rem;
+    margin-top: 1rem;
     margin-left: auto;
+    margin-right: auto;
     color: var(--color-text-muted);
+    text-align: center;
 }
 
 .plugin-highlight-band {
@@ -1819,6 +1828,20 @@ body.is-menu-open {
     .plugin-setup-grid {
         max-width: none;
         margin-left: 0;
+    }
+
+    .plugin-setup-card {
+        grid-template-rows: auto auto auto auto 1fr;
+        padding: 1.2rem 1rem 1.1rem;
+    }
+
+    .plugin-setup-price {
+        min-height: 0;
+    }
+
+    .plugin-setup-price strong {
+        min-height: 0;
+        max-width: none;
     }
 
     .plugin-faq-trigger {
