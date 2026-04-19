@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JamesDo | LiDAR Prep Tool</title>
+    <meta name="description"
+        content="LiDAR Prep Tool is a Blender plugin for cleaning, organizing, and preparing scan data before matchmove and tracking workflows." />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .plugin-page-shell {
+            --doneyet-section-space: clamp(3rem, 6vw, 5.5rem);
+        }
+
+        .plugin-main {
+            gap: var(--doneyet-section-space);
+        }
+
+        .plugin-page-shell > section + section {
+            margin-top: var(--doneyet-section-space);
+        }
+
+        .plugin-main > .plugin-section {
+            padding-top: 0.4rem;
+        }
+
+        @media (max-width: 720px) {
+            .plugin-page-shell {
+                --doneyet-section-space: clamp(2.25rem, 8vw, 3.5rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <nav class="nav-shell" aria-label="Primary navigation">
+                <a class="brand" href="../index.html" aria-label="JamesDo home">
+                    <span>JamesDo</span>
+                </a>
+
+                <div class="nav-links" id="site-nav">
+                    <a href="../projects.html">Work</a>
+                    <a class="is-current" href="all-tools.html">Tools</a>
+                    <a href="../index.html#about">About</a>
+                </div>
+
+                <a class="btn btn-primary nav-cta" href="../index.html#contact">Let's Talk</a>
+
+                <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav"
+                    aria-label="Toggle menu">
+                    <span class="menu-toggle-text">Menu</span>
+                    <span class="menu-toggle-bar" aria-hidden="true"></span>
+                </button>
+            </nav>
+        </header>
+
+        <main class="plugin-page">
+            <div class="plugin-page-shell">
+                <section class="plugin-page-header">
+                    <span class="eyebrow">Blender Plugin</span>
+                    <h1>LiDAR Prep Tool</h1>
+                    <p>A cleanup and organization utility that turns messy scan data into a cleaner starting point for matchmove, tracking, and downstream scene work.</p>
+                </section>
+
+                <section class="plugin-article">
+                    <aside class="plugin-sidebar">
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">By</span>
+                            <div class="plugin-meta-value">JamesDo</div>
+                        </div>
+
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">Category</span>
+                            <div class="plugin-meta-value">Scan Preparation</div>
+                        </div>
+
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">Posted On</span>
+                            <div class="plugin-meta-value is-date">19-04-26</div>
+                        </div>
+
+                        <a class="btn btn-primary" href="mailto:truonghieu933@gmail.com?subject=LiDAR%20Prep%20Tool%20Request">I want this!</a>
+
+                        <ul class="plugin-sidebar-list">
+                            <li>Cleans and structures scan inputs before tracking begins.</li>
+                            <li>Reduces repetitive prep work inside Blender.</li>
+                            <li>Makes handoff into matchmove more predictable.</li>
+                        </ul>
+                    </aside>
+
+                    <div class="plugin-main">
+                        <div class="plugin-intro">
+                            <p>Scan-based workflows usually start with a messy stage that is essential but hard to showcase: cleanup, organization, and making sure the data is actually usable for the next department.</p>
+                            <p>LiDAR Prep Tool is built around that quiet but important phase. It helps technical artists get scan data into a more reliable condition before the project moves into matchmove, tracking, or scene assembly.</p>
+                        </div>
+
+                        <figure class="plugin-media">
+                            <video autoplay muted loop playsinline preload="metadata" poster="../content/customtools/lidar-prep-tool/lidar-prep-tool_inuse.png">
+                                <source src="../content/customtools/lidar-prep-tool/lidar-prep-tool_inuse.webm" type="video/webm">
+                            </video>
+                        </figure>
+
+                        <section class="plugin-section">
+                            <span class="eyebrow">What It Solves</span>
+                            <h2>Makes scan cleanup feel like a defined workflow instead of a manual chore.</h2>
+                            <p>Rather than treating prep as scattered technical labor, the tool turns it into a repeatable process with clearer structure and fewer avoidable cleanup loops.</p>
+                            <div class="plugin-detail-grid">
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">01</span>
+                                    <strong>Input cleanup</strong>
+                                    <p>Helps reduce noise and disorder so raw captures are easier to work with during the earliest pipeline stage.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">02</span>
+                                    <strong>Asset organization</strong>
+                                    <p>Keeps scan elements structured in a way that is easier to inspect, hand off, and reuse later in the process.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">03</span>
+                                    <strong>Tracking readiness</strong>
+                                    <p>The goal is not only cleanup. It is preparing data so matchmove and tracking teams receive a better starting point.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">04</span>
+                                    <strong>Consistency</strong>
+                                    <p>Repeatable preparation reduces the chance of each project inventing its own scan cleanup workflow from scratch.</p>
+                                </article>
+                            </div>
+                        </section>
+
+                        <section class="plugin-section">
+                            <span class="eyebrow">INSTALLATION GUIDE</span>
+                            <h2>Install the addon once, align LiDAR scans faster, and export with more confidence for Matchmove.</h2>
+                            <p>JamesDo's Scan Aligner - LiDAR Prep Tool is a Blender addon for Matchmove artists working with raw LiDAR scans from iPhones or dedicated scanners. Install it in Blender, enable it in Preferences, then use it to batch import scan files, align them more reliably at World Origin, clean transforms, and prepare exports for 3DEqualizer, PFTrack, or Syntheyes with less manual cleanup.</p>
+                            <div class="plugin-detail-grid">
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 01</span>
+                                    <strong>Install the addon</strong>
+                                    <p>Download the addon <code>.zip</code>, open Blender, go to <code>Edit &gt; Preferences &gt; Add-ons</code>, click <code>Install...</code>, select the zip file, then enable <strong>JamesDo's Scan Aligner</strong>.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 02</span>
+                                    <strong>Import raw LiDAR scans</strong>
+                                    <p>Use <strong>Batch Import Scan</strong> to load one or multiple <code>.fbx</code> files. The addon brings scans into the scene in a cleaner, more organized starting point that is easier to inspect and prepare.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 03</span>
+                                    <strong>Register the scene</strong>
+                                    <p>This is the critical Matchmove step. Identify a matching feature between scans, place the 3D Cursor on the correct point, set <strong>Origin to Cursor</strong> for the source object, then use <strong>Selection to Cursor</strong> to align objects with cleaner spatial consistency before export.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 04</span>
+                                    <strong>Export the aligned model</strong>
+                                    <p>Enable <strong>Scale 100</strong> when preparing for 3DEqualizer, PFTrack, or similar Matchmove tools, apply clean transforms, and export the mesh. The result is a more predictable asset for downstream tracking work.</p>
+                                </article>
+                            </div>
+                        </section>
+
+                    </div>
+                </section>
+
+                <section class="plugin-faq-section" aria-labelledby="plugin-faq-title">
+                    <div class="plugin-faq-layout">
+                        <div class="plugin-faq-intro">
+                            <span class="eyebrow">FAQ'S</span>
+                            <p>Quick setup help for importing scans, registration, and matchmove export.</p>
+                        </div>
+                        <div class="plugin-faq-list" data-accordion>
+                            <article class="plugin-faq-item is-open">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-1" aria-expanded="true" aria-controls="plugin-faq-panel-1">
+                                    <span>How do I install and enable the addon in Blender?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-1" role="region" aria-labelledby="plugin-faq-trigger-1">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>Open Blender, go to Preferences, choose Add-ons, click Install, and select the addon zip. After installation, enable JamesDo's Scan Aligner so the tools appear in your workflow and are ready for LiDAR scene prep.</p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="plugin-faq-item">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-2" aria-expanded="false" aria-controls="plugin-faq-panel-2">
+                                    <span>What is the key step when aligning multiple scans?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-2" role="region" aria-labelledby="plugin-faq-trigger-2">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>The important step is registering the scene around a matching feature. Place the 3D Cursor on the right reference point, set the source origin to that cursor, and move the selection into place so scans line up with cleaner spatial consistency before export.</p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="plugin-faq-item">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-3" aria-expanded="false" aria-controls="plugin-faq-panel-3">
+                                    <span>When should I use Scale 100 for export?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-3" role="region" aria-labelledby="plugin-faq-trigger-3">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>Enable Scale 100 when preparing the asset for matchmove tools such as 3DEqualizer or PFTrack and your downstream workflow expects that scale adjustment. Apply clean transforms first so the exported mesh stays predictable for tracking and scene reconstruction.</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="plugin-cta-panel">
+                    <div>
+                        <span class="meta-label">Workflow Reassurance</span>
+                        <p>The addon is simple to install, the workflow stays intentionally straightforward, and every step is built around real Matchmove prep needs. It saves time before export, keeps the Blender scene cleaner, and reduces friction before tracking starts.</p>
+                    </div>
+                    <a class="btn btn-dark" href="all-tools.html">Back to all tools</a>
+                </section>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-bottom">
+                <p>(c) 2026 JamesDo. Production tools and workflow utilities.</p>
+                <a href="../index.html#tools">Back to tools overview</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../assets/js/site.js"></script>
+</body>
+
+</html>

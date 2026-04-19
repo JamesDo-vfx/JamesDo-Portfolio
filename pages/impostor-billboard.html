@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JamesDo | Impostor Billboard</title>
+    <meta name="description"
+        content="Impostor Billboard is a Redshift OSL optimization tool for lighter large-scale environments and more efficient distant detail rendering." />
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .plugin-page-shell {
+            --doneyet-section-space: clamp(3rem, 6vw, 5.5rem);
+        }
+
+        .plugin-main {
+            gap: var(--doneyet-section-space);
+        }
+
+        .plugin-page-shell > section + section {
+            margin-top: var(--doneyet-section-space);
+        }
+
+        .plugin-main > .plugin-section {
+            padding-top: 0.4rem;
+        }
+
+        @media (max-width: 720px) {
+            .plugin-page-shell {
+                --doneyet-section-space: clamp(2.25rem, 8vw, 3.5rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <nav class="nav-shell" aria-label="Primary navigation">
+                <a class="brand" href="../index.html" aria-label="JamesDo home">
+                    <span>JamesDo</span>
+                </a>
+
+                <div class="nav-links" id="site-nav">
+                    <a href="../projects.html">Work</a>
+                    <a class="is-current" href="all-tools.html">Tools</a>
+                    <a href="../index.html#about">About</a>
+                </div>
+
+                <a class="btn btn-primary nav-cta" href="../index.html#contact">Let's Talk</a>
+
+                <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav"
+                    aria-label="Toggle menu">
+                    <span class="menu-toggle-text">Menu</span>
+                    <span class="menu-toggle-bar" aria-hidden="true"></span>
+                </button>
+            </nav>
+        </header>
+
+        <main class="plugin-page">
+            <div class="plugin-page-shell">
+                <section class="plugin-page-header">
+                    <span class="eyebrow">Redshift OSL</span>
+                    <h1>Impostor Billboard</h1>
+                    <p>An optimization tool for large environments that keeps distant detail readable without carrying the full weight of distant geometry.</p>
+                </section>
+
+                <section class="plugin-article">
+                    <aside class="plugin-sidebar">
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">By</span>
+                            <div class="plugin-meta-value">JamesDo</div>
+                        </div>
+
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">Category</span>
+                            <div class="plugin-meta-value">Environment Optimization</div>
+                        </div>
+
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">Posted On</span>
+                            <div class="plugin-meta-value is-date">19-04-26</div>
+                        </div>
+
+                        <a class="btn btn-primary" href="mailto:truonghieu933@gmail.com?subject=Impostor%20Billboard%20Request">I want this!</a>
+
+                        <ul class="plugin-sidebar-list">
+                            <li>Reduces scene complexity for wide and layered environment shots.</li>
+                            <li>Uses impostor logic where distant assets no longer need full geometry.</li>
+                            <li>Balances technical savings with a cleaner visual result.</li>
+                        </ul>
+                    </aside>
+
+                    <div class="plugin-main">
+                        <div class="plugin-intro">
+                            <p>Large environments often carry too much distant geometry for too little image value. The scene becomes heavier, renders slow down, and layout gets harder to manage.</p>
+                            <p>Impostor Billboard is built to solve that specific problem. It turns far background density into a lighter, smarter representation so shots can stay rich without paying the full cost in every frame.</p>
+                        </div>
+
+                        <figure class="plugin-media">
+                            <img src="../content/customtools/impostor-billboard/impostor-billboard-inuse.png" alt="Impostor Billboard preview">
+                        </figure>
+
+                        <section class="plugin-section">
+                            <span class="eyebrow">What It Solves</span>
+                            <h2>Keeps the scale, removes the waste.</h2>
+                            <p>The tool is aimed at productions where environmental depth matters visually, but the underlying asset count starts hurting iteration speed, memory, and render efficiency.</p>
+                            <div class="plugin-detail-grid">
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">01</span>
+                                    <strong>Distant asset replacement</strong>
+                                    <p>Far geometry is converted into a lighter billboard strategy that preserves the feeling of scene density.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">02</span>
+                                    <strong>Render cost control</strong>
+                                    <p>Wide shots become easier to push because unnecessary distant complexity stops dominating the scene budget.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">03</span>
+                                    <strong>Environment scalability</strong>
+                                    <p>The setup is better suited to large digital sets where layered background detail needs to stay manageable.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">04</span>
+                                    <strong>Image-first optimization</strong>
+                                    <p>The goal is not only lighter scenes. It is making the right compromises so the final image still feels full.</p>
+                                </article>
+                            </div>
+                        </section>
+
+                        <section class="plugin-section">
+                            <span class="eyebrow">Installation Guide</span>
+                            <h2>Load the baked impostor atlas, match the flipbook layout, and use the shader with confidence in production.</h2>
+                            <p>Redshift OSL Impostor Billboard is built for camera-facing billboard impostors in large environment scenes. It reads a baked impostor or flipbook texture, and the setup is straightforward once the correct Input Image is assigned and the X/Y frame layout matches the original bake. Configured properly, it becomes a lightweight and practical way to keep distant backgrounds dense, readable, and much easier to render.</p>
+                            <div class="plugin-detail-grid">
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 01</span>
+                                    <strong>Load the baked impostor texture</strong>
+                                    <p>Use the texture rendered from "Lab Impostor Texture" and assign it to the Input Image slot. Make sure this file is the final baked impostor atlas or flipbook intended for billboard playback.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 02</span>
+                                    <strong>Match the frame layout</strong>
+                                    <p>Number of X Frames and Number of Y Frames must match the bake layout exactly. If the atlas was baked as 8 columns by 8 rows, set X Frames to 8 and Y Frames to 8. Wrong counts will produce incorrect sprite selection and broken viewing angles.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 03</span>
+                                    <strong>Use it as a camera-facing impostor</strong>
+                                    <p>This setup is designed for billboard impostors driven by camera direction. It works best on distant environment elements where full geometry is no longer necessary, helping preserve visual richness while reducing render cost.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 04</span>
+                                    <strong>Refine the viewing behavior</strong>
+                                    <p>Use pitch flipping when the bake requires it, and adjust interpolation mode based on how smoothly you want the frames to transition. These controls help the impostor feel more natural in motion and across angle changes.</p>
+                                </article>
+                            </div>
+                        </section>
+
+                    </div>
+                </section>
+
+                <section class="plugin-faq-section" aria-labelledby="plugin-faq-title">
+                    <div class="plugin-faq-layout">
+                        <div class="plugin-faq-intro">
+                            <span class="eyebrow">FAQ'S</span>
+                            <p>Quick guidance for texture setup, frame layout, and billboard playback.</p>
+                        </div>
+                        <div class="plugin-faq-list" data-accordion>
+                            <article class="plugin-faq-item is-open">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-1" aria-expanded="true" aria-controls="plugin-faq-panel-1">
+                                    <span>Which texture should I load into Input Image?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-1" role="region" aria-labelledby="plugin-faq-trigger-1">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>Use the final baked impostor atlas generated from your impostor texture workflow. The shader expects the finished flipbook texture, so loading a placeholder or mismatched bake can break angle sampling and make the billboard read incorrectly.</p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="plugin-faq-item">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-2" aria-expanded="false" aria-controls="plugin-faq-panel-2">
+                                    <span>How do I set the X and Y frame counts correctly?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-2" role="region" aria-labelledby="plugin-faq-trigger-2">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>Match the shader values to the exact atlas layout used during baking. If the flipbook was exported as 8 columns by 8 rows, set X Frames to 8 and Y Frames to 8. Any mismatch will pull the wrong sprite cells and produce broken view transitions.</p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="plugin-faq-item">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-3" aria-expanded="false" aria-controls="plugin-faq-panel-3">
+                                    <span>What controls help the billboard feel better in motion?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-3" role="region" aria-labelledby="plugin-faq-trigger-3">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>Pitch flipping and interpolation mode are the main controls to refine how the impostor reacts across camera angles. Use them after the atlas and frame layout are confirmed so you can tune motion quality without compensating for a setup mismatch.</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="plugin-cta-panel">
+                    <div>
+                        <span class="meta-label">Production Ready</span>
+                        <p>Once the baked texture and frame layout are correct, the setup stays simple to use and practical to manage. It is built to reduce scene weight in large environments, giving artists a reliable way to optimize distant background assets without overcomplicating lookdev.</p>
+                    </div>
+                    <a class="btn btn-dark" href="all-tools.html">Back to all tools</a>
+                </section>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-bottom">
+                <p>(c) 2026 JamesDo. Production tools and workflow utilities.</p>
+                <a href="../index.html#tools">Back to tools overview</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../assets/js/site.js"></script>
+</body>
+
+</html>
