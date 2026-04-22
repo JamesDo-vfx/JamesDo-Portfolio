@@ -36,6 +36,11 @@
     --type-title-sm: clamp(1.5rem, 2.1vw, 2.2rem);
     --type-title-md: clamp(2.25rem, 4vw, 4.4rem);
     --type-title-lg: clamp(3.3rem, 8vw, 7rem);
+    --motion-ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-ease-quiet: cubic-bezier(0.2, 0.7, 0.18, 1);
+    --motion-duration-reveal: 720ms;
+    --motion-duration-surface: 360ms;
+    --motion-reveal-offset: 18px;
 }
 
 /* reset / base */
@@ -234,6 +239,31 @@ body.is-menu-open {
     border-radius: var(--radius-md);
     background: var(--color-surface);
     box-shadow: var(--shadow-soft);
+}
+
+.has-motion [data-reveal] {
+    --motion-reveal-y: 0px;
+    --motion-lift-y: 0px;
+    --card-hover-scale: 1;
+    opacity: 1;
+    transform: translate3d(0, calc(var(--motion-reveal-y) + var(--motion-lift-y)), 0) scale(var(--card-hover-scale));
+    transition:
+        opacity var(--motion-duration-reveal) var(--motion-ease-soft),
+        transform var(--motion-duration-reveal) var(--motion-ease-soft),
+        box-shadow var(--motion-duration-surface) var(--motion-ease-quiet),
+        border-color var(--motion-duration-surface) var(--motion-ease-quiet);
+    will-change: transform, opacity;
+}
+
+.has-motion [data-reveal].is-reveal-ready:not(.is-revealed) {
+    opacity: 0;
+    --motion-reveal-y: var(--motion-reveal-offset);
+}
+
+.has-motion [data-reveal].is-revealed {
+    opacity: 1;
+    --motion-reveal-y: 0px;
+    transition-delay: var(--reveal-delay, 0ms);
 }
 
 /* nav */
@@ -1209,6 +1239,14 @@ body.is-menu-open {
 .resource-card {
     display: block;
     overflow: hidden;
+    --motion-lift-y: 0px;
+    --card-hover-scale: 1;
+    --card-shadow-depth: 0;
+    transform: translate3d(0, calc(var(--motion-reveal-y, 0px) + var(--motion-lift-y)), 0) scale(var(--card-hover-scale));
+    box-shadow:
+        0 calc(24px + (var(--card-shadow-depth) * 11px))
+        calc(60px + (var(--card-shadow-depth) * 24px))
+        rgba(18, 18, 18, calc(0.08 + (var(--card-shadow-depth) * 0.05)));
     transition:
         transform 220ms ease,
         box-shadow 220ms ease,
@@ -1221,8 +1259,8 @@ body.is-menu-open {
 .project-card:focus-visible,
 .resource-card:hover,
 .resource-card:focus-visible {
-    transform: translateY(-4px);
-    box-shadow: 0 34px 80px rgba(18, 18, 18, 0.14);
+    --motion-lift-y: -4px;
+    --card-shadow-depth: 1;
     border-color: var(--color-border-strong);
 }
 
@@ -1252,7 +1290,7 @@ body.is-menu-open {
 .resource-thumb video {
     width: 100%;
     height: 100%;
-    transition: transform 320ms ease;
+    transition: transform var(--motion-duration-surface) var(--motion-ease-quiet);
 }
 
 .project-feature:hover .project-feature-media video,
@@ -1337,9 +1375,9 @@ body.is-menu-open {
 .tool-card--link {
     display: block;
     transition:
-        transform 220ms ease,
-        box-shadow 220ms ease,
-        border-color 220ms ease;
+        transform var(--motion-duration-surface) var(--motion-ease-quiet),
+        box-shadow var(--motion-duration-surface) var(--motion-ease-quiet),
+        border-color var(--motion-duration-surface) var(--motion-ease-quiet);
 }
 
 .tool-card--link:hover,
@@ -1378,7 +1416,7 @@ body.is-menu-open {
 
 .tool-card--link .tool-card-media video,
 .tool-card--link .tool-card-media img {
-    transition: transform 320ms ease;
+    transition: transform var(--motion-duration-surface) var(--motion-ease-quiet);
 }
 
 .tool-card--link:hover .tool-card-media video,
@@ -1406,6 +1444,14 @@ body.is-menu-open {
     inset: auto 0 0;
     height: 50%;
     background: linear-gradient(180deg, transparent, rgba(17, 17, 15, 0.18));
+}
+
+[data-card-interactive] {
+    --motion-lift-y: var(--card-hover-lift, 0px);
+}
+
+[data-card-region] [data-card-interactive] {
+    transform-origin: 50% 62%;
 }
 
 .tool-card-top {
@@ -1593,6 +1639,36 @@ body.is-menu-open {
 /* footer */
 .site-footer {
     padding: 0 0 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .has-motion [data-reveal],
+    .project-feature,
+    .project-card,
+    .resource-card,
+    .tool-card--link,
+    .project-feature-media video,
+    .project-card-media video,
+    .resource-thumb img,
+    .resource-thumb video,
+    .tool-card--link .tool-card-media video,
+    .tool-card--link .tool-card-media img,
+    .showreel-follower,
+    .btn,
+    .nav-links a {
+        transition-duration: 1ms !important;
+        animation: none !important;
+    }
+
+    .has-motion [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+        will-change: auto;
+    }
 }
 
 .footer-panel {

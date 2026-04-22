@@ -39,7 +39,7 @@
         </header>
 
         <main>
-            <section class="showreel-hero" id="top">
+            <section class="showreel-hero" id="top" data-section="showreel-hero">
                 <div class="showreel-shell">
                     <div class="showreel-stage">
                         <div class="showreel-video">
@@ -55,7 +55,7 @@
 
                         <div class="showreel-content">
                             <div class="showreel-topbar">
-                                <span class="eyebrow is-light">Selected Showreel</span>
+                                <span class="eyebrow is-light" data-eyebrow-anchor>Selected Showreel</span>
                             </div>
 
                             <div class="showreel-bottom">
@@ -76,11 +76,11 @@
                 </div>
             </section>
 
-            <section class="section section--compact" id="projects">
+            <section class="section section--compact" id="projects" data-section="selected-projects">
                 <div class="section-shell">
                     <div class="split-heading section-heading">
                         <div>
-                            <span class="eyebrow">Selected Work</span>
+                            <span class="eyebrow" data-eyebrow-anchor>Selected Work</span>
                             <h2>Selected projects from real production work.</h2>
                         </div>
                         <p class="section-intro">A mix of music videos, commercials, and CG jobs
@@ -88,8 +88,9 @@
                               environment work, lookdev, and lighting.</p>
                     </div>
 
-                    <div class="projects-showcase">
+                    <div class="projects-showcase" data-card-region="selected-projects">
                         <a class="project-feature project-feature--full"
+                            data-card-interactive
                             href="https://www.youtube.com/watch?v=1qiSxA96TZU"
                             target="_blank" rel="noopener noreferrer">
                             <div class="project-feature-media">
@@ -112,6 +113,7 @@
 
                         <div class="projects-grid">
                             <a class="project-card"
+                                data-card-interactive
                                 href="https://www.youtube.com/watch?v=rRUzJJ9IV4s&list=RDrRUzJJ9IV4s&start_radio=1"
                                 target="_blank" rel="noopener noreferrer">
                                 <div class="project-card-media">
@@ -127,7 +129,7 @@
                                 </div>
                             </a>
 
-                            <a class="project-card" href="https://www.youtube.com/watch?v=hMBxytyaEOs&t" target="_blank"
+                            <a class="project-card" data-card-interactive href="https://www.youtube.com/watch?v=hMBxytyaEOs&t" target="_blank"
                                 rel="noopener noreferrer">
                                 <div class="project-card-media">
                                     <video autoplay muted loop playsinline preload="metadata">
@@ -143,6 +145,7 @@
                             </a>
 
                             <a class="project-card"
+                                data-card-interactive
                                 href="https://www.youtube.com/watch?v=of1eWaBwJLQ&list=RDof1eWaBwJLQ&start_radio=1"
                                 target="_blank" rel="noopener noreferrer">
                                 <div class="project-card-media">
@@ -160,7 +163,7 @@
                             </a>
 
 
-                            <a class="project-card project-card--more" href="projects.html">
+                            <a class="project-card project-card--more" data-card-interactive href="projects.html">
                                 <div class="project-card-body project-card-body--more">
                                     <span class="kicker">Project Archive</span>
                                     <h3>Explore More Projects</h3>
@@ -174,11 +177,11 @@
                 </div>
             </section>
 
-            <section class="section section--compact" id="tools">
+            <section class="section section--compact" id="tools" data-section="tools">
                 <div class="section-shell">
                     <div class="split-heading section-heading">
                         <div>
-                            <span class="eyebrow">Tools I Provide</span>
+                            <span class="eyebrow" data-eyebrow-anchor>Tools I Provide</span>
                             <h2>Tools I use to solve real production problems.</h2>
                         </div>
                         <p class="section-intro">These tools are built by a 3D artist for 3D artists. 
@@ -238,11 +241,11 @@
                 </div>
             </section>
 
-            <section class="section section--compact" id="about">
+            <section class="section section--compact" id="about" data-section="about">
                 <div class="section-shell">
                     <div class="split-heading section-heading">
                         <div>
-                            <span class="eyebrow">About Me</span>
+                            <span class="eyebrow" data-eyebrow-anchor>About Me</span>
                             <h2>I build VFX shots and the tools behind them.</h2>
                         </div>
                         <p class="section-intro">
@@ -300,7 +303,7 @@
         <footer class="site-footer" id="contact">
             <div class="footer-panel">
                 <article class="footer-card is-dark">
-                    <span class="eyebrow is-light">Contact</span>
+                    <span class="eyebrow is-light" data-eyebrow-anchor>Contact</span>
                     <h3>Available for freelance VFX, CG, and tool development work.</h3>
                     <p>If you need help with VFX shots, CG integration, lookdev, lighting, or production tools, feel free to get in touch.</p>
                     <div class="button-row">
