@@ -1436,6 +1436,18 @@
             return parsedDate ? readableDateTimeFormatter.format(parsedDate) : "N/A";
         }
 
+        function getWorkerLastActiveTimestamp(worker) {
+            if (!worker || typeof worker !== "object") {
+                return "";
+            }
+            return worker.lastHeartbeatTs
+                || worker.last_heartbeat_ts
+                || worker.crashDetectionLastHeartbeatAt
+                || worker.crash_detection_last_heartbeat_at
+                || worker.updated_at
+                || "";
+        }
+
         function safeTableValue(value, fallback = "-") {
             if (value === null || value === undefined) return fallback;
             const text = String(value).trim();
@@ -2042,19 +2054,22 @@
             closeShotDetailPanel(options);
         };
 
-        function isCompactDetailLayout() {
+        function shouldUseFullScreenDetailPanel() {
             return window.innerWidth <= 820;
         }
 
         function getDetailPanelBounds() {
+            const viewportWidth = window.innerWidth;
+            const shellMargin = shouldUseFullScreenDetailPanel() ? 0 : 48;
+
             return {
-                minWidth: Math.min(520, Math.max(340, window.innerWidth * 0.42)),
-                maxWidth: Math.max(560, window.innerWidth - 120)
+                minWidth: Math.min(680, Math.max(560, viewportWidth * 0.42)),
+                maxWidth: Math.max(760, viewportWidth - shellMargin)
             };
         }
 
         function saveDetailPanelSize() {
-            if (!shotDetailPanel || isCompactDetailLayout()) return;
+            if (!shotDetailPanel || shouldUseFullScreenDetailPanel()) return;
 
             const width = parseFloat(shotDetailPanel.style.width);
             if (!Number.isFinite(width)) return;
@@ -2069,9 +2084,8 @@
         function applyDetailPanelSize(width) {
             if (!shotDetailPanel) return;
 
-            if (isCompactDetailLayout()) {
+            if (shouldUseFullScreenDetailPanel()) {
                 shotDetailPanel.style.removeProperty("width");
-                updateDetailPanelLayoutMode();
                 return;
             }
 
@@ -2079,25 +2093,16 @@
             const nextWidth = clamp(width, bounds.minWidth, bounds.maxWidth);
 
             shotDetailPanel.style.width = `${nextWidth}px`;
-            updateDetailPanelLayoutMode();
-        }
-
-        function updateDetailPanelLayoutMode() {
-            if (!shotDetailPanel) return;
-
-            const panelWidth = shotDetailPanel.getBoundingClientRect().width || window.innerWidth;
-            shotDetailPanel.classList.toggle("detail-panel-tight", panelWidth <= 920);
-            shotDetailPanel.classList.toggle("detail-panel-tiny", panelWidth <= 760);
-            shotDetailPanel.classList.toggle("detail-panel-micro", panelWidth <= 520);
         }
 
         function restoreDetailPanelSize() {
-            if (!shotDetailPanel || isCompactDetailLayout()) {
+            if (!shotDetailPanel || shouldUseFullScreenDetailPanel()) {
                 applyDetailPanelSize(0);
                 return;
             }
 
-            const defaultWidth = Math.min(860, window.innerWidth);
+            const bounds = getDetailPanelBounds();
+            const defaultWidth = Math.min(960, bounds.maxWidth);
             let width = defaultWidth;
 
             try {
@@ -2131,7 +2136,7 @@
         }
 
         function beginDetailPanelResize(event) {
-            if (isCompactDetailLayout()) return;
+            if (shouldUseFullScreenDetailPanel()) return;
 
             const handle = event.target.closest("[data-resize-handle]");
             if (!handle || !shotDetailPanel) return;
@@ -2149,11 +2154,6 @@
         }
 
         restoreDetailPanelSize();
-
-        if (window.ResizeObserver && shotDetailPanel) {
-            const detailPanelResizeObserver = new ResizeObserver(() => updateDetailPanelLayoutMode());
-            detailPanelResizeObserver.observe(shotDetailPanel);
-        }
 
         shotDetailPanel.addEventListener("pointerdown", beginDetailPanelResize);
         window.addEventListener("pointermove", (event) => updateDetailPanelResize(event.clientX));
@@ -2501,7 +2501,7 @@
             const runtimeRows = [
                 ["Node Path", worker.node_path || "N/A"],
                 ["Output Path", worker.output_dir || worker.output_path || "N/A"],
-                ["Last Active", formatReadableDateTime(worker.lastHeartbeatTs)],
+                ["Last Active", formatReadableDateTime(getWorkerLastActiveTimestamp(worker))],
                 ["Render Tracking", detectionState.label],
                 ["Watchdog Summary", formatDetectionStatusLabel(worker.crashDetectionStatus || worker.crash_detection_status)],
                 [
@@ -2714,7 +2714,7 @@
             const glowColor = getShotGlowColor({ ...shot, statusKey });
 
             const latestActivity = shot.workers
-                .map((worker) => parseTimestampToDate(worker.lastHeartbeatTs))
+                .map((worker) => parseTimestampToDate(getWorkerLastActiveTimestamp(worker)))
                 .filter(Boolean)
                 .sort((a, b) => b.getTime() - a.getTime())[0];
 
@@ -2825,7 +2825,7 @@
                 const isFinished = !isCrashed && !isStalled && (statusRaw === "finished" || statusRaw === "done");
                 const crashReason = worker.crash_reason || worker.crashReason || "";
                 const stallReason = worker.stall_reason || worker.stallReason || "";
-                const lastHeartbeatTs = worker.last_heartbeat_ts || worker.lastHeartbeatTs || worker.updated_at || "";
+                const lastHeartbeatTs = getWorkerLastActiveTimestamp(worker);
                 const crashedAt = worker.crashed_at || worker.crashedAt || "";
                 const stalledAt = worker.stalled_at || worker.stalledAt || "";
                 const lastFrameSeen = worker.last_frame_seen !== undefined
@@ -2924,10 +2924,10 @@
             });
 
             shotArray.sort((a, b) => {
-                if (a.priority !== b.priority) return a.priority - b.priority;
                 const aTime = a.crashDetectionLastHeartbeatAt || 0;
                 const bTime = b.crashDetectionLastHeartbeatAt || 0;
                 if (bTime !== aTime) return bTime - aTime;
+                if (a.priority !== b.priority) return a.priority - b.priority;
                 if (b.liveWorkers !== a.liveWorkers) return b.liveWorkers - a.liveWorkers;
                 if (b.workerCount !== a.workerCount) return b.workerCount - a.workerCount;
                 return String(a.name).localeCompare(String(b.name));
@@ -2964,8 +2964,8 @@
                     const progress = formatTableProgress(worker.progress);
                     const eta = safeTableValue(worker.eta, "-");
                     const detectionReason = safeTableValue(getCrashDetectionState(worker).reason, "-");
-                    const lastUpdate = safeTableValue(formatReadableDateTime(worker.lastHeartbeatTs || worker.updated_at), "-");
-                    const sortTs = parseTimestampToDate(worker.lastHeartbeatTs || worker.updated_at)?.getTime() || 0;
+                    const lastUpdate = safeTableValue(formatReadableDateTime(getWorkerLastActiveTimestamp(worker)), "-");
+                    const sortTs = parseTimestampToDate(getWorkerLastActiveTimestamp(worker))?.getTime() || 0;
 
                     if (!groups.has(groupKey)) {
                         groups.set(groupKey, {
@@ -3110,9 +3110,7 @@
             const detailLabel = panelMode
                 ? (shot.isCache ? "Cache Detail" : "Shot Detail")
                 : (shot.isCache ? "Active Cache ($OS)" : "Active Shot ($OS)");
-
-            return `
-                <section class="shot-shell ${shot.hasCrashed ? "has-crashed-worker" : ""} ${shot.hasStalled ? "has-stalled-worker" : ""} ${panelMode ? "inside-detail-panel" : ""}">
+            const overviewMarkup = panelMode ? "" : `
                     <div class="shot-overview">
                         <div class="shot-meta">
                             <div class="shot-label">${escapeHtml(detailLabel)}</div>
@@ -3136,6 +3134,11 @@
                             <div class="global-range">${escapeHtml(shot.gStart)}-${escapeHtml(shot.gEnd)}</div>
                         </div>
                     </div>
+            `;
+
+            return `
+                <section class="shot-shell ${shot.hasCrashed ? "has-crashed-worker" : ""} ${shot.hasStalled ? "has-stalled-worker" : ""} ${panelMode ? "shot-detail-layout" : ""}">
+                    ${overviewMarkup}
 
                     <div class="timeline-panel">
                         <div class="timeline-head">
@@ -3324,25 +3327,7 @@
 
         function pickFeaturedShots(shots) {
             if (shots.length <= 8) return shots;
-
-            const featured = [];
-            const groups = [
-                shots.filter((shot) => shot.statusKey === "crashed"),
-                shots.filter((shot) => shot.statusKey === "stalled"),
-                shots.filter((shot) => shot.statusKey === "rendering"),
-                shots.filter((shot) => shot.statusKey === "finished")
-            ];
-
-            groups.forEach((group) => {
-                group.forEach((shot) => {
-                    if (featured.length >= 6) return;
-                    if (!featured.some((item) => item.name === shot.name)) {
-                        featured.push(shot);
-                    }
-                });
-            });
-
-            return featured.length ? featured : shots.slice(0, 6);
+            return shots.slice(0, 6);
         }
 
         function renderOverviewToolbar(shots, filteredShots) {
@@ -3392,8 +3377,8 @@
                         <div class="overview-filter-row">
                             ${FILTERS.map((filter) => `
                                 <button class="overview-filter ${filter.id === currentOverviewFilter ? "is-active" : ""}" type="button" onclick="setOverviewFilter('${filter.id}')" aria-pressed="${filter.id === currentOverviewFilter ? "true" : "false"}">
-                                    <span>${filter.label}</span>
-                                    <strong>${counts[filter.id] ?? 0}</strong>
+                                    <span class="overview-filter__label">${filter.label}</span>
+                                    <strong class="overview-filter__count">${counts[filter.id] ?? 0}</strong>
                                 </button>
                             `).join("")}
                         </div>
@@ -3780,6 +3765,7 @@
             const signature = getShotDetailSignature(shot);
             const currentFrame = shotDetailPanelBody.querySelector(".shot-detail-frame");
             const currentScrollRegion = shotDetailPanelBody.querySelector(".shot-detail-frame__scroll");
+            const previousShotId = currentFrame ? currentFrame.dataset.shotId : "";
             const previousScrollTop = currentScrollRegion ? currentScrollRegion.scrollTop : 0;
 
             if (currentFrame && currentFrame.dataset.detailSignature === signature) {
@@ -3787,58 +3773,65 @@
             }
 
             shotDetailPanelBody.innerHTML = `
-                <div class="shot-detail-frame" data-detail-signature="${escapeAttr(signature)}" style="--shot-accent:${shot.accent}; --shot-accent-glow:${shot.accentGlow};">
-                    <div class="shot-detail-frame__header">
-                        <button class="shot-detail-frame__close" type="button" onclick="closeShotDetailPanel()">
-                            <span>&larr;</span>
-                            <span>Back</span>
-                        </button>
-
-                        <div class="shot-detail-frame__copy">
-                            <div class="shot-detail-frame__eyebrow">Shot Inspection</div>
-                            <h2>${escapeHtml(shot.name)}</h2>
-                        </div>
-
-                        ${canDeleteShot() ? `
-                        <button class="shot-detail-frame__delete" type="button" onclick="deleteShotById('${shot.id}')" title="Delete shot">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                <line x1="10" y1="11" x2="10" y2="17"></line>
-                                <line x1="14" y1="11" x2="14" y2="17"></line>
-                            </svg>
-                        </button>
-                        ` : ""}
-                    </div>
-
-                    <div class="shot-detail-frame__summary">
-                        <div class="shot-detail-frame__summary-card">
-                            <span>Progress</span>
-                            <strong>${shot.progress}%</strong>
-                        </div>
-                        <div class="shot-detail-frame__summary-card">
-                            <span>Live Workers</span>
-                            <strong>${shot.liveWorkers}</strong>
-                        </div>
-                        <div class="shot-detail-frame__summary-card">
-                            <span>Estimated Finish</span>
-                            <strong>${escapeHtml(shot.estimatedFinishLabel)}</strong>
-                        </div>
-                        <div class="shot-detail-frame__summary-card">
-                            <span>Signal</span>
-                            <strong>${escapeHtml(shot.alertSummary)}</strong>
-                        </div>
-                    </div>
-
+                <div class="shot-detail-frame" data-shot-id="${escapeAttr(shot.id)}" data-detail-signature="${escapeAttr(signature)}" style="--shot-accent:${shot.accent}; --shot-accent-glow:${shot.accentGlow};">
                     <div class="shot-detail-frame__scroll">
-                        ${renderShotDetailContent(shot, shot.id, { panelMode: true, showDelete: false })}
+                        <div class="shot-detail-canvas">
+                            <div class="shot-detail-frame__header">
+                                <button class="shot-detail-frame__close" type="button" onclick="closeShotDetailPanel()">
+                                    <span>&larr;</span>
+                                    <span>Back</span>
+                                </button>
+
+                                <div class="shot-detail-frame__copy">
+                                    <div class="shot-detail-frame__eyebrow">Shot Inspection</div>
+                                    <h2>${escapeHtml(shot.name)}</h2>
+                                </div>
+
+                                ${canDeleteShot() ? `
+                                <button class="shot-detail-frame__delete" type="button" onclick="deleteShotById('${shot.id}')" title="Delete shot">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                                ` : ""}
+
+                            </div>
+
+                            <div class="shot-detail-frame__summary">
+                                <div class="shot-detail-frame__summary-card">
+                                    <span>Progress</span>
+                                    <strong>${shot.progress}%</strong>
+                                </div>
+                                <div class="shot-detail-frame__summary-card">
+                                    <span>Live Workers</span>
+                                    <strong>${shot.liveWorkers}</strong>
+                                </div>
+                                <div class="shot-detail-frame__summary-card">
+                                    <span>Estimated Finish</span>
+                                    <strong>${escapeHtml(shot.estimatedFinishLabel)}</strong>
+                                </div>
+                                <div class="shot-detail-frame__summary-card">
+                                    <span>Signal</span>
+                                    <strong>${escapeHtml(shot.alertSummary)}</strong>
+                                </div>
+                            </div>
+
+                            <div class="shot-detail-frame__divider" aria-hidden="true"></div>
+
+                            <div class="shot-detail-frame__body">
+                                ${renderShotDetailContent(shot, shot.id, { panelMode: true, showDelete: false })}
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
 
             const nextScrollRegion = shotDetailPanelBody.querySelector(".shot-detail-frame__scroll");
             if (nextScrollRegion) {
-                nextScrollRegion.scrollTop = previousScrollTop;
+                nextScrollRegion.scrollTop = previousShotId === String(shot.id) ? previousScrollTop : 0;
             }
         }
 

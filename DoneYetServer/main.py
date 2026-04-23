@@ -58,6 +58,9 @@ SERVER_HOST = "0.0.0.0"
 SERVER_PORT = 8000
 PUBLIC_URL = ""
 TUNNEL_PROCESS = None
+LEGACY_EXISTING_SERVER_URL_DEFAULT = "https://jamesdo-vfx.github.io/DoneYet-PluginHoudini"
+LEGACY_EXISTING_SERVER_URL_DEFAULT_WITH_INDEX = "https://jamesdovfx.com/DoneYetServer/index.html"
+EXISTING_SERVER_URL_DEFAULT = "https://jamesdovfx.com/DoneYetServer"
 DB_PATH = ""
 TRACKER_MODE = "private"
 _WARNED_KEYS = set()
@@ -756,6 +759,14 @@ class DashboardHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=BASE_PATH, **kwargs)
 
+    def end_headers(self):
+        request_path = urlparse(getattr(self, "path", "") or "").path.lower()
+        if request_path in ("/", "/index.html") or request_path.endswith((".js", ".css", ".mjs")):
+            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+        super().end_headers()
+
     def do_HEAD(self):
         self.do_GET()
 
@@ -1100,6 +1111,21 @@ def _normalize_mode(mode_value):
     return "private"
 
 
+def _resolve_hosted_dashboard_url(config):
+    cfg = config if isinstance(config, dict) else {}
+    for key in ("existingServerUrl", "existing_server_url", "github_url", "dashboard_url"):
+        candidate = str(cfg.get(key) or "").strip().rstrip("/")
+        if not candidate:
+            continue
+        if candidate in (
+            LEGACY_EXISTING_SERVER_URL_DEFAULT,
+            LEGACY_EXISTING_SERVER_URL_DEFAULT_WITH_INDEX,
+        ):
+            return EXISTING_SERVER_URL_DEFAULT
+        return candidate
+    return EXISTING_SERVER_URL_DEFAULT
+
+
 def refresh_runtime_config():
     """Reload config from disk so manual actions use the latest saved settings."""
     global FIREBASE_URL, WEBHOOK_URL, GITHUB_URL, TRACKER_MODE, CONFIG_CACHE
@@ -1114,7 +1140,7 @@ def refresh_runtime_config():
 
     FIREBASE_URL = _build_firebase_renders_url(cfg.get("firebase_url", FIREBASE_URL))
     WEBHOOK_URL = cfg.get("webhook_url", WEBHOOK_URL)
-    GITHUB_URL = cfg.get("github_url", GITHUB_URL)
+    GITHUB_URL = _resolve_hosted_dashboard_url(cfg)
     TRACKER_MODE = _normalize_mode(cfg.get("mode", TRACKER_MODE))
     CONFIG_CACHE = dict(cfg)
     WATCHDOG_INTERVAL_SECONDS = max(1, _to_int(cfg.get("watchdog_poll_interval_seconds", WATCHDOG_INTERVAL_SECONDS), WATCHDOG_INTERVAL_SECONDS))
