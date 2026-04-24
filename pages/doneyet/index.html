@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JamesDo | DoneYet</title>
+    <meta name="description"
+        content="DoneYet is a Houdini render monitor plugin built to track render progress, machine activity, and job visibility with minimal friction." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .plugin-page-shell {
+            --doneyet-section-space: clamp(3rem, 6vw, 5.5rem);
+        }
+
+        .plugin-main {
+            gap: var(--doneyet-section-space);
+        }
+
+        .plugin-page-shell > section + section {
+            margin-top: var(--doneyet-section-space);
+        }
+
+        .plugin-main > .plugin-section {
+            padding-top: 0.4rem;
+        }
+
+        @media (max-width: 720px) {
+            .plugin-page-shell {
+                --doneyet-section-space: clamp(2.25rem, 8vw, 3.5rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <nav class="nav-shell" aria-label="Primary navigation">
+                <a class="brand" href="/" aria-label="JamesDo home">
+                    <span>JamesDo</span>
+                </a>
+
+                <div class="nav-links" id="site-nav">
+                    <a href="/projects/">Work</a>
+                    <a class="is-current" href="/pages/all-tools/">Tools</a>
+                    <a href="/#about">About</a>
+                </div>
+
+                <a class="btn btn-primary nav-cta" href="/#contact">Let's Talk</a>
+
+                <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav"
+                    aria-label="Toggle menu">
+                    <span class="menu-toggle-text">Menu</span>
+                    <span class="menu-toggle-bar" aria-hidden="true"></span>
+                </button>
+            </nav>
+        </header>
+
+        <main class="plugin-page">
+            <div class="plugin-page-shell">
+                <section class="plugin-page-header" data-section="plugin-intro">
+                    <span class="eyebrow" data-eyebrow-anchor>Houdini Plugin</span>
+                    <h1>DoneYet</h1>
+                    <p>A render monitor that tells the artist what is happening now, without forcing them into a heavy <a href="https://jamesdovfx.com/DoneYetServer" target="_blank" rel="noopener noreferrer">dashboard</a>.</p>
+                </section>
+
+                <section class="plugin-article">
+                    <aside class="plugin-sidebar">
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">By</span>
+                            <div class="plugin-meta-value">JamesDo</div>
+                        </div>
+
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">Category</span>
+                            <div class="plugin-meta-value">Render Monitoring</div>
+                        </div>
+
+                        <div class="plugin-meta-group">
+                            <span class="meta-label">Posted On</span>
+                            <div class="plugin-meta-value is-date">19-04-26</div>
+                        </div>
+
+                        <a class="btn btn-primary" href="mailto:truonghieu933@gmail.com?subject=DoneYet%20Download%20Request">I want this!</a>
+
+                        <ul class="plugin-sidebar-list">
+                            <li>Tracks frame progress in a way that is readable at a glance.</li>
+                            <li>Surfaces job state and machine activity during long renders.</li>
+                            <li>Stays light enough to fit into a real production routine.</li>
+                        </ul>
+                    </aside>
+
+                    <div class="plugin-main">
+                        <div class="plugin-intro">
+                            <p>Late-night renders create the same question every time: is the job still healthy, which frame is being processed, and do you need to intervene right now?</p>
+                            <p>DoneYet keeps that answer visible. The tool is built for artists who want clarity without leaving Houdini, opening extra monitoring windows, or digging through logs just to confirm that the render is still moving.</p>
+                        </div>
+
+                        <figure class="plugin-media">
+                            <video autoplay muted loop playsinline preload="metadata" poster="../content/customtools/doneyet/DoneYet_InUse.png">
+                                <source src="/content/customtools/doneyet/DoneYet_InUse.webm" type="video/webm">
+                            </video>
+                        </figure>
+
+                        <section class="plugin-section" data-section="what-it-solves">
+                            <span class="eyebrow" data-eyebrow-anchor>What It Solves</span>
+                            <h2>Clear status checks while the work keeps running.</h2>
+                            <p>Instead of overbuilding the experience, DoneYet focuses on the exact information artists usually need during render supervision: progress, health, and confidence that the machine is still doing useful work.</p>
+                            <div class="plugin-detail-grid">
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">01</span>
+                                    <strong>Frame visibility</strong>
+                                    <p>See where the current render stands so it is easier to estimate momentum and catch suspicious slowdowns.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">02</span>
+                                    <strong>Job awareness</strong>
+                                    <p>Keep an eye on job state without interrupting the artist flow or switching into a separate monitoring mindset.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">03</span>
+                                    <strong>Machine activity</strong>
+                                    <p>Quick signals make it easier to notice when the machine looks idle, stalled, or no longer behaving as expected.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">04</span>
+                                    <strong>Low friction</strong>
+                                    <p>The UI stays intentionally simple so the tool feels like a practical extension of production, not another system to babysit.</p>
+                                </article>
+                            </div>
+                        </section>
+
+                        <section class="plugin-section plugin-setup-compare" data-section="setup-mode">
+                            <div class="plugin-setup-heading">
+                                <div class="plugin-setup-heading-main">
+                                    <span class="eyebrow" data-eyebrow-anchor>CHOOSE YOUR SETUP MODE</span>
+                                    <h2>Setup Mode</h2>
+                                </div>
+                                <p class="plugin-setup-heading-copy">Flexible, clear and built around how you want to monitor renders. Start lean with a self-hosted setup or move into a fuller team-ready server workflow.</p>
+                            </div>
+                            <div class="plugin-setup-grid">
+                                <article class="plugin-setup-card plugin-setup-card--free">
+                                    <div class="plugin-setup-card-top">
+                                        <span class="plugin-setup-plan">Free</span>
+                                    </div>
+                                    <div class="plugin-setup-price">
+                                        <strong>Self-Hosted</strong>
+                                        <span>single machine mode</span>
+                                    </div>
+                                    <p>Simple local monitoring for solo artists who want a lightweight setup and fast start.</p>
+                                    <a class="btn btn-dark plugin-setup-cta" href="mailto:truonghieu933@gmail.com?subject=DoneYet%20Free%20Setup">Get Started</a>
+                                    <div class="plugin-setup-includes">
+                                        <span>What's Included?</span>
+                                        <ul class="plugin-setup-list">
+                                            <li>1 active machine</li>
+                                            <li>Local-only visibility</li>
+                                            <li>Basic workflow alerts</li>
+                                            <li>Best for freelancers and solo artists</li>
+                                        </ul>
+                                    </div>
+                                </article>
+                                <article class="plugin-setup-card plugin-setup-card--pro">
+                                    <div class="plugin-setup-card-top">
+                                        <span class="plugin-setup-plan">Pro</span>
+                                        <span class="plugin-setup-value-tag">Best Value</span>
+                                    </div>
+                                    <div class="plugin-setup-price">
+                                        <strong>DoneYet Server</strong>
+                                        <span>multi-machine mode</span>
+                                    </div>
+                                    <p>Shared visibility for active teams with remote monitoring and connected alerts across ongoing jobs.</p>
+                                    <a class="btn btn-dark plugin-setup-cta" href="mailto:truonghieu933@gmail.com?subject=DoneYet%20Pro%20Setup">Get Started</a>
+                                    <div class="plugin-setup-includes">
+                                        <span>What's Included?</span>
+                                        <ul class="plugin-setup-list">
+                                            <li>Multiple active machines</li>
+                                            <li><a href="https://jamesdovfx.com/DoneYetServer" target="_blank" rel="noopener noreferrer">Remote web dashboard</a></li>
+                                            <li>Discord + Telegram alerts</li>
+                                            <li>Built for teams and render-heavy jobs</li>
+                                            <li>Broader production visibility</li>
+                                            <li>Easier shared monitoring workflow</li>
+                                        </ul>
+                                    </div>
+                                </article>
+                            </div>
+                            <p class="plugin-setup-note">Free is the simplest way to start. Pro unlocks multi-machine visibility, remote monitoring, and connected alerts.</p>
+                        </section>
+
+
+                        <section class="plugin-section" data-section="installation-guide">
+                            <span class="eyebrow" data-eyebrow-anchor>Installation Guide</span>
+                            <h2>Install DoneYet, connect what you need, start monitoring.</h2>
+                            <p>Install the plugin in Houdini, open DoneYet, add optional integrations if needed, and start tracking renders right away.</p>
+                            <div class="plugin-detail-grid">
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 01</span>
+                                    <strong>Install the plugin in Houdini</strong>
+                                    <p>Copy the DoneYet package into your Houdini packages location, then restart Houdini.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 02</span>
+                                    <strong>Open DoneYet inside Houdini</strong>
+                                    <p>Launch Houdini and open the DoneYet panel to access monitoring and setup options.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 03</span>
+                                    <strong>Start monitoring renders</strong>
+                                    <p>Begin a render or cache job and DoneYet will track frame progress, status, and machine activity.</p>
+                                </article>
+                                <article class="plugin-detail-card">
+                                    <span class="meta-label">Step 04</span>
+                                    <strong>Connect optional services</strong>
+                                    <p>Add Discord or Telegram for alerts. Connect Firebase only if you need remote web monitoring.</p>
+                                </article>
+                            </div>
+                        </section>
+
+                    </div>
+                </section>
+
+                <section class="plugin-faq-section" aria-labelledby="plugin-faq-title">
+                    <div class="plugin-faq-layout">
+                        <div class="plugin-faq-intro">
+                            <span class="eyebrow">FAQ'S</span>
+                            <p>Quick setup help for Firebase, Discord, and Telegram.</p>
+                        </div>
+                        <div class="plugin-faq-list" data-accordion>
+                            <article class="plugin-faq-item is-open">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-1" aria-expanded="true" aria-controls="plugin-faq-panel-1">
+                                    <span>How do I set up Firebase for remote monitoring?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-1" role="region" aria-labelledby="plugin-faq-trigger-1">
+                                    <div class="plugin-faq-panel-inner">
+                                    <p>Firebase is only needed if you want remote web monitoring. Create or use your Firebase project, copy the project config or database details into DoneYet, save the settings, and validate the connection. Once connected, the <a href="https://jamesdovfx.com/DoneYetServer" target="_blank" rel="noopener noreferrer">web dashboard</a> can display monitoring data beyond a single local workstation.</p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="plugin-faq-item">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-2" aria-expanded="false" aria-controls="plugin-faq-panel-2">
+                                    <span>How do I add a Discord webhook URL?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-2" role="region" aria-labelledby="plugin-faq-trigger-2">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>Create a webhook inside your Discord server or channel settings, copy the webhook URL, paste it into the DoneYet notification settings, save it, and send a test notification. DoneYet will then post render updates to that Discord channel.</p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="plugin-faq-item">
+                                <button class="plugin-faq-trigger" type="button" id="plugin-faq-trigger-3" aria-expanded="false" aria-controls="plugin-faq-panel-3">
+                                    <span>How do I connect Telegram alerts?</span>
+                                    <span class="plugin-faq-indicator" aria-hidden="true"></span>
+                                </button>
+                                <div class="plugin-faq-panel" id="plugin-faq-panel-3" role="region" aria-labelledby="plugin-faq-trigger-3">
+                                    <div class="plugin-faq-panel-inner">
+                                        <p>Create or connect your Telegram bot setup, get the required bot token or chat connection details, paste them into DoneYet&rsquo;s Telegram settings, save, and send a test message. Once confirmed, Telegram can deliver lightweight mobile alerts for important render events.</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="plugin-cta-panel">
+                    <div>
+                        <span class="meta-label">Low-Friction Setup</span>
+                        <p>DoneYet is straightforward to deploy: start with the core Houdini workflow, confirm your monitoring locally, and only add Firebase, Discord, or Telegram when your production needs them. The tool is built for practical render supervision, not unnecessary setup overhead.</p>
+                    </div>
+                    <a class="btn btn-dark" href="/pages/all-tools/">Back to all tools</a>
+                </section>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-bottom">
+                <p>(c) 2026 JamesDo. Production tools and workflow utilities.</p>
+                <a href="/#tools">Back to tools overview</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/js/site.js"></script>
+</body>
+
+</html>
