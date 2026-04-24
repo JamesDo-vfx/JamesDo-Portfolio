@@ -1,24 +1,33 @@
 const SITE_MOTION = {
     // Central place to tune the editorial motion language without chasing magic numbers.
+    hero: {
+        initialDelayMs: 120,
+        staggerMs: 95
+    },
     reveal: {
         offset: 18,
-        staggerMs: 48,
-        threshold: 0.22,
-        rootMargin: "0px 0px -10% 0px"
+        staggerMs: 56,
+        threshold: 0.16,
+        rootMargin: "0px 0px -12% 0px"
     },
     cardHover: {
         maxLift: 12,
         maxScale: 0.01,
         influenceRadius: 280
     },
-    snap: {
-        enabled: true,
-        idleMs: 3000,
-        cooldownMs: 9000,
-        sameSectionCooldownMs: 22000,
-        settleMs: 950,
-        nearAnchorPx: 28,
-        minVisiblePx: 120
+    toolTilt: {
+        maxTiltX: 3.6,
+        maxTiltY: 4.4,
+        glowOpacity: 0.22
+    },
+    portraitCard: {
+        maxTiltX: 5.6,
+        maxTiltY: 7.2,
+        mediaShift: 2.8,
+        mediaScale: 1.024,
+        badgeShiftX: 4.5,
+        badgeFloatY: 6,
+        badgeDepthZ: 32
     }
 };
 
@@ -216,6 +225,218 @@ const SITE_MOTION = {
 })();
 
 (() => {
+    const card = document.querySelector("[data-portrait-card]");
+
+    if (!card) {
+        return;
+    }
+
+    const media = card.querySelector("[data-portrait-media]");
+    const badge = card.querySelector("[data-portrait-badge]");
+    const glow = card.querySelector("[data-portrait-glow]");
+
+    if (!media || !badge || !glow) {
+        return;
+    }
+
+    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!isFinePointer || prefersReducedMotion) {
+        return;
+    }
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    const lerp = (start, end, amount) => start + (end - start) * amount;
+
+    const state = {
+        hovered: false,
+        frameId: 0,
+        rect: null,
+        current: {
+            tiltX: 0,
+            tiltY: 0,
+            mediaX: 0,
+            mediaY: 0,
+            mediaScale: 1,
+            badgeX: 0,
+            badgeY: 0,
+            badgeZ: 0,
+            highlightX: 50,
+            highlightY: 50,
+            highlightOpacity: 0,
+            shadowDepth: 0
+        },
+        target: {
+            tiltX: 0,
+            tiltY: 0,
+            mediaX: 0,
+            mediaY: 0,
+            mediaScale: 1,
+            badgeX: 0,
+            badgeY: 0,
+            badgeZ: 0,
+            highlightX: 50,
+            highlightY: 50,
+            highlightOpacity: 0,
+            shadowDepth: 0
+        }
+    };
+
+    const writeStyles = () => {
+        card.style.setProperty("--portrait-tilt-x", `${state.current.tiltX.toFixed(3)}deg`);
+        card.style.setProperty("--portrait-tilt-y", `${state.current.tiltY.toFixed(3)}deg`);
+        card.style.setProperty("--portrait-media-x", `${state.current.mediaX.toFixed(3)}px`);
+        card.style.setProperty("--portrait-media-y", `${state.current.mediaY.toFixed(3)}px`);
+        card.style.setProperty("--portrait-media-scale", state.current.mediaScale.toFixed(4));
+        card.style.setProperty("--portrait-badge-x", `${state.current.badgeX.toFixed(3)}px`);
+        card.style.setProperty("--portrait-badge-y", `${state.current.badgeY.toFixed(3)}px`);
+        card.style.setProperty("--portrait-badge-z", `${state.current.badgeZ.toFixed(3)}px`);
+        card.style.setProperty("--portrait-highlight-x", `${state.current.highlightX.toFixed(2)}%`);
+        card.style.setProperty("--portrait-highlight-y", `${state.current.highlightY.toFixed(2)}%`);
+        card.style.setProperty("--portrait-highlight-opacity", state.current.highlightOpacity.toFixed(4));
+        card.style.setProperty("--portrait-shadow-depth", state.current.shadowDepth.toFixed(4));
+    };
+
+    const resetTarget = () => {
+        state.target.tiltX = 0;
+        state.target.tiltY = 0;
+        state.target.mediaX = 0;
+        state.target.mediaY = 0;
+        state.target.mediaScale = 1;
+        state.target.badgeX = 0;
+        state.target.badgeY = 0;
+        state.target.badgeZ = 0;
+        state.target.highlightX = 50;
+        state.target.highlightY = 50;
+        state.target.highlightOpacity = 0;
+        state.target.shadowDepth = 0;
+    };
+
+    const animate = () => {
+        state.frameId = 0;
+
+        const smoothing = state.hovered ? 0.17 : 0.1;
+
+        state.current.tiltX = lerp(state.current.tiltX, state.target.tiltX, smoothing);
+        state.current.tiltY = lerp(state.current.tiltY, state.target.tiltY, smoothing);
+        state.current.mediaX = lerp(state.current.mediaX, state.target.mediaX, smoothing);
+        state.current.mediaY = lerp(state.current.mediaY, state.target.mediaY, smoothing);
+        state.current.mediaScale = lerp(state.current.mediaScale, state.target.mediaScale, smoothing);
+        state.current.badgeX = lerp(state.current.badgeX, state.target.badgeX, smoothing);
+        state.current.badgeY = lerp(state.current.badgeY, state.target.badgeY, smoothing);
+        state.current.badgeZ = lerp(state.current.badgeZ, state.target.badgeZ, smoothing);
+        state.current.highlightX = lerp(state.current.highlightX, state.target.highlightX, smoothing);
+        state.current.highlightY = lerp(state.current.highlightY, state.target.highlightY, smoothing);
+        state.current.highlightOpacity = lerp(state.current.highlightOpacity, state.target.highlightOpacity, smoothing);
+        state.current.shadowDepth = lerp(state.current.shadowDepth, state.target.shadowDepth, smoothing);
+        writeStyles();
+
+        const hasMotion = Math.abs(state.current.tiltX - state.target.tiltX) > 0.015 ||
+            Math.abs(state.current.tiltY - state.target.tiltY) > 0.015 ||
+            Math.abs(state.current.mediaX - state.target.mediaX) > 0.02 ||
+            Math.abs(state.current.mediaY - state.target.mediaY) > 0.02 ||
+            Math.abs(state.current.mediaScale - state.target.mediaScale) > 0.0008 ||
+            Math.abs(state.current.badgeX - state.target.badgeX) > 0.02 ||
+            Math.abs(state.current.badgeY - state.target.badgeY) > 0.02 ||
+            Math.abs(state.current.badgeZ - state.target.badgeZ) > 0.02 ||
+            Math.abs(state.current.highlightX - state.target.highlightX) > 0.04 ||
+            Math.abs(state.current.highlightY - state.target.highlightY) > 0.04 ||
+            Math.abs(state.current.highlightOpacity - state.target.highlightOpacity) > 0.003 ||
+            Math.abs(state.current.shadowDepth - state.target.shadowDepth) > 0.004;
+
+        if (hasMotion) {
+            state.frameId = window.requestAnimationFrame(animate);
+            return;
+        }
+
+        if (!state.hovered) {
+            card.classList.remove("is-portrait-active");
+        }
+    };
+
+    const requestTick = () => {
+        if (!state.frameId) {
+            state.frameId = window.requestAnimationFrame(animate);
+        }
+    };
+
+    const refreshRect = () => {
+        state.rect = media.getBoundingClientRect();
+    };
+
+    const handlePointer = (event) => {
+        if (!state.rect || event.pointerType !== "mouse") {
+            return;
+        }
+
+        const localX = clamp((event.clientX - state.rect.left) / state.rect.width, 0, 1);
+        const localY = clamp((event.clientY - state.rect.top) / state.rect.height, 0, 1);
+        const nx = localX * 2 - 1;
+        const ny = localY * 2 - 1;
+        const distanceFromCenter = clamp(Math.hypot(nx, ny), 0, 1);
+
+        state.target.tiltX = -ny * SITE_MOTION.portraitCard.maxTiltX;
+        state.target.tiltY = nx * SITE_MOTION.portraitCard.maxTiltY;
+        state.target.mediaX = nx * SITE_MOTION.portraitCard.mediaShift;
+        state.target.mediaY = ny * SITE_MOTION.portraitCard.mediaShift;
+        state.target.mediaScale = SITE_MOTION.portraitCard.mediaScale;
+        state.target.badgeX = nx * SITE_MOTION.portraitCard.badgeShiftX;
+        state.target.badgeY = (-SITE_MOTION.portraitCard.badgeFloatY) + (ny * 2);
+        state.target.badgeZ = SITE_MOTION.portraitCard.badgeDepthZ + (distanceFromCenter * 5);
+        state.target.highlightX = localX * 100;
+        state.target.highlightY = localY * 100;
+        state.target.highlightOpacity = 0.12 + (distanceFromCenter * 0.14);
+        state.target.shadowDepth = 0.5 + (distanceFromCenter * 0.22);
+
+        requestTick();
+    };
+
+    card.addEventListener("pointerenter", (event) => {
+        if (event.pointerType !== "mouse") {
+            return;
+        }
+
+        state.hovered = true;
+        card.classList.add("is-portrait-active");
+        refreshRect();
+        handlePointer(event);
+    });
+
+    card.addEventListener("pointermove", (event) => {
+        if (!state.hovered || event.pointerType !== "mouse") {
+            return;
+        }
+
+        handlePointer(event);
+    });
+
+    card.addEventListener("pointerleave", () => {
+        state.hovered = false;
+        resetTarget();
+        requestTick();
+    });
+
+    card.addEventListener("pointercancel", () => {
+        state.hovered = false;
+        resetTarget();
+        requestTick();
+    });
+
+    window.addEventListener("resize", () => {
+        if (state.hovered) {
+            refreshRect();
+        }
+    });
+
+    window.addEventListener("scroll", () => {
+        if (state.hovered) {
+            refreshRect();
+        }
+    }, { passive: true });
+})();
+
+(() => {
     const accordions = document.querySelectorAll("[data-accordion]");
 
     if (!accordions.length) {
@@ -251,11 +472,12 @@ const SITE_MOTION = {
 (() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const desktopMotion = window.matchMedia("(min-width: 981px) and (hover: hover) and (pointer: fine)");
-    const pageSections = Array.from(document.querySelectorAll("main > section, .plugin-page-header, .plugin-section"));
+    const pageSections = Array.from(document.querySelectorAll("main > section, .plugin-page-header, .plugin-section, .site-footer"));
     const cardSelectors = [".project-feature", ".project-card"];
 
     const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
     const isDesktopMotion = () => desktopMotion.matches && !prefersReducedMotion.matches;
+    const isReducedMotion = () => prefersReducedMotion.matches;
 
     const setupMotionAttributes = () => {
         pageSections.forEach((section, index) => {
@@ -269,7 +491,7 @@ const SITE_MOTION = {
                 anchor.setAttribute("data-eyebrow-anchor", "");
             }
 
-            const region = section.querySelector("[data-card-region], .projects-showcase, .projects-grid");
+            const region = section.querySelector("[data-card-region], .projects-showcase, .projects-grid, .tools-grid");
 
             if (region && !region.hasAttribute("data-card-region")) {
                 region.setAttribute("data-card-region", section.dataset.section);
@@ -285,68 +507,112 @@ const SITE_MOTION = {
         });
     };
 
-    const setupRevealMotion = () => {
-        const targets = Array.from(
-            document.querySelectorAll(`
-                .showreel-topbar > *,
-                .showreel-copy > *,
-                .resource-stage-copy > *,
-                .split-heading > *,
-                .plugin-page-header > *,
-                .plugin-intro,
-                .plugin-media,
-                .plugin-section > .eyebrow,
-                .plugin-section > h2,
-                .plugin-section > p,
-                .plugin-detail-card,
-                .plugin-setup-card,
-                .project-feature,
-                .project-card,
-                .tool-card,
-                .about-panel,
-                .about-story,
-                .resource-intro,
-                .resource-card,
-                .archive-summary,
-                .footer-card
-            `)
-        );
+    const markRevealTarget = (target, delayMs = 0) => {
+        if (!target) {
+            return;
+        }
+        target.setAttribute("data-reveal", "");
+        target.style.setProperty("--reveal-delay", `${Math.max(0, delayMs)}ms`);
+    };
+
+    const setupHeroReveal = () => {
+        const hero = document.querySelector(".showreel-hero");
+        if (!hero) {
+            return;
+        }
+
+        const targets = [
+            hero.querySelector(".showreel-topbar .eyebrow"),
+            hero.querySelector(".showreel-title"),
+            hero.querySelector(".showreel-role"),
+            hero.querySelector(".showreel-description"),
+            ...Array.from(hero.querySelectorAll(".showreel-actions .btn"))
+        ].filter(Boolean);
 
         if (!targets.length) {
             return;
         }
 
-        const groups = Array.from(document.querySelectorAll(".projects-grid, .tools-grid, .resource-grid, .plugin-detail-grid, .plugin-setup-grid, .footer-panel"));
-
-        groups.forEach((group) => {
-            Array.from(group.children).forEach((item, index) => {
-                item.setAttribute("data-reveal", "");
-                item.style.setProperty("--reveal-delay", `${index * SITE_MOTION.reveal.staggerMs}ms`);
-            });
-        });
-
-        targets.forEach((target) => {
-            target.setAttribute("data-reveal", "");
-        });
-
-        const revealTargets = Array.from(document.querySelectorAll("[data-reveal]"));
-
-        revealTargets.forEach((target) => {
-            const rect = target.getBoundingClientRect();
-            const isInitiallyVisible = rect.top < window.innerHeight * 0.9;
-
-            if (isInitiallyVisible || prefersReducedMotion.matches) {
-                target.classList.add("is-revealed");
-                return;
-            }
-
+        targets.forEach((target, index) => {
+            target.setAttribute("data-hero-reveal", "");
+            markRevealTarget(target, SITE_MOTION.hero.initialDelayMs + (index * SITE_MOTION.hero.staggerMs));
             target.classList.add("is-reveal-ready");
         });
 
+        if (isReducedMotion()) {
+            targets.forEach((target) => {
+                target.classList.add("is-revealed");
+                target.classList.remove("is-reveal-ready");
+            });
+            return;
+        }
+
+        window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => {
+                targets.forEach((target) => {
+                    target.classList.add("is-revealed");
+                    target.classList.remove("is-reveal-ready");
+                });
+            });
+        });
+    };
+
+    const setupRevealMotion = () => {
+        const revealTargets = new Set();
+        const addTarget = (target, delay = 0) => {
+            if (!target || revealTargets.has(target)) {
+                return;
+            }
+            markRevealTarget(target, delay);
+            revealTargets.add(target);
+        };
+        const addTargets = (selector) => {
+            document.querySelectorAll(selector).forEach((target) => addTarget(target));
+        };
+        const addStaggered = (containerSelector, itemSelector, stagger = SITE_MOTION.reveal.staggerMs) => {
+            const scopedSelector = itemSelector
+                .split(",")
+                .map((selector) => `:scope > ${selector.trim()}`)
+                .join(", ");
+            document.querySelectorAll(containerSelector).forEach((container) => {
+                Array.from(container.querySelectorAll(scopedSelector)).forEach((item, index) => {
+                    addTarget(item, index * stagger);
+                });
+            });
+        };
+
+        addTargets(".split-heading > *");
+        addTargets(".eyebrow:not([data-hero-reveal])");
+        addTargets(".resource-stage-copy > *");
+        addTargets(".plugin-page-header > *");
+        addTargets(".plugin-intro, .plugin-media");
+        addTargets(".plugin-section > .eyebrow, .plugin-section > h2, .plugin-section > p");
+        addTargets(".plugin-detail-card, .plugin-setup-card");
+        addTargets(".about-story, .resource-intro, .resource-card, .archive-summary");
+        addStaggered(".projects-showcase", ".project-feature");
+        addStaggered(".projects-grid", ".project-card");
+        addStaggered(".tools-grid", ".tool-card");
+        addStaggered(".about-grid", "*");
+        addStaggered(".about-detail-grid", ".about-story");
+        addStaggered(".resource-grid", ".resource-card");
+        addStaggered(".plugin-detail-grid", ".plugin-detail-card");
+        addStaggered(".plugin-setup-grid", ".plugin-setup-card");
+        addStaggered(".footer-panel", ".footer-card", 70);
+        document.querySelectorAll(".footer-links > a, .footer-links > span").forEach((item) => {
+            item.classList.remove("is-reveal-ready");
+            item.classList.add("is-revealed");
+            item.removeAttribute("data-reveal");
+        });
+
+        const targets = Array.from(revealTargets);
+        if (!targets.length) {
+            return;
+        }
+
         document.documentElement.classList.add("has-motion");
 
-        if (prefersReducedMotion.matches || !("IntersectionObserver" in window)) {
-            revealTargets.forEach((target) => {
+        if (isReducedMotion() || !("IntersectionObserver" in window)) {
+            targets.forEach((target) => {
                 target.classList.add("is-revealed");
                 target.classList.remove("is-reveal-ready");
             });
@@ -358,7 +624,6 @@ const SITE_MOTION = {
                 if (!entry.isIntersecting) {
                     return;
                 }
-
                 entry.target.classList.add("is-revealed");
                 entry.target.classList.remove("is-reveal-ready");
                 observer.unobserve(entry.target);
@@ -368,15 +633,24 @@ const SITE_MOTION = {
             rootMargin: SITE_MOTION.reveal.rootMargin
         });
 
-        revealTargets.forEach((target) => {
-            if (!target.classList.contains("is-revealed")) {
+        targets.forEach((target) => {
+            if (target.classList.contains("is-revealed")) {
+                return;
+            }
+            const rect = target.getBoundingClientRect();
+            const closeToViewport = rect.top < (window.innerHeight * 0.92) && rect.bottom > 0;
+            if (closeToViewport) {
+                target.classList.add("is-revealed");
+                target.classList.remove("is-reveal-ready");
+            } else {
+                target.classList.add("is-reveal-ready");
                 observer.observe(target);
             }
         });
     };
 
     const setupCardPointerMotion = () => {
-        const regions = Array.from(document.querySelectorAll("[data-card-region]"));
+        const regions = Array.from(document.querySelectorAll(".projects-showcase, .projects-grid, [data-card-region]"));
 
         if (!regions.length || !isDesktopMotion()) {
             return;
@@ -467,168 +741,134 @@ const SITE_MOTION = {
         });
     };
 
-    const setupIdleSnap = () => {
-        if (!SITE_MOTION.snap.enabled || !isDesktopMotion()) {
+    const setupToolCardTilt = () => {
+        if (!isDesktopMotion()) {
             return;
         }
 
-        const sections = pageSections
-            .map((section) => ({
-                element: section,
-                anchor: section.querySelector("[data-eyebrow-anchor]")
-            }))
-            .filter((item) => item.anchor);
-
-        if (!sections.length) {
+        const cards = Array.from(document.querySelectorAll(".tool-card--link"));
+        if (!cards.length) {
             return;
         }
 
-        const state = {
-            idleTimer: 0,
-            cooldownUntil: 0,
-            lastActivityAt: performance.now(),
-            lastSnapAt: 0,
-            lastSnappedSection: "",
-            lastScrollAt: performance.now(),
-            hoverInteractive: false
-        };
+        const lerp = (start, end, amount) => start + ((end - start) * amount);
+        const clamp01 = (value) => clamp(value, 0, 1);
 
-        const focusGuardSelector = "button, input, textarea, select, [contenteditable=\"true\"], [role=\"button\"]";
-        const hoverGuardSelector = "a, button, input, textarea, select, label, [role=\"button\"], [contenteditable=\"true\"], .nav-links, .menu-toggle";
+        cards.forEach((card) => {
+            const state = {
+                active: false,
+                frameId: 0,
+                rect: null,
+                currentTiltX: 0,
+                currentTiltY: 0,
+                currentGlowX: 50,
+                currentGlowY: 50,
+                currentGlowOpacity: 0,
+                targetTiltX: 0,
+                targetTiltY: 0,
+                targetGlowX: 50,
+                targetGlowY: 50,
+                targetGlowOpacity: 0
+            };
 
-        const getHeaderOffset = () => {
-            const header = document.querySelector(".site-header");
-            const headerHeight = header ? header.getBoundingClientRect().height : 0;
+            const write = () => {
+                card.style.setProperty("--motion-tilt-x", `${state.currentTiltX.toFixed(3)}deg`);
+                card.style.setProperty("--motion-tilt-y", `${state.currentTiltY.toFixed(3)}deg`);
+                card.style.setProperty("--tool-glow-x", `${state.currentGlowX.toFixed(2)}%`);
+                card.style.setProperty("--tool-glow-y", `${state.currentGlowY.toFixed(2)}%`);
+                card.style.setProperty("--tool-glow-opacity", state.currentGlowOpacity.toFixed(4));
+            };
 
-            return headerHeight + 18;
-        };
+            const animate = () => {
+                state.frameId = 0;
+                const smoothing = state.active ? 0.17 : 0.14;
+                state.currentTiltX = lerp(state.currentTiltX, state.targetTiltX, smoothing);
+                state.currentTiltY = lerp(state.currentTiltY, state.targetTiltY, smoothing);
+                state.currentGlowX = lerp(state.currentGlowX, state.targetGlowX, smoothing);
+                state.currentGlowY = lerp(state.currentGlowY, state.targetGlowY, smoothing);
+                state.currentGlowOpacity = lerp(state.currentGlowOpacity, state.targetGlowOpacity, smoothing);
+                write();
 
-        const isSelectionActive = () => {
-            const selection = window.getSelection();
-            return Boolean(selection && selection.toString().trim());
-        };
+                const isMoving = Math.abs(state.currentTiltX - state.targetTiltX) > 0.015 ||
+                    Math.abs(state.currentTiltY - state.targetTiltY) > 0.015 ||
+                    Math.abs(state.currentGlowX - state.targetGlowX) > 0.03 ||
+                    Math.abs(state.currentGlowY - state.targetGlowY) > 0.03 ||
+                    Math.abs(state.currentGlowOpacity - state.targetGlowOpacity) > 0.003;
 
-        const isUserBusy = () => {
-            const activeElement = document.activeElement;
-            const hasInteractiveFocus = activeElement && activeElement !== document.body && activeElement.matches(focusGuardSelector);
-            const modalOpen = document.querySelector("[aria-modal=\"true\"], dialog[open], .is-modal-open");
-
-            return document.body.classList.contains("is-menu-open") ||
-                hasInteractiveFocus ||
-                state.hoverInteractive ||
-                isSelectionActive() ||
-                Boolean(modalOpen);
-        };
-
-        const getSectionVisibility = (section) => {
-            const rect = section.element.getBoundingClientRect();
-            const visiblePx = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-
-            if (visiblePx <= SITE_MOTION.snap.minVisiblePx) {
-                return 0;
-            }
-
-            return visiblePx / Math.min(window.innerHeight, rect.height || window.innerHeight);
-        };
-
-        const getBestSection = () => {
-            return sections.reduce((best, section) => {
-                const visibility = getSectionVisibility(section);
-
-                if (!best || visibility > best.visibility) {
-                    return { section, visibility };
+                if (isMoving) {
+                    state.frameId = window.requestAnimationFrame(animate);
                 }
+            };
 
-                return best;
-            }, null);
-        };
+            const requestTick = () => {
+                if (!state.frameId) {
+                    state.frameId = window.requestAnimationFrame(animate);
+                }
+            };
 
-        const trySnap = () => {
-            const now = performance.now();
+            const resetTarget = () => {
+                state.targetTiltX = 0;
+                state.targetTiltY = 0;
+                state.targetGlowX = 50;
+                state.targetGlowY = 50;
+                state.targetGlowOpacity = 0;
+                requestTick();
+            };
 
-            if (!isDesktopMotion() || now < state.cooldownUntil || isUserBusy()) {
-                return;
-            }
+            const setTargetFromEvent = (event) => {
+                if (!state.rect) {
+                    return;
+                }
+                const localX = clamp01((event.clientX - state.rect.left) / state.rect.width);
+                const localY = clamp01((event.clientY - state.rect.top) / state.rect.height);
+                const nx = localX * 2 - 1;
+                const ny = localY * 2 - 1;
+                const distance = clamp01(Math.hypot(nx, ny));
 
-            if (now - state.lastScrollAt < SITE_MOTION.snap.settleMs) {
-                return;
-            }
+                state.targetTiltX = -ny * SITE_MOTION.toolTilt.maxTiltX;
+                state.targetTiltY = nx * SITE_MOTION.toolTilt.maxTiltY;
+                state.targetGlowX = localX * 100;
+                state.targetGlowY = localY * 100;
+                state.targetGlowOpacity = SITE_MOTION.toolTilt.glowOpacity * (0.45 + (distance * 0.55));
+                requestTick();
+            };
 
-            const bestMatch = getBestSection();
+            const refreshRect = () => {
+                state.rect = card.getBoundingClientRect();
+            };
 
-            if (!bestMatch || bestMatch.visibility <= 0) {
-                return;
-            }
-
-            const { section } = bestMatch;
-            const anchorRect = section.anchor.getBoundingClientRect();
-            const anchorTop = anchorRect.top + window.scrollY - getHeaderOffset();
-
-            if (Math.abs(anchorRect.top - getHeaderOffset()) <= SITE_MOTION.snap.nearAnchorPx) {
-                state.cooldownUntil = now + SITE_MOTION.snap.cooldownMs;
-                return;
-            }
-
-            if (state.lastSnappedSection === section.element.dataset.section &&
-                now - state.lastSnapAt < SITE_MOTION.snap.sameSectionCooldownMs) {
-                return;
-            }
-
-            state.lastSnappedSection = section.element.dataset.section;
-            state.lastSnapAt = now;
-            state.cooldownUntil = now + SITE_MOTION.snap.cooldownMs;
-
-            window.scrollTo({
-                top: Math.max(0, anchorTop),
-                behavior: "smooth"
+            card.addEventListener("pointerenter", (event) => {
+                if (event.pointerType !== "mouse" || !isDesktopMotion()) {
+                    return;
+                }
+                state.active = true;
+                refreshRect();
+                setTargetFromEvent(event);
             });
-        };
 
-        const queueIdleCheck = () => {
-            window.clearTimeout(state.idleTimer);
-            state.idleTimer = window.setTimeout(trySnap, SITE_MOTION.snap.idleMs);
-        };
+            card.addEventListener("pointermove", (event) => {
+                if (!state.active || event.pointerType !== "mouse" || !isDesktopMotion()) {
+                    return;
+                }
+                setTargetFromEvent(event);
+            });
 
-        const noteActivity = () => {
-            state.lastActivityAt = performance.now();
-            queueIdleCheck();
-        };
+            card.addEventListener("pointerleave", () => {
+                state.active = false;
+                resetTarget();
+            });
 
-        ["mousemove", "pointerdown", "keydown", "touchstart"].forEach((eventName) => {
-            window.addEventListener(eventName, noteActivity, { passive: true });
+            window.addEventListener("resize", () => {
+                if (state.active) {
+                    refreshRect();
+                }
+            });
         });
-
-        window.addEventListener("wheel", () => {
-            state.lastScrollAt = performance.now();
-            noteActivity();
-        }, { passive: true });
-
-        window.addEventListener("scroll", () => {
-            state.lastScrollAt = performance.now();
-        }, { passive: true });
-
-        document.addEventListener("pointerover", (event) => {
-            state.hoverInteractive = event.target instanceof Element
-                ? Boolean(event.target.closest(hoverGuardSelector))
-                : false;
-        });
-
-        document.addEventListener("pointerout", (event) => {
-            if (!event.relatedTarget) {
-                state.hoverInteractive = false;
-                return;
-            }
-
-            state.hoverInteractive = event.relatedTarget instanceof Element
-                ? Boolean(event.relatedTarget.closest(hoverGuardSelector))
-                : false;
-        });
-
-        queueIdleCheck();
     };
 
     setupMotionAttributes();
+    setupHeroReveal();
     setupRevealMotion();
     setupCardPointerMotion();
-    setupIdleSnap();
+    setupToolCardTilt();
 })();

@@ -193,6 +193,9 @@ body.is-menu-open {
     height: 1px;
     background: currentColor;
     opacity: 0.55;
+    transform-origin: left center;
+    transform: scaleX(1);
+    transition: transform 620ms var(--motion-ease-soft);
 }
 
 .eyebrow.is-light {
@@ -245,8 +248,16 @@ body.is-menu-open {
     --motion-reveal-y: 0px;
     --motion-lift-y: 0px;
     --card-hover-scale: 1;
+    --motion-reveal-scale: 1;
+    --motion-tilt-x: 0deg;
+    --motion-tilt-y: 0deg;
     opacity: 1;
-    transform: translate3d(0, calc(var(--motion-reveal-y) + var(--motion-lift-y)), 0) scale(var(--card-hover-scale));
+    transform:
+        perspective(1200px)
+        translate3d(0, calc(var(--motion-reveal-y) + var(--motion-lift-y)), 0)
+        rotateX(var(--motion-tilt-x))
+        rotateY(var(--motion-tilt-y))
+        scale(calc(var(--card-hover-scale) * var(--motion-reveal-scale)));
     transition:
         opacity var(--motion-duration-reveal) var(--motion-ease-soft),
         transform var(--motion-duration-reveal) var(--motion-ease-soft),
@@ -264,6 +275,15 @@ body.is-menu-open {
     opacity: 1;
     --motion-reveal-y: 0px;
     transition-delay: var(--reveal-delay, 0ms);
+}
+
+.has-motion .eyebrow[data-reveal].is-reveal-ready:not(.is-revealed)::before {
+    transform: scaleX(0);
+}
+
+.has-motion .eyebrow[data-reveal].is-revealed::before {
+    transform: scaleX(1);
+    transition-delay: calc(var(--reveal-delay, 0ms) + 80ms);
 }
 
 /* nav */
@@ -413,9 +433,32 @@ body.is-menu-open {
 }
 
 .btn-primary {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     background: var(--color-accent);
     color: var(--color-text);
     box-shadow: 0 14px 34px rgba(184, 210, 51, 0.25);
+}
+
+.btn-primary::after {
+    content: "";
+    position: absolute;
+    top: -14%;
+    bottom: -14%;
+    left: -42%;
+    width: 30%;
+    background: linear-gradient(110deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.48) 52%, rgba(255, 255, 255, 0) 100%);
+    transform: skewX(-18deg);
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover::after,
+    .btn-primary:focus-visible::after {
+        animation: btn-primary-shine 700ms var(--motion-ease-soft) 1;
+    }
 }
 
 .btn-primary:hover,
@@ -490,6 +533,13 @@ body.is-menu-open {
 .resource-stage-media img {
     width: 100%;
     height: 100%;
+}
+
+.showreel-video video {
+    transform-origin: 52% 47%;
+    transform: scale(1.04);
+    animation: showreel-drift 18s ease-in-out infinite alternate;
+    will-change: transform;
 }
 
 .showreel-follower {
@@ -586,6 +636,10 @@ body.is-menu-open {
     font-size: var(--type-title-lg);
     line-height: 0.88;
     letter-spacing: -0.08em;
+}
+
+.has-motion .showreel-title[data-reveal].is-reveal-ready:not(.is-revealed) {
+    --motion-reveal-scale: 0.985;
 }
 
 .showreel-role {
@@ -1374,6 +1428,12 @@ body.is-menu-open {
 
 .tool-card--link {
     display: block;
+    position: relative;
+    --tool-hover-lift: 0px;
+    --tool-glow-x: 50%;
+    --tool-glow-y: 50%;
+    --tool-glow-opacity: 0;
+    --motion-lift-y: var(--tool-hover-lift);
     transition:
         transform var(--motion-duration-surface) var(--motion-ease-quiet),
         box-shadow var(--motion-duration-surface) var(--motion-ease-quiet),
@@ -1382,7 +1442,7 @@ body.is-menu-open {
 
 .tool-card--link:hover,
 .tool-card--link:focus-visible {
-    transform: translateY(-4px);
+    --tool-hover-lift: -4px;
     box-shadow: 0 34px 80px rgba(18, 18, 18, 0.14);
     border-color: var(--color-border-strong);
 }
@@ -1446,6 +1506,37 @@ body.is-menu-open {
     background: linear-gradient(180deg, transparent, rgba(17, 17, 15, 0.18));
 }
 
+.tool-card--link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--tool-glow-opacity);
+    background: radial-gradient(
+        62% 62% at var(--tool-glow-x) var(--tool-glow-y),
+        rgba(207, 232, 77, 0.22) 0%,
+        rgba(207, 232, 77, 0.07) 38%,
+        rgba(207, 232, 77, 0) 100%
+    );
+    transition: opacity var(--motion-duration-surface) var(--motion-ease-quiet);
+}
+
+.tool-card .chip {
+    transition:
+        transform var(--motion-duration-surface) var(--motion-ease-quiet),
+        background-color var(--motion-duration-surface) var(--motion-ease-quiet),
+        border-color var(--motion-duration-surface) var(--motion-ease-quiet),
+        box-shadow var(--motion-duration-surface) var(--motion-ease-quiet);
+}
+
+.tool-card--link:hover .chip,
+.tool-card--link:focus-visible .chip {
+    transform: translateY(-1px);
+    background: rgba(207, 232, 77, 0.28);
+    border-color: rgba(184, 210, 51, 0.62);
+    box-shadow: 0 8px 20px rgba(184, 210, 51, 0.2);
+}
+
 [data-card-interactive] {
     --motion-lift-y: var(--card-hover-lift, 0px);
 }
@@ -1498,15 +1589,79 @@ body.is-menu-open {
     overflow: hidden;
 }
 
+.about-panel[data-portrait-card] {
+    --portrait-tilt-x: 0deg;
+    --portrait-tilt-y: 0deg;
+    --portrait-media-x: 0px;
+    --portrait-media-y: 0px;
+    --portrait-media-scale: 1;
+    --portrait-badge-x: 0px;
+    --portrait-badge-y: 0px;
+    --portrait-badge-z: 0px;
+    --portrait-highlight-x: 50%;
+    --portrait-highlight-y: 50%;
+    --portrait-highlight-opacity: 0;
+    --portrait-shadow-depth: 0;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    transform: perspective(1250px) rotateX(var(--portrait-tilt-x)) rotateY(var(--portrait-tilt-y));
+    will-change: transform, box-shadow;
+    transition:
+        transform var(--motion-duration-surface) var(--motion-ease-quiet),
+        box-shadow var(--motion-duration-surface) var(--motion-ease-quiet),
+        border-color var(--motion-duration-surface) var(--motion-ease-quiet);
+    box-shadow:
+        0 calc(22px + (var(--portrait-shadow-depth) * 18px))
+        calc(56px + (var(--portrait-shadow-depth) * 30px))
+        rgba(18, 18, 18, calc(0.085 + (var(--portrait-shadow-depth) * 0.065))),
+        0 1px 0 rgba(255, 255, 255, 0.42) inset;
+}
+
+.about-panel[data-portrait-card].is-portrait-active {
+    border-color: var(--color-border-strong);
+}
+
 .about-portrait {
     position: relative;
     min-height: 100%;
     background: #d8d2c8;
 }
 
+.about-panel[data-portrait-card] .about-portrait {
+    overflow: hidden;
+    transform: translateZ(0);
+}
+
 .about-portrait img {
     width: 100%;
     height: 100%;
+}
+
+.about-panel[data-portrait-card] .about-portrait img {
+    display: block;
+    object-fit: cover;
+    transform-origin: 50% 50%;
+    transform: translate3d(var(--portrait-media-x), var(--portrait-media-y), 14px) scale(calc(var(--portrait-media-scale) * 1.012));
+    transition: transform var(--motion-duration-surface) var(--motion-ease-quiet);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.about-portrait-gloss {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: var(--portrait-highlight-opacity);
+    background: radial-gradient(
+        54% 46% at var(--portrait-highlight-x) var(--portrait-highlight-y),
+        rgba(255, 251, 242, 0.46) 0%,
+        rgba(255, 250, 242, 0.18) 36%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    mix-blend-mode: soft-light;
+    transition: opacity var(--motion-duration-surface) var(--motion-ease-quiet);
+    will-change: opacity;
 }
 
 .about-portrait-badge {
@@ -1518,6 +1673,13 @@ body.is-menu-open {
     background: rgba(17, 17, 15, 0.78);
     color: #f8f1e8;
     backdrop-filter: blur(10px);
+}
+
+.about-panel[data-portrait-card] .about-portrait-badge {
+    transform: translate3d(var(--portrait-badge-x), var(--portrait-badge-y), var(--portrait-badge-z));
+    transition: transform var(--motion-duration-surface) var(--motion-ease-quiet);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .about-portrait-badge strong {
@@ -1658,8 +1820,15 @@ body.is-menu-open {
     .tool-card--link .tool-card-media video,
     .tool-card--link .tool-card-media img,
     .showreel-follower,
+    .showreel-video video,
     .btn,
-    .nav-links a {
+    .btn-primary::after,
+    .nav-links a,
+    .about-panel[data-portrait-card],
+    .about-panel[data-portrait-card] .about-portrait,
+    .about-panel[data-portrait-card] .about-portrait img,
+    .about-panel[data-portrait-card] .about-portrait-badge,
+    .about-panel[data-portrait-card] .about-portrait-gloss {
         transition-duration: 1ms !important;
         animation: none !important;
     }
@@ -1669,6 +1838,41 @@ body.is-menu-open {
         transform: none !important;
         will-change: auto;
     }
+
+    .about-panel[data-portrait-card] .about-portrait,
+    .about-panel[data-portrait-card] .about-portrait img,
+    .about-panel[data-portrait-card] .about-portrait-badge {
+        transform: none !important;
+    }
+
+    .about-panel[data-portrait-card] {
+        transform: none !important;
+    }
+
+    .about-panel[data-portrait-card] .about-portrait-gloss {
+        opacity: 0 !important;
+    }
+
+    .tool-card--link {
+        transform: none !important;
+    }
+}
+
+@media (hover: none), (pointer: coarse) {
+    .about-panel[data-portrait-card] {
+        transform: none !important;
+    }
+
+    .about-panel[data-portrait-card] .about-portrait,
+    .about-panel[data-portrait-card] .about-portrait img,
+    .about-panel[data-portrait-card] .about-portrait-badge {
+        transform: none !important;
+    }
+
+    .about-panel[data-portrait-card] .about-portrait-gloss {
+        opacity: 0 !important;
+    }
+
 }
 
 .footer-panel {
@@ -1717,6 +1921,29 @@ body.is-menu-open {
     gap: 1rem;
     color: var(--color-text-muted);
     font-size: 0.9rem;
+}
+
+@keyframes showreel-drift {
+    0% {
+        transform: scale(1.04) translate3d(0%, 0%, 0);
+    }
+    100% {
+        transform: scale(1.08) translate3d(-1.1%, -0.7%, 0);
+    }
+}
+
+@keyframes btn-primary-shine {
+    0% {
+        transform: translateX(0%) skewX(-18deg);
+        opacity: 0;
+    }
+    18% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateX(380%) skewX(-18deg);
+        opacity: 0;
+    }
 }
 
 /* responsive */
@@ -1840,6 +2067,19 @@ body.is-menu-open {
 
     .brand {
         font-size: 1rem;
+        /* Increase mobile tap target without changing perceived layout */
+        padding: 0.7rem 0.5rem;
+        margin: -0.7rem -0.5rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        touch-action: manipulation;
+    }
+
+    .menu-toggle {
+        /* Keep the same visual style while ensuring an accessible touch size */
+        min-height: 44px;
+        touch-action: manipulation;
     }
 
     .showreel-content,
