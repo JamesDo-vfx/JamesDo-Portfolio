@@ -872,3 +872,225 @@ const SITE_MOTION = {
     setupCardPointerMotion();
     setupToolCardTilt();
 })();
+
+(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sections = Array.from(document.querySelectorAll("main > section, .plugin-page-header, .plugin-section, .site-footer"));
+    const header = document.querySelector(".site-header");
+    const IDLE_DELAY_MS = 2600;
+    const SNAP_EPSILON = 12;
+    let idleTimer = 0;
+    let isAutoSnapping = false;
+
+    if (!sections.length || prefersReducedMotion.matches) {
+        return;
+    }
+
+    const isTypingContext = () => {
+        const active = document.activeElement;
+        return Boolean(
+            active &&
+            (active.tagName === "INPUT" ||
+            active.tagName === "TEXTAREA" ||
+            active.tagName === "SELECT" ||
+            active.isContentEditable)
+        );
+    };
+
+    const getHeaderOffset = () => {
+        if (!header) {
+            return 0;
+        }
+        return Math.max(0, Math.round(header.getBoundingClientRect().height + 8));
+    };
+
+    const getNearestSection = () => {
+        const viewportCenterY = window.scrollY + (window.innerHeight * 0.5);
+        let nearest = null;
+        let minDistance = Number.POSITIVE_INFINITY;
+
+        sections.forEach((section) => {
+            const rect = section.getBoundingClientRect();
+            const top = rect.top + window.scrollY;
+            const center = top + (rect.height * 0.5);
+            const distance = Math.abs(viewportCenterY - center);
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearest = section;
+            }
+        });
+
+        return nearest;
+    };
+
+    const snapToNearestSection = () => {
+        idleTimer = 0;
+
+        if (document.visibilityState !== "visible" || isTypingContext()) {
+            return;
+        }
+
+        if (document.body.classList.contains("is-menu-open")) {
+            return;
+        }
+
+        const nearest = getNearestSection();
+        if (!nearest) {
+            return;
+        }
+
+        const targetY = Math.max(
+            0,
+            Math.round(nearest.getBoundingClientRect().top + window.scrollY - getHeaderOffset())
+        );
+        const delta = Math.abs(window.scrollY - targetY);
+
+        if (delta <= SNAP_EPSILON) {
+            return;
+        }
+
+        isAutoSnapping = true;
+        window.scrollTo({
+            top: targetY,
+            behavior: "smooth"
+        });
+
+        window.setTimeout(() => {
+            isAutoSnapping = false;
+        }, 520);
+    };
+
+    const queueIdleSnap = () => {
+        if (idleTimer) {
+            window.clearTimeout(idleTimer);
+        }
+        idleTimer = window.setTimeout(snapToNearestSection, IDLE_DELAY_MS);
+    };
+
+    const handleUserActivity = () => {
+        if (isAutoSnapping) {
+            return;
+        }
+        queueIdleSnap();
+    };
+
+    ["scroll", "wheel", "touchstart", "touchmove", "pointerdown", "keydown"].forEach((eventName) => {
+        window.addEventListener(eventName, handleUserActivity, { passive: true });
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState !== "visible") {
+            if (idleTimer) {
+                window.clearTimeout(idleTimer);
+                idleTimer = 0;
+            }
+            return;
+        }
+        queueIdleSnap();
+    });
+
+    queueIdleSnap();
+})();
+
+const initSalesCtaState = () => {
+    const body = document.body;
+    const salesCtas = Array.from(document.querySelectorAll("[data-sales-cta]"));
+
+    if (!body || !salesCtas.length) {
+        return;
+    }
+
+    const LOCKED_LABEL = "Coming Soon";
+    const LOCKED_TITLE = "Coming soon";
+
+    const getSalesState = (cta) => {
+        const scopedRoot = cta.closest("[data-sales-state]");
+        const root = scopedRoot || body;
+        const rawState = root.dataset.salesState || "live";
+        return String(rawState).toLowerCase() === "locked" ? "locked" : "live";
+    };
+
+    const getLiveLabel = (cta) => {
+        if (cta.dataset.liveLabel) {
+            return cta.dataset.liveLabel.trim();
+        }
+
+        const labelEl = cta.querySelector(".sales-cta-label");
+        const sourceText = labelEl ? labelEl.textContent : cta.textContent;
+        const label = (sourceText || "").replace(/\s+/g, " ").trim();
+
+        if (label) {
+            cta.dataset.liveLabel = label;
+        }
+
+        return label;
+    };
+
+    const ensureLabelElement = (cta, initialText) => {
+        let labelEl = cta.querySelector(".sales-cta-label");
+        if (labelEl) {
+            return labelEl;
+        }
+
+        labelEl = document.createElement("span");
+        labelEl.className = "sales-cta-label";
+        labelEl.textContent = initialText;
+        cta.textContent = "";
+        cta.appendChild(labelEl);
+        return labelEl;
+    };
+
+    const handleLockedClick = (event) => {
+        const cta = event.currentTarget;
+        if (!(cta instanceof HTMLElement)) {
+            return;
+        }
+
+        if (cta.getAttribute("aria-disabled") !== "true") {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    salesCtas.forEach((cta) => {
+        if (!(cta instanceof HTMLElement)) {
+            return;
+        }
+
+        const salesState = getSalesState(cta);
+        const liveLabel = getLiveLabel(cta);
+        const labelEl = ensureLabelElement(cta, liveLabel);
+
+        if (cta.dataset.liveTitle === undefined) {
+            cta.dataset.liveTitle = cta.getAttribute("title") || "";
+        }
+
+        if (cta.dataset.salesBound !== "true") {
+            cta.addEventListener("click", handleLockedClick);
+            cta.dataset.salesBound = "true";
+        }
+
+        if (salesState === "locked") {
+            labelEl.textContent = LOCKED_LABEL;
+            cta.setAttribute("aria-disabled", "true");
+            cta.setAttribute("title", LOCKED_TITLE);
+            cta.setAttribute("tabindex", "-1");
+            return;
+        }
+
+        labelEl.textContent = liveLabel || LOCKED_LABEL;
+        cta.removeAttribute("aria-disabled");
+        cta.removeAttribute("tabindex");
+
+        if (cta.dataset.liveTitle) {
+            cta.setAttribute("title", cta.dataset.liveTitle);
+        } else {
+            cta.removeAttribute("title");
+        }
+    });
+};
+
+initSalesCtaState();
