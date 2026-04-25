@@ -149,12 +149,13 @@ export function parseWebConfigJson(rawText) {
     }
 }
 
-function buildMinimalWebConfig({ databaseURL, companyName, themeMode, iconLibrary, heroBackgroundIcon, permissions, sourceConfig = null }) {
+function buildMinimalWebConfig({ databaseURL, localOnly, companyName, themeMode, iconLibrary, heroBackgroundIcon, permissions, sourceConfig = null }) {
     return {
         type: "DoneYetWebConfig",
         version: 1,
         connection: {
             databaseURL,
+            localOnly,
         },
         branding: {
             companyName,
@@ -192,11 +193,8 @@ export function validateWebConfig(inputConfig) {
     const connection = inputConfig.connection && typeof inputConfig.connection === "object" ? inputConfig.connection : {};
     const branding = inputConfig.branding && typeof inputConfig.branding === "object" ? inputConfig.branding : {};
     const databaseURL = normalizeDatabaseUrl(connection.databaseURL);
+    const localOnly = normalizeBoolean(connection.localOnly, !databaseURL);
     const companyName = String(branding.companyName || "").trim();
-
-    if (!databaseURL) {
-        throw makeError("missing_database_url", "Missing databaseURL. Provide connection.databaseURL in the config bundle.");
-    }
 
     if (!companyName) {
         throw makeError("missing_company_name", "Missing companyName. Provide branding.companyName in the config bundle.");
@@ -204,6 +202,7 @@ export function validateWebConfig(inputConfig) {
 
     return buildMinimalWebConfig({
         databaseURL,
+        localOnly,
         companyName,
         themeMode: normalizeThemeMode(branding.themeMode),
         iconLibrary: normalizeIconLibrary(branding.iconLibrary),
