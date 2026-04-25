@@ -28,6 +28,13 @@ const SITE_MOTION = {
         badgeShiftX: 4.5,
         badgeFloatY: 6,
         badgeDepthZ: 32
+    },
+    layerSection: {
+        maxOffset: 18,
+        maxScaleLoss: 0.012,
+        maxFade: 0.08,
+        smoothing: 0.12,
+        extraDriftDistance: 0.75
     }
 };
 
@@ -480,6 +487,22 @@ const SITE_MOTION = {
     const isReducedMotion = () => prefersReducedMotion.matches;
 
     const setupMotionAttributes = () => {
+        const layerSectionTargets = [
+            ".section",
+            ".plugin-page-header",
+            ".plugin-section",
+            ".plugin-faq-section",
+            ".plugin-cta-panel"
+        ];
+
+        layerSectionTargets.forEach((selector) => {
+            document.querySelectorAll(selector).forEach((section) => {
+                if (!section.hasAttribute("data-layer-section")) {
+                    section.setAttribute("data-layer-section", "");
+                }
+            });
+        });
+
         pageSections.forEach((section, index) => {
             if (!section.dataset.section) {
                 section.dataset.section = section.id || `section-${index + 1}`;
@@ -866,35 +889,214 @@ const SITE_MOTION = {
         });
     };
 
+    const setupLayerSectionMotion = () => {
+        const sections = Array.from(document.querySelectorAll("[data-layer-section]"));
+
+        if (!sections.length) {
+            return;
+        }
+
+        sections.forEach((section) => {
+            if (!section.dataset.layerSection) {
+                section.dataset.layerSection = "";
+            }
+        });
+
+        const canRun = () => isDesktopMotion() && "requestAnimationFrame" in window;
+        const state = sections.map(() => ({
+            currentY: 0,
+            currentScale: 1,
+            currentOpacity: 1,
+            targetY: 0,
+            targetScale: 1,
+            targetOpacity: 1
+        }));
+        let frameId = 0;
+
+        const clearStyles = () => {
+            sections.forEach((section, index) => {
+                section.classList.remove("is-layer-motion");
+                section.style.removeProperty("--layer-section-y");
+                section.style.removeProperty("--layer-section-scale");
+                section.style.removeProperty("--layer-section-opacity");
+                state[index].currentY = 0;
+                state[index].currentScale = 1;
+                state[index].currentOpacity = 1;
+                state[index].targetY = 0;
+                state[index].targetScale = 1;
+                state[index].targetOpacity = 1;
+            });
+        };
+
+        const writeState = (section, entry) => {
+            section.style.setProperty("--layer-section-y", `${entry.currentY.toFixed(3)}px`);
+            section.style.setProperty("--layer-section-scale", entry.currentScale.toFixed(5));
+            section.style.setProperty("--layer-section-opacity", entry.currentOpacity.toFixed(5));
+        };
+
+        const computeTargets = () => {
+            const viewportHeight = window.innerHeight || 1;
+
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                const progressPastTop = rect.top < 0
+                    ? clamp((-rect.top) / Math.max(rect.height, viewportHeight), 0, 1)
+                    : 0;
+                const progressPastViewport = rect.bottom < 0
+                    ? clamp((-rect.bottom) / (viewportHeight * (1 + SITE_MOTION.layerSection.extraDriftDistance)), 0, 1)
+                    : 0;
+                const progress = clamp(progressPastTop + (progressPastViewport * 0.3), 0, 1.28);
+                const depthWeight = 0.86 + Math.min(index * 0.04, 0.2);
+                const drift = Math.min(
+                    SITE_MOTION.layerSection.maxOffset + (progressPastViewport * 5),
+                    SITE_MOTION.layerSection.maxOffset + 5
+                );
+
+                state[index].targetY = progress > 0 ? drift * progress * depthWeight : 0;
+                state[index].targetScale = 1 - (SITE_MOTION.layerSection.maxScaleLoss * progress);
+                state[index].targetOpacity = 1 - (SITE_MOTION.layerSection.maxFade * progress);
+            });
+        };
+
+        const animate = () => {
+            frameId = 0;
+            let shouldContinue = false;
+
+            sections.forEach((section, index) => {
+                const entry = state[index];
+
+                entry.currentY += (entry.targetY - entry.currentY) * SITE_MOTION.layerSection.smoothing;
+                entry.currentScale += (entry.targetScale - entry.currentScale) * SITE_MOTION.layerSection.smoothing;
+                entry.currentOpacity += (entry.targetOpacity - entry.currentOpacity) * SITE_MOTION.layerSection.smoothing;
+                writeState(section, entry);
+
+                if (
+                    Math.abs(entry.currentY - entry.targetY) > 0.03 ||
+                    Math.abs(entry.currentScale - entry.targetScale) > 0.0007 ||
+                    Math.abs(entry.currentOpacity - entry.targetOpacity) > 0.0015
+                ) {
+                    shouldContinue = true;
+                }
+            });
+
+            if (shouldContinue) {
+                frameId = window.requestAnimationFrame(animate);
+            }
+        };
+
+        const requestTick = () => {
+            if (!frameId) {
+                frameId = window.requestAnimationFrame(animate);
+            }
+        };
+
+        const updateTargetsAndTick = () => {
+            if (!canRun()) {
+                clearStyles();
+                return;
+            }
+
+            sections.forEach((section) => {
+                section.classList.add("is-layer-motion");
+            });
+            computeTargets();
+            requestTick();
+        };
+
+        updateTargetsAndTick();
+
+        window.addEventListener("scroll", updateTargetsAndTick, { passive: true });
+        window.addEventListener("resize", updateTargetsAndTick);
+        prefersReducedMotion.addEventListener("change", updateTargetsAndTick);
+        desktopMotion.addEventListener("change", updateTargetsAndTick);
+    };
+
     setupMotionAttributes();
     setupHeroReveal();
     setupRevealMotion();
+    setupLayerSectionMotion();
     setupCardPointerMotion();
     setupToolCardTilt();
 })();
 
 (() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sections = Array.from(document.querySelectorAll("main > section, .plugin-page-header, .plugin-section, .site-footer"));
+    const desktopOnly = window.matchMedia("(min-width: 981px) and (hover: hover) and (pointer: fine)");
+    const anchors = Array.from(document.querySelectorAll("[data-eyebrow-anchor]"));
+    const topAnchor = document.querySelector(".idle-top-anchor[data-eyebrow-anchor]");
     const header = document.querySelector(".site-header");
-    const IDLE_DELAY_MS = 2600;
+    const body = document.body;
+    const main = document.querySelector("main");
+    const isProjectsPath = /^\/projects(?:\/|\/index\.html)?$/i.test(window.location.pathname);
+    const hasProjectPageFlag = [body, main].some((node) => {
+        if (!node) {
+            return false;
+        }
+        const page = (node.getAttribute("data-page") || "").toLowerCase();
+        return page === "projects" || page === "project-archive";
+    });
+    const hasProjectArchiveMarkers = Boolean(
+        document.querySelector("main[data-section='project-archive'], [data-section='project-archive-hero'], #all-projects")
+    );
+    const isProjectsPage = isProjectsPath || hasProjectPageFlag || hasProjectArchiveMarkers;
+    const isAutoScrollDisabled = [body, main].some((node) => {
+        if (!node) {
+            return false;
+        }
+        return (node.getAttribute("data-auto-scroll") || "").toLowerCase() === "off";
+    });
+    const CARD_OR_MEDIA_SELECTOR = ".project-card, [data-card-interactive], .projects-grid, [data-card-region], video, iframe, audio";
+    const IDLE_DELAY_MS = 6200;
+    const MANUAL_SCROLL_COOLDOWN_MS = 3200;
     const SNAP_EPSILON = 12;
+    const SNAP_BOUNDARY_THRESHOLD_PX = 120;
     let idleTimer = 0;
     let isAutoSnapping = false;
+    let lastManualScrollAt = Date.now();
 
-    if (!sections.length || prefersReducedMotion.matches) {
+    if (isProjectsPage || isAutoScrollDisabled || !anchors.length || prefersReducedMotion.matches || !desktopOnly.matches) {
         return;
     }
 
-    const isTypingContext = () => {
+    const isFocusedInInteractiveContext = () => {
         const active = document.activeElement;
         return Boolean(
             active &&
             (active.tagName === "INPUT" ||
             active.tagName === "TEXTAREA" ||
             active.tagName === "SELECT" ||
-            active.isContentEditable)
+            active.tagName === "BUTTON" ||
+            active.tagName === "A" ||
+            active.tagName === "VIDEO" ||
+            active.tagName === "IFRAME" ||
+            active.isContentEditable ||
+            active.closest("a, button, input, textarea, select, [role='button'], [tabindex]:not([tabindex='-1'])"))
         );
+    };
+
+    const isPointerHoveringCardOrMedia = () => Boolean(document.querySelector(`${CARD_OR_MEDIA_SELECTOR}:hover`));
+
+    const isViewportCenterInside = (element) => {
+        if (!element) {
+            return false;
+        }
+        const rect = element.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) {
+            return false;
+        }
+        const centerX = window.innerWidth * 0.5;
+        const centerY = window.innerHeight * 0.5;
+        return (
+            centerX >= rect.left &&
+            centerX <= rect.right &&
+            centerY >= rect.top &&
+            centerY <= rect.bottom
+        );
+    };
+
+    const isViewingProjectCardsOrMedia = () => {
+        const candidates = document.querySelectorAll(".project-card, [data-card-interactive], .projects-grid, [data-card-region], .project-card-media, .project-card video");
+        return Array.from(candidates).some((element) => isViewportCenterInside(element));
     };
 
     const getHeaderOffset = () => {
@@ -904,30 +1106,33 @@ const SITE_MOTION = {
         return Math.max(0, Math.round(header.getBoundingClientRect().height + 8));
     };
 
-    const getNearestSection = () => {
+    const getNearestAnchor = () => {
+        if (topAnchor && window.scrollY < (window.innerHeight * 0.72)) {
+            return topAnchor;
+        }
+
         const viewportCenterY = window.scrollY + (window.innerHeight * 0.5);
         let nearest = null;
         let minDistance = Number.POSITIVE_INFINITY;
 
-        sections.forEach((section) => {
-            const rect = section.getBoundingClientRect();
-            const top = rect.top + window.scrollY;
-            const center = top + (rect.height * 0.5);
+        anchors.forEach((anchor) => {
+            const rect = anchor.getBoundingClientRect();
+            const center = (rect.top + window.scrollY) + (rect.height * 0.5);
             const distance = Math.abs(viewportCenterY - center);
 
             if (distance < minDistance) {
                 minDistance = distance;
-                nearest = section;
+                nearest = anchor;
             }
         });
 
         return nearest;
     };
 
-    const snapToNearestSection = () => {
+    const snapToNearestAnchor = () => {
         idleTimer = 0;
 
-        if (document.visibilityState !== "visible" || isTypingContext()) {
+        if (document.visibilityState !== "visible" || isFocusedInInteractiveContext()) {
             return;
         }
 
@@ -935,18 +1140,31 @@ const SITE_MOTION = {
             return;
         }
 
-        const nearest = getNearestSection();
-        if (!nearest) {
+        if (!desktopOnly.matches) {
+            return;
+        }
+
+        if (isPointerHoveringCardOrMedia() || isViewingProjectCardsOrMedia()) {
+            return;
+        }
+
+        if ((Date.now() - lastManualScrollAt) < MANUAL_SCROLL_COOLDOWN_MS) {
+            return;
+        }
+
+        const nearestAnchor = getNearestAnchor();
+        if (!nearestAnchor) {
             return;
         }
 
         const targetY = Math.max(
             0,
-            Math.round(nearest.getBoundingClientRect().top + window.scrollY - getHeaderOffset())
+            Math.round(nearestAnchor.getBoundingClientRect().top + window.scrollY - getHeaderOffset())
         );
         const delta = Math.abs(window.scrollY - targetY);
+        const snapBoundary = Math.min(SNAP_BOUNDARY_THRESHOLD_PX, Math.round(window.innerHeight * 0.18));
 
-        if (delta <= SNAP_EPSILON) {
+        if (delta <= SNAP_EPSILON || delta > snapBoundary) {
             return;
         }
 
@@ -965,13 +1183,14 @@ const SITE_MOTION = {
         if (idleTimer) {
             window.clearTimeout(idleTimer);
         }
-        idleTimer = window.setTimeout(snapToNearestSection, IDLE_DELAY_MS);
+        idleTimer = window.setTimeout(snapToNearestAnchor, IDLE_DELAY_MS);
     };
 
     const handleUserActivity = () => {
         if (isAutoSnapping) {
             return;
         }
+        lastManualScrollAt = Date.now();
         queueIdleSnap();
     };
 

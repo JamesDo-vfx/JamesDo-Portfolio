@@ -116,6 +116,16 @@ body.is-menu-open {
     overflow: hidden;
 }
 
+.idle-top-anchor {
+    display: block;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
 .page-shell {
     position: relative;
 }
@@ -284,6 +294,19 @@ body.is-menu-open {
 .has-motion .eyebrow[data-reveal].is-revealed::before {
     transform: scaleX(1);
     transition-delay: calc(var(--reveal-delay, 0ms) + 80ms);
+}
+
+.has-motion [data-layer-section] {
+    --layer-section-y: 0px;
+    --layer-section-scale: 1;
+    --layer-section-opacity: 1;
+}
+
+.has-motion [data-layer-section].is-layer-motion {
+    transform: translate3d(0, var(--layer-section-y), 0) scale(var(--layer-section-scale));
+    transform-origin: 50% 0;
+    opacity: var(--layer-section-opacity);
+    will-change: transform, opacity;
 }
 
 /* nav */
@@ -2540,6 +2563,12 @@ body.is-menu-open {
         opacity: 1 !important;
         transform: none !important;
         will-change: auto;
+    }
+
+    .has-motion [data-layer-section] {
+        opacity: 1 !important;
+        transform: none !important;
+        will-change: auto !important;
     }
 
     .about-panel[data-portrait-card] .about-portrait,
