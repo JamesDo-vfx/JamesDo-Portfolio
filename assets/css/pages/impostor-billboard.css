@@ -1,0 +1,95 @@
+/* resource pages */
+.resource-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: 1.4rem;
+    align-items: start;
+}
+
+.resource-intro {
+    position: sticky;
+    top: 6.2rem;
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.resource-intro .chip {
+    background: rgba(18, 18, 18, 0.05);
+    border-color: rgba(18, 18, 18, 0.06);
+    color: var(--color-text-soft);
+}
+
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.resource-card-body {
+    padding: 1.25rem;
+}
+
+.resource-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.resource-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.resource-card .chip,
+.archive-summary .chip {
+    background: rgba(18, 18, 18, 0.05);
+    border-color: rgba(18, 18, 18, 0.06);
+    color: var(--color-text-soft);
+}
+
+.archive-summary {
+    align-content: start;
+}
+
+.archive-summary.is-dark {
+    background:
+        linear-gradient(180deg, rgba(17, 17, 15, 0.96), rgba(27, 27, 25, 0.96)),
+        radial-gradient(circle at top right, rgba(207, 232, 77, 0.16), transparent 34%);
+    color: #f8f1e8;
+}
+
+.archive-summary.is-dark p,
+.archive-summary.is-dark .meta-label {
+    color: rgba(248, 241, 232, 0.72);
+}
+
+.archive-summary.is-dark .chip {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(248, 241, 232, 0.82);
+}
+
+body[data-page] .plugin-page-shell {
+    --tool-section-space: clamp(3rem, 6vw, 5.5rem);
+}
+
+body[data-page] .plugin-main {
+    gap: var(--tool-section-space);
+}
+
+body[data-page] .plugin-page-shell > section + section {
+    margin-top: var(--tool-section-space);
+}
+
+body[data-page] .plugin-main > .plugin-section {
+    padding-top: 0.4rem;
+}
+
+@media (max-width: 720px) {
+    body[data-page] .plugin-page-shell {
+        --tool-section-space: clamp(2.25rem, 8vw, 3.5rem);
+    }
+}

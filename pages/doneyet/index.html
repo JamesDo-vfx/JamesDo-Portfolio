@@ -12,32 +12,9 @@
         href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/style.css">
-    <style>
-        .plugin-page-shell {
-            --doneyet-section-space: clamp(3rem, 6vw, 5.5rem);
-        }
-
-        .plugin-main {
-            gap: var(--doneyet-section-space);
-        }
-
-        .plugin-page-shell > section + section {
-            margin-top: var(--doneyet-section-space);
-        }
-
-        .plugin-main > .plugin-section {
-            padding-top: 0.4rem;
-        }
-
-        @media (max-width: 720px) {
-            .plugin-page-shell {
-                --doneyet-section-space: clamp(2.25rem, 8vw, 3.5rem);
-            }
-        }
-    </style>
 </head>
 
-<body data-sales-state="live"> 
+<body data-sales-state="live" data-page="doneyet"> 
     <div class="page-shell">
         <header class="site-header">
             <nav class="nav-shell" aria-label="Primary navigation">
@@ -65,9 +42,9 @@
             <span class="idle-top-anchor" data-eyebrow-anchor aria-hidden="true"></span>
             <div class="plugin-page-shell">
                 <section class="plugin-page-header" data-section="plugin-intro" data-layer-section>
-                    <span class="eyebrow" data-eyebrow-anchor>Houdini Plugin</span>
-                    <h1>DoneYet</h1>
-                    <p>Stay in Control. Render with Confidence. DoneYet helps artists monitor render progress in real time, stay informed, and work with more peace of mind without a heavy setup.</p>
+                    <span class="eyebrow reveal reveal-up reveal-blur" data-eyebrow-anchor>Houdini Plugin</span>
+                    <h1 class="reveal reveal-up reveal-blur reveal-delay-1">DoneYet</h1>
+                    <p class="reveal reveal-up reveal-blur reveal-delay-2">Stay in control of every Houdini render.</p>
                 </section>
 
                 <section class="plugin-article">
@@ -87,7 +64,7 @@
                             <div class="plugin-meta-value is-date">19-04-26</div>
                         </div>
 
-                        <a class="btn btn-primary" data-sales-cta href="https://jamesdovfx.gumroad.com/l/DoneYet" target="_blank" rel="noopener noreferrer">I want this!</a>
+                        <a class="btn btn-primary reveal reveal-up reveal-delay-3" data-sales-cta href="https://jamesdovfx.gumroad.com/l/DoneYet" target="_blank" rel="noopener noreferrer">I want this!</a>
 
                         <ul class="plugin-sidebar-list">
                             <li>Real-time progress visibility during long render sessions.</li>
@@ -98,77 +75,115 @@
 
                     <div class="plugin-main">
                         <div class="plugin-intro">
-                            <p>DoneYet is built for artists and teams who need practical visibility during long render sessions. Instead of digging through logs or checking multiple windows, the core status stays clear and readable in one place.</p>
-                            <p>From lightweight local workflows to shared remote supervision with the <a href="https://jamesdovfx.com/DoneYetServer" target="_blank" rel="noopener noreferrer">DoneYet Server dashboard</a>, the tool is designed to fit real production routines without unnecessary setup overhead.</p>
+                            <p class="reveal reveal-up reveal-blur reveal-delay-1">DoneYet gives you a clear view of active Houdini renders, cache jobs, worker machines, progress, ETA, and job status in one place.</p>
+                            <p class="reveal reveal-up reveal-blur reveal-delay-2">Use it locally, connect it to DoneYet Server, or receive Telegram and Discord alerts when a render stalls, crashes, or finishes.</p>
                         </div>
 
-                        <figure class="plugin-media">
+                        <figure class="plugin-media reveal reveal-up reveal-delay-3">
                             <video autoplay muted loop playsinline preload="metadata" poster="/content/customtools/doneyet/DoneYet_InUse.png">
                                 <source src="/content/customtools/doneyet/DoneYet_InUse.webm" type="video/webm">
                             </video>
                         </figure>
 
-                        <section class="plugin-section" data-section="what-it-solves" data-layer-section>
-                            <span class="eyebrow" data-eyebrow-anchor>What It Solves</span>
-                            <h2>Built to make render supervision easier.</h2>
-                            <p>DoneYet focuses on clear visibility, reliable status, and low-friction setup so artists can stay focused while renders run.</p>
-                            <div class="plugin-detail-grid">
-                                <article class="plugin-detail-card">
-                                    <span class="meta-label">01</span>
-                                    <span class="plugin-card-icon" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                                            <path d="M12 4V13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M8.5 9.5L12 13L15.5 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4 15.5V17.5C4 18.6 4.9 19.5 6 19.5H18C19.1 19.5 20 18.6 20 17.5V15.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                    <strong>Easy Installation</strong>
-                                    <p>Get started in minutes inside Houdini.</p>
-                                </article>
-                                <article class="plugin-detail-card">
-                                    <span class="meta-label">02</span>
-                                    <span class="plugin-card-icon" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                                            <path d="M12 4L19 8L12 12L5 8L12 4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M19 12L12 16L5 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M19 16L12 20L5 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                    <strong>Multi-Renderer Ready</strong>
-                                    <p>Works across V-Ray, Redshift, Arnold, Karma, Octane, and production render workflows.</p>
-                                </article>
-                                <article class="plugin-detail-card">
-                                    <span class="meta-label">03</span>
-                                    <span class="plugin-card-icon" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                                            <rect x="3.5" y="5" width="17" height="14" rx="2.6" stroke="currentColor" stroke-width="1.8" />
-                                            <path d="M3.5 9H20.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                                            <circle cx="6.8" cy="7.2" r="0.9" fill="currentColor" />
-                                            <circle cx="9.8" cy="7.2" r="0.9" fill="currentColor" />
-                                        </svg>
-                                    </span>
-                                    <strong>User-Friendly Interface</strong>
-                                    <p>Clean, readable, and artist-friendly. See what matters at a glance.</p>
-                                </article>
-                                <article class="plugin-detail-card">
-                                    <span class="meta-label">04</span>
-                                    <span class="plugin-card-icon" aria-hidden="true">
-                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                                            <path d="M12 3.8L18.5 6.3V11.6C18.5 15.4 16.1 18.8 12 20.2C7.9 18.8 5.5 15.4 5.5 11.6V6.3L12 3.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
-                                            <path d="M9.2 12.2L11.3 14.3L14.9 10.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                    <strong>Render with Peace of Mind</strong>
-                                    <p>Track jobs, monitor status, and stay reassured during long renders.</p>
-                                </article>
+                        <section class="plugin-section what-it-solves" data-section="what-it-solves" data-layer-section>
+                            <div class="what-it-solves__container">
+                                <div class="what-it-solves__header">
+                                    <span class="eyebrow what-it-solves__eyebrow reveal reveal-up reveal-blur" data-eyebrow-anchor>WHAT IT SOLVES</span>
+                                    <h2 class="what-it-solves__headline reveal reveal-up reveal-blur reveal-delay-1">Built to make render supervision easier.</h2>
+                                    <p class="what-it-solves__description reveal reveal-up reveal-blur reveal-delay-2">DoneYet focuses on clear visibility, reliable status, and low-friction setup so artists can stay focused while renders run.</p>
+                                </div>
+
+                                <div class="feature-story reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="0">
+                                    <article class="feature-card">
+                                        <span class="feature-card__number">01</span>
+                                        <h3 class="feature-card__title">Easy Installation</h3>
+                                        <p class="feature-card__description">Get started in minutes inside Houdini.</p>
+                                        <ul class="feature-card__list">
+                                            <li>One-click install via HPackage</li>
+                                            <li>Protect your render farm budget from silent stalls and crashes.</li>
+                                            <li>Ready to connect and monitor</li>
+                                        </ul>
+                                    </article>
+
+                                    <figure class="feature-image feature-image-shell feature-image-shell--expand-left feature-image--setup" aria-label="DoneYet setup interface preview">
+                                        <div class="feature-image-overlay">
+                                            <div class="feature-image-frame">
+                                                <img src="/content/customtools/doneyet/whatitsolve1.png" alt="DoneYet setup interface preview">
+                                            </div>
+                                        </div>
+                                    </figure>
+                                </div>
+
+                                <div class="feature-story feature-story--reverse reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="1">
+                                    <figure class="feature-image feature-image-shell feature-image-shell--expand-right feature-image--dashboard" aria-label="DoneYet renderer monitoring preview">
+                                        <div class="feature-image-overlay">
+                                            <div class="feature-image-frame">
+                                                <img src="/content/customtools/doneyet/whatitsolve2.png" alt="DoneYet renderer dashboard preview">
+                                            </div>
+                                        </div>
+                                    </figure>
+
+                                    <article class="feature-card">
+                                        <span class="feature-card__number">02</span>
+                                        <h3 class="feature-card__title">Multi-Renderer Ready</h3>
+                                        <p class="feature-card__description">Works across V-Ray, Redshift, Arnold, Karma, Octane, and production render workflows.</p>
+                                        <ul class="feature-card__list">
+                                            <li>Unified job overview</li>
+                                            <li>Live progress &amp; frame updates</li>
+                                            <li>Fewer context switches</li>
+                                        </ul>
+                                    </article>
+                                </div>
+
+                                <div class="compact-feature-grid">
+                                    <article class="compact-feature-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="2">
+                                        <div class="compact-feature-card__body">
+                                            <span class="feature-card__number">03</span>
+                                            <h3 class="feature-card__title">User-Friendly Interface</h3>
+                                            <p class="feature-card__description">Clean, readable, and built for artists. See what matters at a glance.</p>
+                                            <ul class="feature-card__list">
+                                                <li>Intuitive dashboard</li>
+                                                <li>Fast filtering &amp; search</li>
+                                                <li>Stay in your creative flow</li>
+                                            </ul>
+                                        </div>
+                                        <figure class="feature-image feature-image-shell feature-image-shell--expand-left feature-image--compact" aria-label="DoneYet UI preview">
+                                            <div class="feature-image-overlay">
+                                                <div class="feature-image-frame">
+                                                    <img src="/content/customtools/doneyet/whatitsolve3.png" alt="DoneYet clean dashboard UI preview">
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </article>
+
+                                    <article class="compact-feature-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="3">
+                                        <div class="compact-feature-card__body">
+                                            <span class="feature-card__number">04</span>
+                                            <h3 class="feature-card__title">Render with Peace of Mind</h3>
+                                            <p class="feature-card__description">Track jobs, monitor status, and stay reassured during long renders.</p>
+                                            <ul class="feature-card__list">
+                                                <li>Smart alerts</li>
+                                                <li>Health checks</li>
+                                                <li>Notifications that matter</li>
+                                            </ul>
+                                        </div>
+                                        <figure class="feature-image feature-image-shell feature-image-shell--expand-left feature-image--compact feature-image--status" aria-label="DoneYet notification preview">
+                                            <div class="feature-image-overlay">
+                                                <div class="feature-image-frame">
+                                                    <img src="/content/customtools/doneyet/whatitsolve4.png" alt="DoneYet notification and status preview">
+                                                </div>
+                                            </div>
+                                        </figure>
+                                    </article>
+                                </div>
                             </div>
                         </section>
 
                         <section class="plugin-section" data-section="monitoring-values" data-layer-section>
-                            <span class="eyebrow" data-eyebrow-anchor>Monitoring Value</span>
-                            <h2>Compact visibility for active render jobs.</h2>
+                            <span class="eyebrow reveal reveal-up reveal-blur" data-eyebrow-anchor>Monitoring Value</span>
+                            <h2 class="reveal reveal-up reveal-blur reveal-delay-1">Compact visibility for active render jobs.</h2>
                             <div class="plugin-highlight-band">
-                                <article class="plugin-highlight-item">
+                                <article class="plugin-highlight-item reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="0">
                                     <span class="meta-label">01</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -180,7 +195,7 @@
                                     <strong>Real-Time Monitoring</strong>
                                     <p>See render progress as it happens. Stay in the loop.</p>
                                 </article>
-                                <article class="plugin-highlight-item">
+                                <article class="plugin-highlight-item reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="1">
                                     <span class="meta-label">02</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -191,7 +206,7 @@
                                     <strong>Reliable Tracking</strong>
                                     <p>Clear job status and machine activity you can trust.</p>
                                 </article>
-                                <article class="plugin-highlight-item">
+                                <article class="plugin-highlight-item reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="2">
                                     <span class="meta-label">03</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -204,12 +219,12 @@
                             </div>
                         </section>
 
-                        <section class="plugin-section" data-section="installation-guide" data-layer-section>
-                            <span class="eyebrow" data-eyebrow-anchor>Installation Guide</span>
-                            <h2>Get Started in 4 Simple Steps</h2>
-                            <p>Install, launch, start tracking, and optionally connect alerts for remote awareness.</p>
+                        <section class="plugin-section" id="installation-guide" data-section="installation-guide" data-layer-section>
+                            <span class="eyebrow reveal reveal-up reveal-blur" data-eyebrow-anchor>Installation Guide</span>
+                            <h2 class="reveal reveal-up reveal-blur reveal-delay-1">Get Started in 4 Simple Steps</h2>
+                            <p class="reveal reveal-up reveal-blur reveal-delay-2">Install, launch, start tracking, and optionally connect alerts for remote awareness.</p>
                             <div class="plugin-detail-grid">
-                                <article class="plugin-detail-card">
+                                <article class="plugin-detail-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="0">
                                     <span class="meta-label">Step 01</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -221,7 +236,7 @@
                                     <strong>Install the plugin in Houdini</strong>
                                     <p>Drop it in. Enable it. You're ready to go.</p>
                                 </article>
-                                <article class="plugin-detail-card">
+                                <article class="plugin-detail-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="1">
                                     <span class="meta-label">Step 02</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -233,7 +248,7 @@
                                     <strong>Open DoneYet</strong>
                                     <p>Launch the panel and connect to the system.</p>
                                 </article>
-                                <article class="plugin-detail-card">
+                                <article class="plugin-detail-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="2">
                                     <span class="meta-label">Step 03</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -244,7 +259,7 @@
                                     <strong>Start render tracking</strong>
                                     <p>Add nodes and begin monitoring instantly.</p>
                                 </article>
-                                <article class="plugin-detail-card">
+                                <article class="plugin-detail-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="3">
                                     <span class="meta-label">Step 04</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -258,11 +273,18 @@
                             </div>
                         </section>
 
-                        <section class="plugin-section" data-section="renderer-alerts" data-layer-section>
-                            <span class="eyebrow" data-eyebrow-anchor>Compatibility &amp; Alerts</span>
-                            <h2>Works with your renderer and connected channels.</h2>
+                        <figure class="plugin-media reveal reveal-up reveal-delay-3">
+                            <video autoplay muted loop playsinline preload="metadata" poster="/content/customtools/doneyet/DoneYet_InUse.png">
+                                <source src="/content/customtools/doneyet/PromotionVideo.webm" type="video/webm">
+                            </video>
+                        </figure>
+
+
+                        <section class="plugin-section" id="renderer-alerts" data-section="renderer-alerts" data-layer-section>
+                            <span class="eyebrow reveal reveal-up reveal-blur" data-eyebrow-anchor>Compatibility &amp; Alerts</span>
+                            <h2 class="reveal reveal-up reveal-blur reveal-delay-1">Works with your renderer and connected channels.</h2>
                             <div class="plugin-detail-grid">
-                                <article class="plugin-detail-card">
+                                <article class="plugin-detail-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="0">
                                     <span class="meta-label">Renderer</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -282,7 +304,7 @@
                                     </div>
                                     <p>More renderers and workflows can be supported as the tool evolves.</p>
                                 </article>
-                                <article class="plugin-detail-card">
+                                <article class="plugin-detail-card reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="1">
                                     <span class="meta-label">Integrations</span>
                                     <span class="plugin-card-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -307,13 +329,13 @@
                         <section class="plugin-section plugin-setup-compare" data-section="setup-mode" data-layer-section>
                             <div class="plugin-setup-heading">
                                 <div class="plugin-setup-heading-main">
-                                    <span class="eyebrow" data-eyebrow-anchor>CHOOSE YOUR WORKFLOW</span>
-                                    <h2>Setup Mode</h2>
+                                    <span class="eyebrow reveal reveal-up reveal-blur" data-eyebrow-anchor>CHOOSE YOUR WORKFLOW</span>
+                                    <h2 class="reveal reveal-up reveal-blur reveal-delay-1">Setup Mode</h2>
                                 </div>
-                                <p class="plugin-setup-heading-copy">Pick the setup that fits how you work &mdash; start simple and scale when you&rsquo;re ready.</p>
+                                <p class="plugin-setup-heading-copy reveal reveal-up reveal-blur reveal-delay-2">Pick the setup that fits how you work &mdash; start simple and scale when you&rsquo;re ready.</p>
                             </div>
                             <div class="plugin-setup-grid">
-                                <article class="plugin-setup-card plugin-setup-card--free">
+                                <article class="plugin-setup-card plugin-setup-card--free reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="0">
                                     <div class="plugin-setup-card-top">
                                         <span class="plugin-setup-plan">FREE</span>
                                     </div>
@@ -339,7 +361,7 @@
                                     </ul>
                                     <a class="btn btn-secondary plugin-setup-cta" data-sales-cta data-live-label="Start Free" href="https://jamesdovfx.gumroad.com/l/DoneYet" target="_blank" rel="noopener noreferrer">Start Free</a>
                                 </article>
-                                <article class="plugin-setup-card plugin-setup-card--pro">
+                                <article class="plugin-setup-card plugin-setup-card--pro reveal reveal-up reveal-delay-3 reveal-stagger" data-reveal-stagger-index="1">
                                     <div class="plugin-setup-card-top">
                                         <span class="plugin-setup-plan">PRO</span>
                                         <span class="plugin-setup-value-tag">Recommended</span>
@@ -380,8 +402,8 @@
                 <section class="plugin-faq-section" aria-labelledby="plugin-faq-title" data-layer-section>
                     <div class="plugin-faq-layout">
                         <div class="plugin-faq-intro">
-                            <span class="eyebrow" id="plugin-faq-title">FAQ'S</span>
-                            <p>Quick setup help for Firebase, Discord, and Telegram.</p>
+                            <span class="eyebrow reveal reveal-up reveal-blur" id="plugin-faq-title">FAQ'S</span>
+                            <p class="reveal reveal-up reveal-blur reveal-delay-1">Quick setup help for Firebase, Discord, and Telegram.</p>
                         </div>
                         <div class="plugin-faq-list" data-accordion>
                             <article class="plugin-faq-item is-open">
@@ -423,10 +445,10 @@
 
                 <section class="plugin-cta-panel" data-layer-section>
                     <div>
-                        <span class="meta-label">Production Ready</span>
-                        <p>Easy setup, clear status visibility, and practical monitoring support for real render workflows.</p>
+                        <span class="meta-label reveal reveal-up reveal-blur">Production Ready</span>
+                        <p class="reveal reveal-up reveal-blur reveal-delay-1">Easy setup, clear status visibility, and practical monitoring support for real render workflows.</p>
                     </div>
-                    <a class="btn btn-dark" href="/pages/all-tools/">Back to all tools</a>
+                    <a class="btn btn-dark reveal reveal-up reveal-delay-3" href="/pages/all-tools/">Back to all tools</a>
                 </section>
             </div>
         </main>

@@ -1,0 +1,61 @@
+.section-heading h2,
+.section-heading h1,
+.display-title,
+.section-title,
+.card-title {
+    font-family: "Archivo", sans-serif;
+    letter-spacing: -0.07em;
+    line-height: 0.95;
+}
+
+.section-heading h2,
+.section-title {
+    font-size: var(--type-title-md);
+}
+
+.section-heading p,
+.section-intro,
+.lede {
+    max-width: 44rem;
+    color: var(--color-text-soft);
+    font-size: var(--type-body-lg);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--color-text-muted);
+    font-size: var(--type-eyebrow);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.eyebrow::before {
+    content: "";
+    width: 2.35rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+    transform-origin: left center;
+    transform: scaleX(1);
+    transition: transform 620ms var(--motion-ease-soft);
+}
+
+.eyebrow.is-light {
+    color: rgba(255, 248, 238, 0.72);
+}
+
+.eyebrow.is-light::before {
+    opacity: 0.4;
+}
+
+.kicker,
+.meta-label {
+    color: var(--color-text-muted);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}

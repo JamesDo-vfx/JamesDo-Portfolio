@@ -5,10 +5,10 @@ const SITE_MOTION = {
         staggerMs: 95
     },
     reveal: {
-        offset: 18,
-        staggerMs: 56,
-        threshold: 0.16,
-        rootMargin: "0px 0px -12% 0px"
+        offset: 14,
+        staggerMs: 36,
+        threshold: 0.08,
+        rootMargin: "0px 0px -6% 0px"
     },
     cardHover: {
         maxLift: 12,
@@ -452,19 +452,76 @@ const SITE_MOTION = {
 
     accordions.forEach((accordion) => {
         const items = Array.from(accordion.querySelectorAll(".plugin-faq-item"));
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-        const setOpenItem = (targetItem) => {
+        const getParts = (item) => ({
+            trigger: item.querySelector(".plugin-faq-trigger"),
+            panel: item.querySelector(".plugin-faq-panel")
+        });
+
+        const setPanelHeight = (panel, isOpen) => {
+            panel.style.height = isOpen ? `${panel.scrollHeight}px` : "0px";
+        };
+
+        const openPanel = (item, animate = true) => {
+            const { trigger, panel } = getParts(item);
+
+            item.classList.add("is-open");
+            trigger.setAttribute("aria-expanded", "true");
+
+            if (!animate || prefersReducedMotion.matches) {
+                panel.style.height = "auto";
+                return;
+            }
+
+            panel.style.height = "0px";
+            requestAnimationFrame(() => {
+                setPanelHeight(panel, true);
+            });
+        };
+
+        const closePanel = (item, animate = true) => {
+            const { trigger, panel } = getParts(item);
+
+            trigger.setAttribute("aria-expanded", "false");
+
+            if (!animate || prefersReducedMotion.matches) {
+                item.classList.remove("is-open");
+                panel.style.height = "0px";
+                return;
+            }
+
+            if (panel.style.height === "auto") {
+                setPanelHeight(panel, true);
+                void panel.offsetHeight;
+            }
+
+            item.classList.remove("is-open");
+            requestAnimationFrame(() => {
+                setPanelHeight(panel, false);
+            });
+        };
+
+        const setOpenItem = (targetItem, animate = true) => {
             items.forEach((item) => {
-                const trigger = item.querySelector(".plugin-faq-trigger");
                 const shouldOpen = item === targetItem;
 
-                item.classList.toggle("is-open", shouldOpen);
-                trigger.setAttribute("aria-expanded", String(shouldOpen));
+                if (shouldOpen) {
+                    openPanel(item, animate);
+                } else {
+                    closePanel(item, animate);
+                }
             });
         };
 
         items.forEach((item) => {
-            const trigger = item.querySelector(".plugin-faq-trigger");
+            const { trigger, panel } = getParts(item);
+
+            panel.addEventListener("transitionend", (event) => {
+                if (event.propertyName === "height" && item.classList.contains("is-open")) {
+                    panel.style.height = "auto";
+                }
+            });
 
             trigger.addEventListener("click", () => {
                 const isOpen = item.classList.contains("is-open");
@@ -472,7 +529,17 @@ const SITE_MOTION = {
             });
         });
 
-        setOpenItem(items.find((item) => item.classList.contains("is-open")) ?? null);
+        accordion.classList.add("is-accordion-ready");
+        setOpenItem(items.find((item) => item.classList.contains("is-open")) ?? null, false);
+
+        window.addEventListener("resize", () => {
+            const openItem = items.find((item) => item.classList.contains("is-open"));
+
+            if (openItem) {
+                const { panel } = getParts(openItem);
+                panel.style.height = "auto";
+            }
+        });
     });
 })();
 
@@ -564,7 +631,7 @@ const SITE_MOTION = {
 
         if (isReducedMotion()) {
             targets.forEach((target) => {
-                target.classList.add("is-revealed");
+                target.classList.add("is-revealed", "is-visible");
                 target.classList.remove("is-reveal-ready");
             });
             return;
@@ -572,9 +639,11 @@ const SITE_MOTION = {
 
         window.requestAnimationFrame(() => {
             window.requestAnimationFrame(() => {
-                targets.forEach((target) => {
-                    target.classList.add("is-revealed");
-                    target.classList.remove("is-reveal-ready");
+                targets.forEach((target, index) => {
+                    window.setTimeout(() => {
+                        target.classList.add("is-revealed", "is-visible");
+                        target.classList.remove("is-reveal-ready");
+                    }, SITE_MOTION.hero.initialDelayMs + (index * SITE_MOTION.hero.staggerMs));
                 });
             });
         });
@@ -582,12 +651,67 @@ const SITE_MOTION = {
 
     const setupRevealMotion = () => {
         const revealTargets = new Set();
+        const revealDelayByTarget = new WeakMap();
+        const REVEAL_CLASS_DELAY_MS = {
+            "reveal-delay-1": 70,
+            "reveal-delay-2": 150,
+            "reveal-delay-3": 240
+        };
+        const REVEAL_STAGGER_STEP_MS = 70;
+
+        const getRevealClassDelay = (target) => {
+            let delay = 0;
+
+            Object.entries(REVEAL_CLASS_DELAY_MS).forEach(([className, classDelay]) => {
+                if (target.classList.contains(className)) {
+                    delay = Math.max(delay, classDelay);
+                }
+            });
+
+            if (target.classList.contains("reveal-stagger")) {
+                const staggerIndex = Number.parseInt(target.dataset.revealStaggerIndex || "", 10);
+                const resolvedIndex = Number.isFinite(staggerIndex)
+                    ? staggerIndex
+                    : Array.from(target.parentElement?.children || []).filter((node) => node.classList?.contains("reveal-stagger")).indexOf(target);
+                if (resolvedIndex >= 0) {
+                    delay += (resolvedIndex * REVEAL_STAGGER_STEP_MS);
+                }
+            }
+
+            return delay;
+        };
+
         const addTarget = (target, delay = 0) => {
-            if (!target || revealTargets.has(target)) {
+            if (!target) {
                 return;
             }
-            markRevealTarget(target, delay);
-            revealTargets.add(target);
+
+            if (target.classList.contains("showreel-follower")) {
+                return;
+            }
+
+            if (target.parentElement?.closest("[data-reveal]")) {
+                return;
+            }
+
+            if (target.querySelector(":scope [data-reveal]")) {
+                return;
+            }
+
+            const resolvedDelay = Math.max(0, delay + getRevealClassDelay(target));
+            const existingDelay = revealDelayByTarget.get(target);
+
+            if (existingDelay === undefined) {
+                markRevealTarget(target, resolvedDelay);
+                revealDelayByTarget.set(target, resolvedDelay);
+                revealTargets.add(target);
+                return;
+            }
+
+            if (resolvedDelay > existingDelay) {
+                markRevealTarget(target, resolvedDelay);
+                revealDelayByTarget.set(target, resolvedDelay);
+            }
         };
         const addTargets = (selector) => {
             document.querySelectorAll(selector).forEach((target) => addTarget(target));
@@ -603,8 +727,35 @@ const SITE_MOTION = {
                 });
             });
         };
+        const addGlobalContentTargets = () => {
+            const globalSelectors = [
+                ".site-header .nav-shell > *",
+                "main :is(section, article, aside, figure, blockquote)",
+                "main :is(h1, h2, h3, h4, h5, h6, p, ul, ol, li)",
+                "main .btn",
+                "main [class*='card']",
+                "main [class*='panel']",
+                "main [class*='grid'] > *",
+                ".site-footer > *",
+                ".footer-panel > *",
+                ".footer-bottom > *"
+            ];
+
+            document.querySelectorAll(globalSelectors.join(", ")).forEach((target) => {
+                if (target.closest("[data-no-reveal]")) {
+                    return;
+                }
+
+                if (target.parentElement?.closest("[data-reveal]")) {
+                    return;
+                }
+
+                addTarget(target);
+            });
+        };
 
         addTargets(".split-heading > *");
+        addTargets(".reveal");
         addTargets(".eyebrow:not([data-hero-reveal])");
         addTargets(".resource-stage-copy > *");
         addTargets(".plugin-page-header > *");
@@ -621,6 +772,7 @@ const SITE_MOTION = {
         addStaggered(".plugin-detail-grid", ".plugin-detail-card");
         addStaggered(".plugin-setup-grid", ".plugin-setup-card");
         addStaggered(".footer-panel", ".footer-card", 70);
+        addGlobalContentTargets();
         document.querySelectorAll(".footer-links > a, .footer-links > span").forEach((item) => {
             item.classList.remove("is-reveal-ready");
             item.classList.add("is-revealed");
@@ -636,25 +788,38 @@ const SITE_MOTION = {
 
         if (isReducedMotion() || !("IntersectionObserver" in window)) {
             targets.forEach((target) => {
-                target.classList.add("is-revealed");
+                target.classList.add("is-revealed", "is-visible");
                 target.classList.remove("is-reveal-ready");
             });
             return;
         }
+
+        const revealTarget = (target) => {
+            window.requestAnimationFrame(() => {
+                target.addEventListener("transitionend", (event) => {
+                    if (event.target === target && event.propertyName === "opacity") {
+                        target.style.setProperty("--reveal-delay", "0ms");
+                    }
+                }, { once: true });
+                target.classList.add("is-revealed", "is-visible");
+                target.classList.remove("is-reveal-ready");
+            });
+        };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (!entry.isIntersecting) {
                     return;
                 }
-                entry.target.classList.add("is-revealed");
-                entry.target.classList.remove("is-reveal-ready");
+                revealTarget(entry.target);
                 observer.unobserve(entry.target);
             });
         }, {
             threshold: SITE_MOTION.reveal.threshold,
             rootMargin: SITE_MOTION.reveal.rootMargin
         });
+
+        const immediateTargets = [];
 
         targets.forEach((target) => {
             if (target.classList.contains("is-revealed")) {
@@ -663,13 +828,23 @@ const SITE_MOTION = {
             const rect = target.getBoundingClientRect();
             const closeToViewport = rect.top < (window.innerHeight * 0.92) && rect.bottom > 0;
             if (closeToViewport) {
-                target.classList.add("is-revealed");
-                target.classList.remove("is-reveal-ready");
+                target.classList.add("is-reveal-ready");
+                immediateTargets.push(target);
             } else {
                 target.classList.add("is-reveal-ready");
                 observer.observe(target);
             }
         });
+
+        if (immediateTargets.length) {
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                    immediateTargets.forEach((target) => {
+                        revealTarget(target);
+                    });
+                });
+            });
+        }
     };
 
     const setupCardPointerMotion = () => {

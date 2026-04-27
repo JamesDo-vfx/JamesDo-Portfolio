@@ -1,0 +1,49 @@
+body[data-page="doneyet"] .doneyet-steps .section-heading {
+    margin-bottom: 1rem;
+}
+
+body[data-page="doneyet"] .doneyet-step-flow{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: stretch;
+}
+
+body[data-page="doneyet"] .doneyet-step{
+    padding: 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1.4rem;
+    background: rgba(255, 252, 246, 0.72);
+    box-shadow: var(--shadow-soft);
+}
+
+body[data-page="doneyet"] .doneyet-step-number{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.2rem 0.72rem;
+    border: 1px solid rgba(18, 18, 18, 0.12);
+    border-radius: var(--radius-pill);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+body[data-page="doneyet"] .doneyet-step h3{
+    margin: 0.72rem 0 0.5rem;
+    font-size: 1.3rem;
+}
+
+body[data-page="doneyet"] .doneyet-step p{
+    color: var(--color-text-soft);
+    font-size: 0.94rem;
+    line-height: 1.45;
+}
+
+body[data-page="doneyet"] .doneyet-arrow{
+    align-self: center;
+    color: var(--color-text-muted);
+    font-size: 1.2rem;
+    opacity: 0.75;
+}

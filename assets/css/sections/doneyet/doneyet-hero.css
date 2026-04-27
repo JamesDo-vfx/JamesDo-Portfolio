@@ -1,0 +1,96 @@
+/* doneyet landing page */
+body[data-page="doneyet"] .doneyet-page{
+    padding-top: clamp(2.4rem, 5vw, 4.2rem);
+}
+
+body[data-page="doneyet"] .doneyet-page-shell{
+    display: grid;
+    gap: clamp(2.4rem, 4.8vw, 4.2rem);
+}
+
+body[data-page="doneyet"] .doneyet-page-shell > .plugin-section{
+    margin: 0;
+}
+
+body[data-page="doneyet"] .doneyet-sales-layout{
+    margin-top: 0.6rem;
+    gap: clamp(2rem, 4.2vw, 4.6rem);
+    align-items: start;
+}
+
+body[data-page="doneyet"] .doneyet-sidebar{
+    top: 6.2rem;
+}
+
+body[data-page="doneyet"] .doneyet-main{
+    gap: clamp(2rem, 3.2vw, 3rem);
+}
+
+body[data-page="doneyet"] .doneyet-hero{
+    padding: clamp(1.2rem, 2.8vw, 2rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background:
+        radial-gradient(circle at 82% 14%, rgba(207, 232, 77, 0.2), transparent 44%),
+        var(--color-surface);
+    box-shadow: var(--shadow-soft);
+}
+
+body[data-page="doneyet"] .doneyet-hero-grid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+    gap: clamp(1.2rem, 2.5vw, 2.4rem);
+    align-items: center;
+}
+
+body[data-page="doneyet"] .doneyet-hero-copy{
+    display: grid;
+    gap: 1rem;
+}
+
+body[data-page="doneyet"] .doneyet-hero-copy h1,
+body[data-page="doneyet"] .doneyet-hero-copy h2,
+body[data-page="doneyet"] .doneyet-benefit-card h3,
+body[data-page="doneyet"] .doneyet-value-item h3,
+body[data-page="doneyet"] .doneyet-step h3,
+body[data-page="doneyet"] .doneyet-compat-column h3,
+body[data-page="doneyet"] .doneyet-workflow-card h3,
+body[data-page="doneyet"] .doneyet-final-cta h2 {
+    font-family: "Archivo", sans-serif;
+    letter-spacing: -0.06em;
+    line-height: 0.95;
+}
+
+body[data-page="doneyet"] .doneyet-hero-copy h1{
+    font-size: clamp(3rem, 6.2vw, 5.4rem);
+}
+
+body[data-page="doneyet"] .doneyet-hero-copy h2{
+    font-size: clamp(2rem, 3.4vw, 3.4rem);
+}
+
+body[data-page="doneyet"] .doneyet-hero-copy p{
+    max-width: 40rem;
+    color: var(--color-text-soft);
+    font-size: var(--type-body-lg);
+}
+
+body[data-page="doneyet"] .doneyet-hero-actions{
+    margin-top: 0.6rem;
+}
+
+body[data-page="doneyet"] .doneyet-hero-support{
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+}
+
+body[data-page="doneyet"] .doneyet-hero-media{
+    margin: 0;
+    border-radius: calc(var(--radius-md) - 8px);
+}
+
+body[data-page="doneyet"] .doneyet-hero-media img,
+body[data-page="doneyet"] .doneyet-hero-media video {
+    min-height: 100%;
+    max-height: clamp(340px, 38vw, 520px);
+}

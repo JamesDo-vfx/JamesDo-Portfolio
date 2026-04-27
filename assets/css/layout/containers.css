@@ -1,0 +1,51 @@
+/* layout */
+.container,
+.section-shell {
+    width: var(--container);
+    margin: 0 auto;
+}
+
+.section {
+    padding: var(--space-8) 0;
+}
+
+.section--compact {
+    padding: var(--space-7) 0;
+}
+
+.stack {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.section-heading {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: var(--space-5);
+}
+
+.split-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 30rem);
+    gap: var(--space-5);
+    align-items: end;
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+}
+
+@media (max-width: 1120px) {
+    .split-heading {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .section,
+    .section--compact {
+        padding: var(--space-7) 0;
+    }
+}

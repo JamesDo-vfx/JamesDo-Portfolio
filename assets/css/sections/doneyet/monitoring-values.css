@@ -1,0 +1,90 @@
+body[data-page="doneyet"] .doneyet-benefits .section-heading {
+    margin-bottom: 1rem;
+}
+
+body[data-page="doneyet"] .doneyet-benefit-grid{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.95rem;
+}
+
+body[data-page="doneyet"] .doneyet-benefit-card{
+    padding: 1.15rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1.5rem;
+    background: rgba(255, 252, 246, 0.78);
+    box-shadow: var(--shadow-soft);
+    transition: transform var(--motion-duration-surface) var(--motion-ease-quiet), border-color var(--motion-duration-surface) var(--motion-ease-quiet);
+}
+
+body[data-page="doneyet"] .doneyet-benefit-card h3{
+    margin: 0.8rem 0 0.45rem;
+    font-size: 1.5rem;
+}
+
+body[data-page="doneyet"] .doneyet-benefit-card p{
+    color: var(--color-text-soft);
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+body[data-page="doneyet"] .doneyet-icon{
+    position: relative;
+    display: inline-flex;
+    width: 1.95rem;
+    height: 1.95rem;
+    border-radius: 0.72rem;
+    background: rgba(207, 232, 77, 0.34);
+    border: 1px solid rgba(18, 18, 18, 0.12);
+}
+
+body[data-page="doneyet"] .doneyet-icon::before{
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 0.84rem;
+    height: 0.84rem;
+    border-radius: 0.28rem;
+    background: var(--color-surface-dark);
+    transform: translate(-50%, -50%);
+}
+
+body[data-page="doneyet"] .doneyet-value-strip{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding: 0.55rem;
+    border-radius: var(--radius-md);
+    background:
+        radial-gradient(circle at top right, rgba(207, 232, 77, 0.2), transparent 42%),
+        var(--color-surface-dark);
+    box-shadow: var(--shadow-card);
+}
+
+body[data-page="doneyet"] .doneyet-value-item{
+    padding: 1rem 1.15rem;
+    border-radius: calc(var(--radius-md) - 14px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+body[data-page="doneyet"] .doneyet-value-item + .doneyet-value-item{
+    border-left-color: rgba(207, 232, 77, 0.26);
+}
+
+body[data-page="doneyet"] .doneyet-value-item .meta-label{
+    color: rgba(248, 241, 232, 0.56);
+}
+
+body[data-page="doneyet"] .doneyet-value-item h3{
+    margin-top: 0.45rem;
+    color: #f8f1e8;
+    font-size: 1.46rem;
+}
+
+body[data-page="doneyet"] .doneyet-value-item p{
+    margin-top: 0.55rem;
+    color: rgba(248, 241, 232, 0.78);
+    font-size: 0.93rem;
+    line-height: 1.45;
+}

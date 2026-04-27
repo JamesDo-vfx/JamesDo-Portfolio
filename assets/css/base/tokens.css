@@ -1,0 +1,44 @@
+:root {
+    /* tokens */
+    --color-bg: #f3f0e8;
+    --color-bg-soft: #faf7f1;
+    --color-surface: rgba(255, 252, 246, 0.88);
+    --color-surface-strong: #fffdf8;
+    --color-surface-dark: #11110f;
+    --color-text: #121212;
+    --color-text-soft: #5f5a53;
+    --color-text-muted: #7d776f;
+    --color-border: rgba(18, 18, 18, 0.1);
+    --color-border-strong: rgba(18, 18, 18, 0.16);
+    --color-accent: #cfe84d;
+    --color-accent-deep: #b8d233;
+    --shadow-soft: 0 24px 60px rgba(18, 18, 18, 0.08);
+    --shadow-card: 0 32px 90px rgba(18, 18, 18, 0.12);
+    --radius-xs: 18px;
+    --radius-sm: 26px;
+    --radius-md: 36px;
+    --radius-lg: 48px;
+    --radius-pill: 999px;
+    --space-1: 0.5rem;
+    --space-2: 0.75rem;
+    --space-3: 1rem;
+    --space-4: 1.5rem;
+    --space-5: 2rem;
+    --space-6: 3rem;
+    --space-7: 4.5rem;
+    --space-8: 6rem;
+    --space-9: 8rem;
+    --container: min(1180px, calc(100vw - 2rem));
+    --container-wide: min(1360px, calc(100vw - 2rem));
+    --type-eyebrow: 0.74rem;
+    --type-body: 1rem;
+    --type-body-lg: 1.08rem;
+    --type-title-sm: clamp(1.5rem, 2.1vw, 2.2rem);
+    --type-title-md: clamp(2.25rem, 4vw, 4.4rem);
+    --type-title-lg: clamp(3.3rem, 8vw, 7rem);
+    --motion-ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-ease-quiet: cubic-bezier(0.2, 0.7, 0.18, 1);
+    --motion-duration-reveal: 680ms;
+    --motion-duration-surface: 360ms;
+    --motion-reveal-offset: 14px;
+}
