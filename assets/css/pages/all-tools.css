@@ -1,72 +1,78 @@
-/* resource pages */
-.resource-layout {
+/* all tools page */
+body[data-page="all-tools"] [data-section="tools-archive"] {
+    container-type: inline-size;
+}
+
+body[data-page="all-tools"] .resource-layout {
     display: grid;
     grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
     gap: 1.4rem;
     align-items: start;
 }
 
-.resource-intro {
+body[data-page="all-tools"] .resource-intro {
     position: sticky;
     top: 6.2rem;
     display: grid;
     gap: 1rem;
     padding: 1.5rem;
+    min-width: 0;
 }
 
-.resource-intro .chip {
+body[data-page="all-tools"] .resource-intro .chip {
     background: rgba(18, 18, 18, 0.05);
     border-color: rgba(18, 18, 18, 0.06);
     color: var(--color-text-soft);
 }
 
-.resource-grid {
+body[data-page="all-tools"] .resource-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
+    min-width: 0;
 }
 
-.resource-card-body {
+body[data-page="all-tools"] .resource-card-body {
     padding: 1.25rem;
 }
 
-.resource-head {
+body[data-page="all-tools"] .resource-head {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
     align-items: flex-start;
 }
 
-.resource-meta {
+body[data-page="all-tools"] .resource-meta {
     display: flex;
     flex-wrap: wrap;
     gap: 0.55rem;
 }
 
-.resource-card .chip,
-.archive-summary .chip {
+body[data-page="all-tools"] .resource-card .chip,
+body[data-page="all-tools"] .archive-summary .chip {
     background: rgba(18, 18, 18, 0.05);
     border-color: rgba(18, 18, 18, 0.06);
     color: var(--color-text-soft);
 }
 
-.archive-summary {
+body[data-page="all-tools"] .archive-summary {
     align-content: start;
 }
 
-.archive-summary.is-dark {
+body[data-page="all-tools"] .archive-summary.is-dark {
     background:
         linear-gradient(180deg, rgba(17, 17, 15, 0.96), rgba(27, 27, 25, 0.96)),
         radial-gradient(circle at top right, rgba(207, 232, 77, 0.16), transparent 34%);
     color: #f8f1e8;
 }
 
-.archive-summary.is-dark p,
-.archive-summary.is-dark .meta-label {
+body[data-page="all-tools"] .archive-summary.is-dark p,
+body[data-page="all-tools"] .archive-summary.is-dark .meta-label {
     color: rgba(248, 241, 232, 0.72);
 }
 
-.archive-summary.is-dark .chip {
+body[data-page="all-tools"] .archive-summary.is-dark .chip {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.08);
     color: rgba(248, 241, 232, 0.82);
@@ -240,35 +246,65 @@
 }
 
 @media (max-width: 1120px) {
-    .resource-layout {
+    body[data-page="all-tools"] .resource-layout {
         grid-template-columns: 1fr;
     }
 
-    .resource-grid {
+    body[data-page="all-tools"] .resource-grid {
         grid-template-columns: 1fr 1fr;
     }
 
-    .resource-intro {
+    body[data-page="all-tools"] .resource-intro {
         position: static;
     }
 }
 
 @media (max-width: 980px) {
-    .resource-shell {
+    body[data-page="all-tools"] .resource-shell {
         width: var(--container);
     }
 }
 
 @media (max-width: 720px) {
-    .resource-grid {
+    body[data-page="all-tools"] .resource-layout,
+    body[data-page="all-tools"] .resource-grid {
+        grid-template-columns: 1fr;
+    }
+
+    body[data-page="all-tools"] .resource-intro,
+    body[data-page="all-tools"] .resource-card-body,
+    body[data-page="all-tools"] .archive-summary {
+        padding: 1.15rem;
+    }
+
+    body[data-page="all-tools"] .resource-intro .section-title {
+        font-size: clamp(2rem, 11vw, 2.75rem);
+        max-width: 10ch;
+    }
+
+    body[data-page="all-tools"] .resource-head {
+        align-items: flex-start;
+    }
+}
+
+@container (max-width: 760px) {
+    body[data-page="all-tools"] .resource-layout {
+        grid-template-columns: 1fr;
+    }
+
+    body[data-page="all-tools"] .resource-intro {
+        position: static;
+    }
+
+    body[data-page="all-tools"] .resource-grid {
         grid-template-columns: 1fr;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .resource-card,
-    .resource-thumb img,
-    .resource-thumb video {
+    body[data-page="all-tools"] .resource-card,
+    body[data-page="all-tools"] .resource-thumb img,
+    body[data-page="all-tools"] .resource-thumb video {
         transition-duration: 1ms !important;
         animation: none !important;
     }

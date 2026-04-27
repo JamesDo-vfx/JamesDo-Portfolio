@@ -486,6 +486,33 @@ body[data-page="home"] #about .split-heading {
 }
 
 @media (max-width: 720px) {
+    body[data-page="home"] .showreel-topbar {
+        display: none;
+        align-items: center;
+        text-align: center;
+    }
+
+    body[data-page="home"] .showreel-bottom {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+
+    body[data-page="home"] .showreel-copy {
+        justify-items: center;
+        max-width: min(100%, 22rem);
+        margin: 0 auto;
+    }
+
+    body[data-page="home"] .showreel-role {
+        max-width: 18rem;
+    }
+
+    body[data-page="home"] .showreel-actions {
+        width: min(100%, 13.5rem);
+        justify-content: center;
+    }
+
     body[data-page="home"] #about .split-heading,
     body[data-page="home"] .about-grid,
     body[data-page="home"] .tools-grid,
