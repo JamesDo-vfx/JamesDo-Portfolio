@@ -124,7 +124,7 @@
         grid-template-columns: 1fr auto;
     }
 
-    .nav-cta {
+    .site-header .nav-cta {
         display: none;
     }
 
